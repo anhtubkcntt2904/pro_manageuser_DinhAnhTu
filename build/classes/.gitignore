@@ -1,0 +1,12 @@
+/admin.properties
+/common/
+/config.properties
+/controller/
+/dao/
+/database.properties
+/entity/
+/filter/
+/logic/
+/message.properties
+/properties/
+/validate/
