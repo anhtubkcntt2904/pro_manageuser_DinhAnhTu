@@ -24,6 +24,11 @@ import entity.UserInfo;
  */
 public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 
+	// biến đếm để set param cho PreparedStatement getListUser
+	static int count1 = 0;
+	// biến đếm để set param cho PreparedStatement getTotalUser
+	static int count2 = 0;
+
 	@Override
 	public List<UserInfo> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullname, String sortByCodeLevel, String sortByEndDate) {
@@ -33,36 +38,71 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		// danh sách các user với thông tin từng user
 		List<UserInfo> lstUserInfo = new ArrayList<>();
 		StringBuffer sql = new StringBuffer();
-		//replace để search % không show all user
-		fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
-
 		sql.append(
 				"select u.user_id,u.full_name,u.birthday,g.group_name,u.email,u.tel,j.name_level,tdu.end_date,tdu.total ");
 		sql.append("from tbl_user u ");
 		sql.append("inner join mst_group g on u.group_id = g.group_id ");
 		sql.append("left join tbl_detail_user_japan tdu on u.user_id = tdu.user_id ");
 		sql.append("inner join mst_japan j on tdu.code_level = j.code_level ");
-		sql.append("where u.full_name like ? ");
-		// nếu mặc định vào trang là search thì thêm group id
+		sql.append("where 1 = 1 ");
+
+		// nếu vào trường hợp tìm kiếm có full name
+		if (fullName != null) {
+			fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
+			sql.append("and u.full_name like ? ");
+		}
+		// nếu vào trường hợp tìm kiếm có group id
 		if (groupId != 0) {
 			sql.append("and u.group_id = ? ");
 		}
-		sql.append("order by u.full_name ");
-		sql.append(sortByFullname);
-		sql.append(", tdu.code_level ");
-		sql.append(sortByCodeLevel);
-		sql.append(",tdu.end_date ");
-		sql.append(sortByEndDate);
+
+		// Trường hợp ưu tiên sắp xếp ưu tiên theo full name
+		if ("full_name".equals(sortType)) {
+			sql.append("order by u.full_name ");
+			sql.append(sortByFullname);
+			sql.append(", tdu.code_level ");
+			sql.append(sortByCodeLevel);
+			sql.append(",tdu.end_date ");
+			sql.append(sortByEndDate);
+			// trường hợp ưu tiên sắp xếp ưu tiên theo code level
+		} else if ("code_level".equals(sortType)) {
+			sql.append("order by tdu.code_level ");
+			sql.append(sortByCodeLevel);
+			sql.append(", u.full_name  ");
+			sql.append(sortByFullname);
+			sql.append(",tdu.end_date ");
+			sql.append(sortByEndDate);
+			// trường hợp ưu tiên sắp xếp ưu tiên theo end date
+		} else if ("end_date".equals(sortType)) {
+			sql.append("order by tdu.end_date ");
+			sql.append(sortByEndDate);
+			sql.append(", u.full_name  ");
+			sql.append(sortByFullname);
+			sql.append(",tdu.code_level ");
+			sql.append(sortByCodeLevel);
+		}
+		
+		sql.append(" limit ");
+		sql.append(offset + ",");
+		sql.append(limit);
 
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			ps = con.prepareStatement(sql.toString());
 
-			ps.setString(1, "%" + fullName + "%");
-			if (groupId != 0) {
-				ps.setInt(2, groupId);
+			// nếu vào trường hợp tìm kiếm có full name
+			if (fullName != null) {
+				count1++;
+				ps.setString(count1, "%" + fullName + "%");
 			}
+			// nếu vào trường hợp tìm kiếm có group id
+			if (groupId != 0) {
+				count1++;
+				ps.setInt(count1, groupId);
+			}
+			// set lại giá trị cho biến count
+			count1 = 0;
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				int userId = rs.getInt("u.user_id");
@@ -95,31 +135,46 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	public int getTotalUser(int groupId, String fullName) {
 		Connection con = connectDB();
 		StringBuffer sql = new StringBuffer();
-		fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
-		//biến đếm số bản ghi
+		// biến đếm số bản ghi
 		int countTotal = 0;
-		sql.append("select count(*) ");
+		sql.append("select u.user_id ");
 		sql.append("from tbl_user u ");
 		sql.append("inner join mst_group g on u.group_id = g.group_id ");
-		sql.append("where full_name like ? ");
-		// nếu mặc định vào trang là search thì thêm group id
-		if (groupId != 0) {
-			sql.append("and group_id = ? ");
+		sql.append("where 1 = 1 ");
+
+		// nếu vào trường hợp tìm kiếm có full name
+		if (fullName != null) {
+			fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
+			sql.append("and u.full_name like ? ");
 		}
+		// nếu vào trường hợp tìm kiếm có group id
+		if (groupId != 0) {
+			sql.append("and u.group_id = ? ");
+		}
+
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			ps = con.prepareStatement(sql.toString());
 
-			ps.setString(1, "%" + fullName + "%");
-			if (groupId != 0) {
-				ps.setInt(2, groupId);
+			// nếu vào trường hợp tìm kiếm có full name
+			if (fullName != null) {
+				count2++;
+				ps.setString(count2, "%" + fullName + "%");
 			}
+			// nếu vào trường hợp tìm kiếm có group id
+			if (groupId != 0) {
+				count2++;
+				ps.setInt(count2, groupId);
+			}
+
+			// set lại giá trị cho biến count
+			count2 = 0;
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				countTotal++;
 			}
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			closeDB(con);

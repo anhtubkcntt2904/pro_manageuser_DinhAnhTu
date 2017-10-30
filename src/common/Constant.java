@@ -18,5 +18,15 @@ public class Constant {
 	
 	
 	public static final String GROUP_ID_DEFAULT = "0";
-	public static final String NAME_DEFAULT = " ";
+	public static final String NAME_DEFAULT = null;
+	
+	
+	public static final String SORTTYPE_DEFAULT = "full_name";
+	public static final String SORTBYFULLNAME_DEFAULT = "asc";
+	public static final String SORTBYCODELEVEL_DEFAULT = "asc";
+	public static final String SORTBYENDDATE_DEFAULT = "desc";
+	
+	public static final int CURRENTPAGE_DEFAULT = 1;
+	public static final int OFFSET_DEFAULT = 1;
+	public static final int TOTALPAGE_DEFAULT = 1;
 }

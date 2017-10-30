@@ -12,7 +12,6 @@
     <servlet-name>LoginServletController</servlet-name>
     <url-pattern>/doLogin</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>ListUserController</servlet-name>
     <servlet-class>controller.ListUserController</servlet-class>
@@ -21,7 +20,6 @@
     <servlet-name>ListUserController</servlet-name>
     <url-pattern>/doListUser</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>LogoutController</servlet-name>
     <servlet-class>controller.LogoutController</servlet-class>
@@ -30,6 +28,15 @@
     <servlet-name>LogoutController</servlet-name>
     <url-pattern>/doLogout</url-pattern>
   </servlet-mapping>
+   <servlet>
+    <servlet-name>ErrorController</servlet-name>
+    <servlet-class>controller.ErrorController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ErrorController</servlet-name>
+    <url-pattern>/doError</url-pattern>
+  </servlet-mapping>
+  
   <session-config>
     <session-timeout>5</session-timeout>
   </session-config>

@@ -48,6 +48,8 @@ public class LoginServletController extends HttpServlet {
 		//set utf-8 cho response để khi trả về view sẽ không bị lỗi font
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		
 		String loginName = request.getParameter("loginName");
 		String password = request.getParameter("password");
 		UserLogicImpl userLogic = new UserLogicImpl();

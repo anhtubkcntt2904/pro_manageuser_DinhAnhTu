@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.Common;
 import common.Constant;
 import dao.impl.MstGroupDaoImpl;
 import dao.impl.TblUserDaoImpl;
@@ -57,44 +58,123 @@ public class ListUserController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		request.setCharacterEncoding("UTF-8");
-		//tạo giá trị default cho name và group_id để gửi đến trang ADM002
-		String group_id = Constant.GROUP_ID_DEFAULT;
-		String name = Constant.NAME_DEFAULT;
-		int groupid;
-		
-		//xét type gửi đến
-		String type = request.getParameter("type");
-		if ("search".equals(type)) { //nếu type là search thì chuyển đến ADM002 kèm param name và group_id 
-			name = request.getParameter("name");
-			group_id = request.getParameter("group_id");
-			groupid = Integer.parseInt(group_id);
-		}else { //nếu type là null thì đến trang ADM002 mặc định
-			groupid = Integer.parseInt(group_id); //group id mặc định = 0
+		try {
+			Common common = new Common();
+			UserLogicImpl tblUserLogic = new UserLogicImpl();
+			// Danh sách lưu thông tin user
+			List<UserInfo> lstUserInfo = new ArrayList<>();
+
+			List<Integer> lstPaging = new ArrayList<>();
+			lstPaging.add(1);
+
+			// set utf-8 cho response để khi trả về view sẽ không bị lỗi font
+			response.setContentType("text/html; charset=UTF-8");
+			response.setCharacterEncoding("UTF-8");
+			request.setCharacterEncoding("UTF-8");
+
+			// tạo giá trị default cho name và group_id để gửi đến trang ADM002
+			String group_id = Constant.GROUP_ID_DEFAULT;
+			String name = Constant.NAME_DEFAULT;
+			String sortType = Constant.SORTTYPE_DEFAULT;
+			String sortByFullname = Constant.SORTBYFULLNAME_DEFAULT;
+			String sortByCodeLevel = Constant.SORTBYCODELEVEL_DEFAULT;
+			String sortByEndDate = Constant.SORTBYENDDATE_DEFAULT;
+			int limit = common.getLimit(); // số lượng recore tối đa trên một trang
+			int groupid;
+			int currentPage = Constant.CURRENTPAGE_DEFAULT;
+			int offSet = Constant.OFFSET_DEFAULT;
+			int totalPage = Constant.TOTALPAGE_DEFAULT;
+
+			// xét type gửi đến
+			String type = request.getParameter("type");
+			HttpSession session = request.getSession();
+
+			// Trường hợp type là search
+			if ("search".equals(type)) {
+				name = request.getParameter("name");
+				group_id = request.getParameter("group_id");
+				groupid = Integer.parseInt(group_id);
+				int totalUser = tblUserLogic.getTotalUser(groupid, name);
+				offSet = common.getOffset(currentPage, limit);
+				totalPage = common.getTotalPage(totalUser, limit);
+				lstPaging = new ArrayList<>();
+				lstPaging = common.getListPaging(totalUser, limit, currentPage);
+			} else if ("sort".equals(type)) {
+				// lấy thuộc tính trong session
+				name = (String) session.getAttribute("name");
+				sortByFullname = (String) session.getAttribute("sortByFullname");
+				sortByCodeLevel = (String) session.getAttribute("sortByCodeLevel");
+				sortByEndDate = (String) session.getAttribute("sortByEndDate");
+				group_id = (String) session.getAttribute("group_id");
+				lstPaging = (List<Integer>) session.getAttribute("lstPaging");
+				totalPage = (int) session.getAttribute("totalPage");
+				currentPage = (int) session.getAttribute("currentPage");
+				offSet = common.getOffset(currentPage, limit);
+	
+
+				groupid = Integer.parseInt(group_id);
+				sortType = request.getParameter("sortType");
+
+				// sắp xếp ưu tiên full name
+				if ("full_name".equals(sortType)) {
+					sortByFullname = common.changeType(sortByFullname);
+					session.setAttribute("sortByFullname", sortByFullname);
+					// sắp xếp ưu tiên code_level
+				} else if ("code_level".equals(sortType)) {
+					sortByCodeLevel = common.changeType(sortByCodeLevel);
+					session.setAttribute("sortByCodeLevel", sortByCodeLevel);
+					// sắp xếp ưu tiên end_date
+				} else if ("end_date".equals(sortType)) {
+					sortByEndDate = common.changeType(sortByEndDate);
+					session.setAttribute("sortByEndDate", sortByEndDate);
+				}
+				// nếu type là null thì đến trang ADM002 mặc định
+			} else if ("paging".equals(type)) {
+				name = (String) session.getAttribute("name");
+				groupid = Integer.parseInt((String) session.getAttribute("group_id"));
+				int totalUser = tblUserLogic.getTotalUser(groupid, name);
+				currentPage = Integer.parseInt(request.getParameter("currentPage"));
+				offSet = common.getOffset(currentPage, limit);
+				totalPage = common.getTotalPage(totalUser, limit);
+				lstPaging = new ArrayList<>();
+				lstPaging = common.getListPaging(totalUser, limit, currentPage);
+			} else {
+				groupid = Integer.parseInt(group_id); // group id mặc định = 0
+				int totalUser = tblUserLogic.getTotalUser(groupid, name);
+				lstPaging = new ArrayList<>();
+				lstPaging = common.getListPaging(totalUser, limit, currentPage);
+				totalPage = common.getTotalPage(totalUser, limit);
+			}
+
+			// xét giá trị tìm kiếm lên session
+			session.setAttribute("lstPaging", lstPaging);
+			session.setAttribute("totalPage", totalPage);
+			session.setAttribute("currentPage", currentPage);
+			session.setAttribute("name", name);
+			session.setAttribute("group_id", group_id);
+			session.setAttribute("sortByFullname", sortByFullname);
+			session.setAttribute("sortByCodeLevel", sortByCodeLevel);
+			session.setAttribute("sortByEndDate", sortByEndDate);
+			session.setAttribute("totalPage", totalPage);
+
+			MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
+			// tạo danh sách lưu các đối tượng MstGroup
+			List<MstGroup> lstGroup = new ArrayList<>();
+			// lấy danh dách các group có trong database
+			lstGroup = mstGroupLogic.getAllGroup();
+
+			// lấy danh sách user
+			lstUserInfo = tblUserLogic.getListUser(offSet, limit, groupid, name, sortType, sortByFullname,
+					sortByCodeLevel, sortByEndDate);
+
+			request.setAttribute("lstUserInfo", lstUserInfo);
+			request.setAttribute("lstGroup", lstGroup);
+			request.getRequestDispatcher(Constant.ADM002).forward(request, response);
+		} catch (Exception e) {
+			response.setContentType("text/html; charset=UTF-8");
+			response.setCharacterEncoding("UTF-8");
+			response.sendRedirect(request.getContextPath() + "/doError");
 		}
-		
-		//xét giá trị tìm kiếm name và group id lên session
-		HttpSession session=request.getSession();  
-		session.setAttribute("name", name);
-		session.setAttribute("group_id", group_id);
-		
-		MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
-		//tạo danh sách lưu các đối tượng MstGroup
-		List<MstGroup> lstGroup = new ArrayList<>();
-		//lấy danh dách các group có trong database
-		lstGroup = mstGroupLogic.getAllGroup();
-		
-		UserLogicImpl tblUserLogic = new UserLogicImpl();
-		//Danh sách lưu thông tin user 
-		List<UserInfo> lstUserInfo = new ArrayList<>();
-		//lấy danh sách user
-		lstUserInfo = tblUserLogic.getListUser(0, 0, groupid, name, null, "asc", "asc", "desc");
-		
-		request.setAttribute("lstUserInfo", lstUserInfo);
-		request.setAttribute("lstGroup", lstGroup);
-		request.getRequestDispatcher(Constant.ADM002).forward(request, response);
 	}
 
 }

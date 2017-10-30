@@ -41,7 +41,8 @@ public class BaseDaoImpl implements BaseDao{
 		try {
 			connection.close();
 		} catch (Exception e) {
-			System.out.println("Close connect error :" + e.getMessage());
+			//System.out.println("Close connect error :" + e.getMessage());
+			
 		}
 	}
 }

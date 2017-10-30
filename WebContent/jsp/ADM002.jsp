@@ -20,7 +20,7 @@
 						alt="Luvina" />
 						<td>
 							<td align="left"><a href="doLogout">ログアウト</a> &nbsp; <a
-								href="ADM002.html">トップ</a>
+								href="doListUser">トップ</a>
 								<td>
 				</tr>
 			</table>
@@ -56,7 +56,8 @@
 							<td align="left" width="80px"><select name="group_id">
 									<option value="0">全て</option>
 									<c:forEach var="group" items="${lstGroup}">
-										<option value="${group.groupId}"${group.groupId == group_id ? 'selected' : ''}>Nhóm ${group.groupId}</option>
+										<option value="${group.groupId}"
+											${group.groupId == group_id ? 'selected' : ''}>Nhóm ${group.groupId}</option>
 									</c:forEach>
 							</select></td>
 							<td align="left"><input class="btn" type="submit" value="検索" />
@@ -74,15 +75,36 @@
 
 		<tr class="tr2">
 			<th align="center" width="20px">ID</th>
-			<th align="left">氏名 <a href="">▲▽</a>
+			<th align="left">氏名 <c:choose>
+					<c:when test="${sessionScope.sortByFullname == 'asc'}">
+						<a href="doListUser?type=sort&sortType=full_name">▲▽</a>
+					</c:when>
+					<c:otherwise>
+						<a href="doListUser?type=sort&sortType=full_name">△▼</a>
+					</c:otherwise>
+				</c:choose>
 			</th>
 			<th align="left">生年月日</th>
 			<th align="left">グループ</th>
 			<th align="left">メールアドレス</th>
 			<th align="left" width="70px">電話番号</th>
-			<th align="left">日本語能力 <a href="">▲▽</a>
+			<th align="left">日本語能力 <c:choose>
+					<c:when test="${sessionScope.sortByCodeLevel == 'asc'}">
+						<a href="doListUser?type=sort&sortType=code_level">▲▽</a>
+					</c:when>
+					<c:otherwise>
+						<a href="doListUser?type=sort&sortType=code_level">△▼</a>
+					</c:otherwise>
+				</c:choose>
 			</th>
-			<th align="left">失効日 <a href="">△▼</a>
+			<th align="left">失効日 <c:choose>
+					<c:when test="${sessionScope.sortByEndDate == 'asc'}">
+						<a href="doListUser?type=sort&sortType=end_date">▲▽</a>
+					</c:when>
+					<c:otherwise>
+						<a href="doListUser?type=sort&sortType=end_date">△▼</a>
+					</c:otherwise>
+				</c:choose>
 			</th>
 			<th align="left">点数</th>
 		</tr>
@@ -108,8 +130,26 @@
 	<!-- Begin vung paging -->
 	<table>
 		<tr>
-			<td class="lbl_paging"><a href="#">1</a> &nbsp;<a href="#">2</a>
-				&nbsp;<a href="#">3</a>&nbsp;<a href="#">>></a></td>
+			<td class="lbl_paging">
+			<c:if test="${lstPaging.size() > 0}">
+				<%-- <c:if test= "${lstPaging.get(listPaging.size()) > 3}"> <a href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) - 3"> aaa </a></c:if> --%>
+				<c:if test="${lstPaging.get(listPaging.size()) > 3}">
+					<a
+						href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) - 3}">
+						<< </a>
+				</c:if> 
+					<c:forEach var="paging" items="${lstPaging}">
+						<a href="doListUser?type=paging&currentPage=${paging}"><c:out
+								value="${paging}" /></a>
+					</c:forEach>
+				 <c:if
+					test="${lstPaging.get(listPaging.size()) < totalPage && totalPage > 3}">
+					<a
+						href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) + 3}">
+						>> </a>
+				</c:if>
+				</c:if>
+			</td>
 		</tr>
 	</table>
 	<!-- End vung paging -->

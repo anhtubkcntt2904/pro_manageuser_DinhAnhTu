@@ -26,7 +26,7 @@ public class ConfigProperties {
 			 static {
 				 	ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 					// Lấy file properties
-					InputStream input = classLoader.getResourceAsStream("database.properties");
+					InputStream input = classLoader.getResourceAsStream("config.properties");
 			        Properties prop = new Properties();
 			        try {
 			            prop.load(input);
