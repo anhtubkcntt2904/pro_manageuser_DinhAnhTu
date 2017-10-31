@@ -29,4 +29,6 @@ public class Constant {
 	public static final int CURRENTPAGE_DEFAULT = 1;
 	public static final int OFFSET_DEFAULT = 1;
 	public static final int TOTALPAGE_DEFAULT = 1;
+	
+	public static final String MESS_ADM002_NORECORD = "MSG005_ADM002";
 }

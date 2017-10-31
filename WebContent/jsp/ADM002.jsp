@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -12,20 +14,7 @@
 </head>
 <body>
 	<!-- Begin vung header -->
-	<div>
-		<div>
-			<table>
-				<tr>
-					<td width="80%"><img src="./images/logo-manager-user.gif"
-						alt="Luvina" />
-						<td>
-							<td align="left"><a href="doLogout">ログアウト</a> &nbsp; <a
-								href="doListUser">トップ</a>
-								<td>
-				</tr>
-			</table>
-		</div>
-	</div>
+	<%@include file="header.jsp"%>
 
 	<!-- End vung header -->
 
@@ -45,7 +34,7 @@
 						<tr>
 							<td class="lbl_left">氏名:</td>
 							<td align="left"><input class="txBox" type="text"
-								name="name" value="${name}" size="20"
+								name="name" value="${fn:escapeXml(name)}" size="20"
 								onfocus="this.style.borderColor='#0066ff';"
 								onblur="this.style.borderColor='#aaaaaa';" /></td>
 							<td></td>
@@ -109,19 +98,31 @@
 			<th align="left">点数</th>
 		</tr>
 		<tr>
-			<c:forEach var="userInfo" items="${lstUserInfo}">
-				<tr>
-					<td align="right"><c:out value="${userInfo.userId}" /></td>
-					<td><c:out value="${userInfo.fullName}" /></td>
-					<td align="center"><c:out value="${userInfo.birthDay}" /></td>
-					<td><c:out value="${userInfo.groupName}" /></td>
-					<td><c:out value="${userInfo.email}" /></td>
-					<td><c:out value="${userInfo.tel}" /></td>
-					<td><c:out value="${userInfo.nameLevel}" /></td>
-					<td align="center"><c:out value="${userInfo.endDate}" /></td>
-					<td align="right"><c:out value="${userInfo.total}" /></td>
-				</tr>
-			</c:forEach>
+			<c:choose>
+				<c:when test="${lstUserInfo.size() > 0}">
+					<c:forEach var="userInfo" items="${lstUserInfo}">
+						<tr>
+							<td align="right"><c:out value="${userInfo.userId}" /></td>
+							<td><c:out value="${userInfo.fullName}" /></td>
+							<%-- <td align="center"><c:out value="${userInfo.birthDay}" /></td> --%>
+							<td align="center"> <fmt:formatDate pattern = "yyyy/MM/dd" 
+         value = "${userInfo.birthDay}" /></td>
+							<td><c:out value="${userInfo.groupName}" /></td>
+							<td><c:out value="${userInfo.email}" /></td>
+							<td><c:out value="${userInfo.tel}" /></td>
+							<td><c:out value="${userInfo.nameLevel}" /></td>
+							<td align="center"><c:out value="${userInfo.endDate}" /></td>
+							<td align="right"><c:out value="${userInfo.total}" /></td>
+						</tr>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<tr>
+						<td colspan="9" align="center"><font color="red"><c:out
+									value="${message}" /></font></td>
+					</tr>
+				</c:otherwise>
+			</c:choose>
 		</tr>
 
 	</table>
@@ -130,35 +131,38 @@
 	<!-- Begin vung paging -->
 	<table>
 		<tr>
-			<td class="lbl_paging">
-			<c:if test="${lstPaging.size() > 0}">
-				<%-- <c:if test= "${lstPaging.get(listPaging.size()) > 3}"> <a href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) - 3"> aaa </a></c:if> --%>
-				<c:if test="${lstPaging.get(listPaging.size()) > 3}">
-					<a
-						href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) - 3}">
-						<< </a>
-				</c:if> 
+			<td class="lbl_paging"><c:if test="${totalPage > 1}">
+					<%-- <c:if test= "${lstPaging.get(listPaging.size()) > 3}"> <a href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) - 3"> aaa </a></c:if> --%>
+					<c:if test="${lstPaging.get(listPaging.size()) > 3}">
+						<a
+							href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) - 3}">
+							<< </a>
+					</c:if>
+
 					<c:forEach var="paging" items="${lstPaging}">
-						<a href="doListUser?type=paging&currentPage=${paging}"><c:out
+						<c:choose>
+							<c:when test="${currentPage == paging}">
+								<c:out value="${paging}" />
+							</c:when>
+							<c:otherwise>
+								<a href="doListUser?type=paging&currentPage=${paging}"><c:out
 								value="${paging}" /></a>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
-				 <c:if
-					test="${lstPaging.get(listPaging.size()) < totalPage && totalPage > 3}">
-					<a
-						href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) + 3}">
-						>> </a>
-				</c:if>
-				</c:if>
-			</td>
+					<c:if
+						test="${lstPaging.get(listPaging.size()) < totalPage && totalPage > 3}">
+						<a
+							href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) + 3}">
+							>> </a>
+					</c:if>
+				</c:if></td>
 		</tr>
 	</table>
 	<!-- End vung paging -->
 
 	<!-- Begin vung footer -->
-	<div class="lbl_footer">
-		<br><br><br><br> Copyright © 2010 ルビナソフトウエア株式会社.
-						All rights reserved. 
-	</div>
+	<%@include file="footer.jsp"%>
 	<!-- End vung footer -->
 
 </body>

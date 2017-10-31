@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,12 +16,11 @@ import javax.servlet.http.HttpSession;
 
 import common.Common;
 import common.Constant;
-import dao.impl.MstGroupDaoImpl;
-import dao.impl.TblUserDaoImpl;
 import entity.MstGroup;
 import entity.UserInfo;
 import logic.impl.MstGroupLogicImpl;
 import logic.impl.UserLogicImpl;
+import properties.MessageProperties;
 
 /**
  * Servlet implementation class ListUserServlet
@@ -66,6 +64,9 @@ public class ListUserController extends HttpServlet {
 
 			List<Integer> lstPaging = new ArrayList<>();
 			lstPaging.add(1);
+			
+			MessageProperties mess = new MessageProperties();
+			
 
 			// set utf-8 cho response để khi trả về view sẽ không bị lỗi font
 			response.setContentType("text/html; charset=UTF-8");
@@ -97,6 +98,7 @@ public class ListUserController extends HttpServlet {
 				int totalUser = tblUserLogic.getTotalUser(groupid, name);
 				offSet = common.getOffset(currentPage, limit);
 				totalPage = common.getTotalPage(totalUser, limit);
+				System.out.println("totalPage search :" + totalPage);
 				lstPaging = new ArrayList<>();
 				lstPaging = common.getListPaging(totalUser, limit, currentPage);
 			} else if ("sort".equals(type)) {
@@ -118,15 +120,18 @@ public class ListUserController extends HttpServlet {
 				// sắp xếp ưu tiên full name
 				if ("full_name".equals(sortType)) {
 					sortByFullname = common.changeType(sortByFullname);
-					session.setAttribute("sortByFullname", sortByFullname);
+					sortByCodeLevel = Constant.SORTBYCODELEVEL_DEFAULT;
+					sortByEndDate = Constant.SORTBYENDDATE_DEFAULT;
 					// sắp xếp ưu tiên code_level
 				} else if ("code_level".equals(sortType)) {
 					sortByCodeLevel = common.changeType(sortByCodeLevel);
-					session.setAttribute("sortByCodeLevel", sortByCodeLevel);
+					sortByEndDate = Constant.SORTBYENDDATE_DEFAULT;
+					sortByFullname = Constant.SORTBYFULLNAME_DEFAULT;
 					// sắp xếp ưu tiên end_date
 				} else if ("end_date".equals(sortType)) {
 					sortByEndDate = common.changeType(sortByEndDate);
-					session.setAttribute("sortByEndDate", sortByEndDate);
+					sortByFullname = Constant.SORTBYFULLNAME_DEFAULT;
+					sortByCodeLevel = Constant.SORTBYCODELEVEL_DEFAULT;
 				}
 				// nếu type là null thì đến trang ADM002 mặc định
 			} else if ("paging".equals(type)) {
@@ -134,6 +139,7 @@ public class ListUserController extends HttpServlet {
 				groupid = Integer.parseInt((String) session.getAttribute("group_id"));
 				int totalUser = tblUserLogic.getTotalUser(groupid, name);
 				currentPage = Integer.parseInt(request.getParameter("currentPage"));
+				System.out.println("current page in case paging :" + currentPage);
 				offSet = common.getOffset(currentPage, limit);
 				totalPage = common.getTotalPage(totalUser, limit);
 				lstPaging = new ArrayList<>();
@@ -166,7 +172,10 @@ public class ListUserController extends HttpServlet {
 			// lấy danh sách user
 			lstUserInfo = tblUserLogic.getListUser(offSet, limit, groupid, name, sortType, sortByFullname,
 					sortByCodeLevel, sortByEndDate);
-
+			if(lstUserInfo.size() < 1) {
+				String message = mess.getMessageProperties(Constant.MESS_ADM002_NORECORD);
+				request.setAttribute("message", message);
+			}
 			request.setAttribute("lstUserInfo", lstUserInfo);
 			request.setAttribute("lstGroup", lstGroup);
 			request.getRequestDispatcher(Constant.ADM002).forward(request, response);

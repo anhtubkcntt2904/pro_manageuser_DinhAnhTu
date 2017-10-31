@@ -33,7 +33,6 @@ public class Common {
 		List<Integer> lstPaging = new ArrayList<>();
 		int totalPage = getTotalPage(totalUser, limit);
 		int currentRange = getCurrentRange(currentPage);
-		System.out.println("current range : " + currentRange);
 		int start = getStart(currentRange);
 		int end = getEnd(currentRange);
 		if (end > totalPage) {
