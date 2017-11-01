@@ -151,7 +151,7 @@
 						</c:choose>
 					</c:forEach>
 					<c:if
-						test="${lstPaging.get(listPaging.size()) < totalPage && totalPage > 3}">
+						test="${lstPaging.get(listPaging.size()) + 1 < totalPage && totalPage > 3}">
 						<a
 							href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) + 3}">
 							>> </a>

@@ -13,7 +13,7 @@ import entity.UserInfo;
  * @author AnhTu
  *
  */
-public interface UserLogic {
+public interface TblUserLogic {
 	/**
 	 * phương thức kiểm tra thông tin login
 	 * @param loginName

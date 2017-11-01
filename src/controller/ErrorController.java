@@ -35,20 +35,9 @@ public class ErrorController extends HttpServlet {
 		// TODO Auto-generated method stub
 		MessageProperties mess = new MessageProperties();
 		String error = mess.getMessageProperties("ER015");
-		System.out.println("error :" + error);
 		request.setAttribute("error", error);
 		RequestDispatcher req = request.getRequestDispatcher("/jsp/System_Error.jsp");
 		req.forward(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }

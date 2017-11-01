@@ -9,7 +9,7 @@ import java.util.List;
 
 import dao.impl.TblUserDaoImpl;
 import entity.UserInfo;
-import logic.UserLogic;
+import logic.TblUserLogic;
 import validate.Validate;
 
 /**
@@ -17,7 +17,7 @@ import validate.Validate;
  * @author AnhTu
  *
  */
-public class UserLogicImpl implements UserLogic {
+public class TblUserLogicImpl implements TblUserLogic {
 	//Danh sách các lỗi khi dăng nhập
 	public static List<String> lstErr = new ArrayList<>();
 

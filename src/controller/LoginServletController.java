@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.Constant;
-import logic.impl.UserLogicImpl;
+import logic.impl.TblUserLogicImpl;
 
 
 /**
@@ -45,14 +45,10 @@ public class LoginServletController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//set utf-8 cho response để khi trả về view sẽ không bị lỗi font
-		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		request.setCharacterEncoding("UTF-8");
 		
 		String loginName = request.getParameter("loginName");
 		String password = request.getParameter("password");
-		UserLogicImpl userLogic = new UserLogicImpl();
+		TblUserLogicImpl userLogic = new TblUserLogicImpl();
 		userLogic.lstErr = new ArrayList<>();
 		//Kiểm tra tài khoản đăng nhập có hợp lệ không
 		if(!userLogic.ExistLogin(loginName, password)) {

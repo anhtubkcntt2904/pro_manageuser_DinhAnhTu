@@ -20,8 +20,8 @@ public class Validate {
 	/**
 	 * phương thức xác thực thông tin đăng nhập
 	 * 
-	 * @param loginName
-	 * @param password
+	 * @param loginName tên đăng nhập
+	 * @param password mật khẩu
 	 * @return Danh sách các lỗi
 	 */
 	public List<String> validateLogin(String loginName, String password) {

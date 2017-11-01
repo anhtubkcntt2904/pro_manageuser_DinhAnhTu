@@ -19,7 +19,7 @@ import common.Constant;
 import entity.MstGroup;
 import entity.UserInfo;
 import logic.impl.MstGroupLogicImpl;
-import logic.impl.UserLogicImpl;
+import logic.impl.TblUserLogicImpl;
 import properties.MessageProperties;
 
 /**
@@ -58,7 +58,7 @@ public class ListUserController extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			Common common = new Common();
-			UserLogicImpl tblUserLogic = new UserLogicImpl();
+			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 			// Danh sách lưu thông tin user
 			List<UserInfo> lstUserInfo = new ArrayList<>();
 
@@ -66,12 +66,6 @@ public class ListUserController extends HttpServlet {
 			lstPaging.add(1);
 			
 			MessageProperties mess = new MessageProperties();
-			
-
-			// set utf-8 cho response để khi trả về view sẽ không bị lỗi font
-			response.setContentType("text/html; charset=UTF-8");
-			response.setCharacterEncoding("UTF-8");
-			request.setCharacterEncoding("UTF-8");
 
 			// tạo giá trị default cho name và group_id để gửi đến trang ADM002
 			String group_id = Constant.GROUP_ID_DEFAULT;

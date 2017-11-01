@@ -11,15 +11,12 @@ import entity.MstGroup;
 import logic.MstGroupLogic;
 
 /**
- * 
+ * class implement các phương thức của interface MstGroupLogic
  * @author AnhTu
  *
  */
 public class MstGroupLogicImpl implements MstGroupLogic{
 
-	/**
-	 * 
-	 */
 	@Override
 	public List<MstGroup> getAllGroup() {
 		// TODO Auto-generated method stub
