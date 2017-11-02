@@ -31,4 +31,17 @@ public class Constant {
 	public static final int TOTALPAGE_DEFAULT = 1;
 	
 	public static final String MESS_ADM002_NORECORD = "MSG005_ADM002";
+	
+	
+	public static final String SEARCH_TYPE = "search";
+	public static final String SORT_TYPE = "sort";
+	public static final String PAGING_TYPE = "paging";
+	
+	
+	public static final String FULLNAME_SORT = "full_name";
+	public static final String CODELEVEL_SORT = "code_level";
+	public static final String ENDDATE_SORT = "end_date";
+	
+	
+	public static final int START_YEAR = 1980;
 }

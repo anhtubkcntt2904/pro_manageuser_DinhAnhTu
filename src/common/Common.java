@@ -4,7 +4,12 @@
  */
 package common;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import properties.ConfigProperties;
@@ -96,7 +101,7 @@ public class Common {
 	 * @return tổng số trang
 	 */
 	public static int getTotalPage(int totalUser, int limit) {
-		return (int) Math.ceil((double)totalUser / limit);
+		return (int) Math.ceil((double) totalUser / limit);
 	}
 
 	/**
@@ -125,13 +130,87 @@ public class Common {
 		} else
 			return "asc";
 	}
-	
+
 	/**
-	 * phương thức trả về danh sách các tháng trong năm 
+	 * phương thức trả về danh sách các tháng trong năm
+	 * 
 	 * @return danh sách các tháng trong năm
 	 */
-	public static List<Integer> getListMonth(){
+	public static List<Integer> getListMonth() {
 		List<Integer> lstMonth = new ArrayList<>();
+		for (int i = 1; i <= 12; i++) {
+			lstMonth.add(i);
+		}
 		return lstMonth;
+	}
+
+	/**
+	 * phương thức lấy ra các ngày trong tháng
+	 * 
+	 * @return danh sách các ngày trong tháng
+	 */
+	public static List<Integer> getListDay() {
+		List<Integer> lstDay = new ArrayList<>();
+		for (int i = 1; i <= 31; i++) {
+			lstDay.add(i);
+		}
+		return lstDay;
+	}
+
+	/**
+	 * phương thức lấy ra các năm
+	 * 
+	 * @param yearStart
+	 *            năm bắt đầu
+	 * @param yearNow
+	 *            năm hiện tại
+	 * @return danh sách các năm tương ứng
+	 */
+	public static List<Integer> getListYear(int yearStart, int yearNow) {
+		List<Integer> lstYear = new ArrayList<>();
+		for (int i = yearStart; i <= yearNow; i++) {
+			lstYear.add(i);
+		}
+		return lstYear;
+	}
+	
+	/**
+	 * phương thức lấy ra năm hiện tại
+	 * @return năm hiện tại
+	 */
+	public static int getYearNow() {
+		int yearNow = Calendar.getInstance().get(Calendar.YEAR);
+		return yearNow;
+	}
+	
+	/**
+	 * phương thức convert các số năm. Tháng ngày thành 1 ngày tháng có format yyyy/mm/dd
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @return ngày tháng có format yyyy/mm/dd
+	 */
+	public static Date toDate(int year, int month, int day) {
+		String date = convertToString( year, month, day);
+		DateFormat sm = new SimpleDateFormat("yyyy/mm/dd");
+		Date dateFmt = null;
+		try {
+			dateFmt = sm.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dateFmt;
+	}
+	
+	/**
+	 * phương thức Convert các số năm. Tháng ngày thành 1 chuỗi ngày tháng có format yyyy/mm/dd
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @return 1 chuỗi ngày tháng có format yyyy/mm/dd
+	 */
+	public static String convertToString(int year,int month,int day) {
+		return String.format("%02d/%02d/%02d", year,month,day);
 	}
 }

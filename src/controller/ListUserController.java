@@ -85,17 +85,16 @@ public class ListUserController extends HttpServlet {
 			HttpSession session = request.getSession();
 
 			// Trường hợp type là search
-			if ("search".equals(type)) {
+			if (Constant.SEARCH_TYPE.equals(type)) {
 				name = request.getParameter("name");
 				group_id = request.getParameter("group_id");
 				groupid = Integer.parseInt(group_id);
 				int totalUser = tblUserLogic.getTotalUser(groupid, name);
 				offSet = common.getOffset(currentPage, limit);
 				totalPage = common.getTotalPage(totalUser, limit);
-				System.out.println("totalPage search :" + totalPage);
 				lstPaging = new ArrayList<>();
 				lstPaging = common.getListPaging(totalUser, limit, currentPage);
-			} else if ("sort".equals(type)) {
+			} else if (Constant.SORT_TYPE.equals(type)) {
 				// lấy thuộc tính trong session
 				name = (String) session.getAttribute("name");
 				sortByFullname = (String) session.getAttribute("sortByFullname");
@@ -112,28 +111,27 @@ public class ListUserController extends HttpServlet {
 				sortType = request.getParameter("sortType");
 
 				// sắp xếp ưu tiên full name
-				if ("full_name".equals(sortType)) {
+				if (Constant.FULLNAME_SORT.equals(sortType)) {
 					sortByFullname = common.changeType(sortByFullname);
 					sortByCodeLevel = Constant.SORTBYCODELEVEL_DEFAULT;
 					sortByEndDate = Constant.SORTBYENDDATE_DEFAULT;
 					// sắp xếp ưu tiên code_level
-				} else if ("code_level".equals(sortType)) {
+				} else if (Constant.CODELEVEL_SORT.equals(sortType)) {
 					sortByCodeLevel = common.changeType(sortByCodeLevel);
 					sortByEndDate = Constant.SORTBYENDDATE_DEFAULT;
 					sortByFullname = Constant.SORTBYFULLNAME_DEFAULT;
 					// sắp xếp ưu tiên end_date
-				} else if ("end_date".equals(sortType)) {
+				} else if (Constant.ENDDATE_SORT.equals(sortType)) {
 					sortByEndDate = common.changeType(sortByEndDate);
 					sortByFullname = Constant.SORTBYFULLNAME_DEFAULT;
 					sortByCodeLevel = Constant.SORTBYCODELEVEL_DEFAULT;
 				}
 				// nếu type là null thì đến trang ADM002 mặc định
-			} else if ("paging".equals(type)) {
+			} else if (Constant.PAGING_TYPE.equals(type)) {
 				name = (String) session.getAttribute("name");
 				groupid = Integer.parseInt((String) session.getAttribute("group_id"));
 				int totalUser = tblUserLogic.getTotalUser(groupid, name);
 				currentPage = Integer.parseInt(request.getParameter("currentPage"));
-				System.out.println("current page in case paging :" + currentPage);
 				offSet = common.getOffset(currentPage, limit);
 				totalPage = common.getTotalPage(totalUser, limit);
 				lstPaging = new ArrayList<>();
@@ -174,8 +172,6 @@ public class ListUserController extends HttpServlet {
 			request.setAttribute("lstGroup", lstGroup);
 			request.getRequestDispatcher(Constant.ADM002).forward(request, response);
 		} catch (Exception e) {
-			response.setContentType("text/html; charset=UTF-8");
-			response.setCharacterEncoding("UTF-8");
 			response.sendRedirect(request.getContextPath() + "/Error.do");
 		}
 	}

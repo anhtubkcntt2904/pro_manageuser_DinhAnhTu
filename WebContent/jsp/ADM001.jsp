@@ -9,7 +9,7 @@
 <title>ユーザ管理</title>
 </head>
 <body align="center">
-	<form action="./doLogin" method="post">
+	<form action="./Login.do" method="post">
 		<center>
 			<table class="tbl_input" cellpadding="4" cellspacing="0"
 				width="400px">

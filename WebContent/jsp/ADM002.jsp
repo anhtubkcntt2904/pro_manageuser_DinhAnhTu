@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -15,7 +15,6 @@
 <body>
 	<!-- Begin vung header -->
 	<%@include file="header.jsp"%>
-
 	<!-- End vung header -->
 
 	<!-- Begin vung dieu kien tim kiem -->
@@ -50,7 +49,8 @@
 									</c:forEach>
 							</select></td>
 							<td align="left"><input class="btn" type="submit" value="検索" />
-								<input class="btn" type="button" value="新規追加" /></td>
+								<input class="btn" type="button" value="新規追加"
+								onclick="location.href='/manage_user/AddUserInput.do?type=add';" /></td>
 						</tr>
 					</table>
 				</td>
@@ -105,8 +105,8 @@
 							<td align="right"><c:out value="${userInfo.userId}" /></td>
 							<td><c:out value="${userInfo.fullName}" /></td>
 							<%-- <td align="center"><c:out value="${userInfo.birthDay}" /></td> --%>
-							<td align="center"> <fmt:formatDate pattern = "yyyy/MM/dd" 
-         value = "${userInfo.birthDay}" /></td>
+							<td align="center"><fmt:formatDate pattern="yyyy/MM/dd"
+									value="${userInfo.birthDay}" /></td>
 							<td><c:out value="${userInfo.groupName}" /></td>
 							<td><c:out value="${userInfo.email}" /></td>
 							<td><c:out value="${userInfo.tel}" /></td>
@@ -146,7 +146,7 @@
 							</c:when>
 							<c:otherwise>
 								<a href="doListUser?type=paging&currentPage=${paging}"><c:out
-								value="${paging}" /></a>
+										value="${paging}" /></a>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>

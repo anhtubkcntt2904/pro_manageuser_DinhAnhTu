@@ -19,8 +19,8 @@
 					<td width="80%"><img src="./images/logo-manager-user.gif"
 						alt="Luvina" />
 					<td>
-					<td align="left"><a href="doLogout">ログアウト</a> &nbsp; <a
-						href="doListUser">トップ</a>
+					<td align="left"><a href="Logout.do">ログアウト</a> &nbsp; <a
+						href="ListUser.do">トップ</a>
 					<td>
 				</tr>
 			</table>

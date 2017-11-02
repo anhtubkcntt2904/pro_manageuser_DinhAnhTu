@@ -19,24 +19,30 @@ import common.Constant;
  */
 public class LogoutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LogoutController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public LogoutController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//Lấy session hiện tại và xóa session
-		 HttpSession session=request.getSession();  
-         session.invalidate(); 
-         response.sendRedirect(request.getContextPath() + "/" + Constant.INDEX);	
+		// Lấy session hiện tại và xóa session
+		try {
+			HttpSession session = request.getSession();
+			session.invalidate();
+			response.sendRedirect(request.getContextPath() + "/" + Constant.INDEX);
+		} catch (Exception e) {
+			response.sendRedirect(request.getContextPath() + "/Error.do");
+		}
 	}
 
 }
