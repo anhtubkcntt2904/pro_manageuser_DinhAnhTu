@@ -125,4 +125,13 @@ public class Common {
 		} else
 			return "asc";
 	}
+	
+	/**
+	 * phương thức trả về danh sách các tháng trong năm 
+	 * @return danh sách các tháng trong năm
+	 */
+	public static List<Integer> getListMonth(){
+		List<Integer> lstMonth = new ArrayList<>();
+		return lstMonth;
+	}
 }

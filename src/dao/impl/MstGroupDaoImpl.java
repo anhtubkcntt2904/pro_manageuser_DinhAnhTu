@@ -20,14 +20,14 @@ import entity.MstGroup;
  *
  */
 public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
-	
+
 	@Override
 	public List<MstGroup> getAllMstGroup() {
 		// TODO Auto-generated method stub
-		
+
 		MstGroup mstGroup = new MstGroup();
 		List<MstGroup> lstMstGroup = new ArrayList<>();
-		String sql = "select * from mst_group";
+		String sql = "select g.group_id, g.group_name from mst_group g";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
@@ -35,8 +35,8 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				int groupId = rs.getInt("group_id");
-				String groupName = rs.getString("group_name");
+				int groupId = rs.getInt("g.group_id");
+				String groupName = rs.getString("g.group_name");
 				mstGroup = new MstGroup(groupId, groupName);
 				lstMstGroup.add(mstGroup);
 			}

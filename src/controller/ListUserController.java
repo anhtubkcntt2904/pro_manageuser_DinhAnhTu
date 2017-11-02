@@ -176,7 +176,7 @@ public class ListUserController extends HttpServlet {
 		} catch (Exception e) {
 			response.setContentType("text/html; charset=UTF-8");
 			response.setCharacterEncoding("UTF-8");
-			response.sendRedirect(request.getContextPath() + "/doError");
+			response.sendRedirect(request.getContextPath() + "/Error.do");
 		}
 	}
 

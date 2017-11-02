@@ -9,10 +9,10 @@ package common;
  *
  */
 public class Constant {
-	public static final String LOGIN_REQUEST_URI = "/manage_user/doLogin";
+	public static final String LOGIN_REQUEST_URI = "/manage_user/Login.do";
 	public static final String CONTEXT_ROOT = "/manage_user/";
-	public static final String ADM002_SERVLET = "/doListUser";
-	public static final String ADM001_SERVLET = "/doLogin";
+	public static final String ADM002_SERVLET = "/ListUser.do";
+	public static final String ADM001_SERVLET = "/Login.do";
 	public static final String INDEX = "index.jsp";
 	public static final String ADM002 = "/jsp/ADM002.jsp";
 	
