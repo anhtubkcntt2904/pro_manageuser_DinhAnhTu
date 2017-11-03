@@ -13,6 +13,7 @@ public class Constant {
 	public static final String CONTEXT_ROOT = "/manage_user/";
 	public static final String ADM002_SERVLET = "/ListUser.do";
 	public static final String ADM001_SERVLET = "/Login.do";
+	public static final String ERROR_SERVLET = "/Error.do";
 	public static final String INDEX = "index.jsp";
 	public static final String ADM002 = "/jsp/ADM002.jsp";
 	
@@ -44,4 +45,9 @@ public class Constant {
 	
 	
 	public static final int START_YEAR = 1980;
+	
+	public static final String DRIVER_CONST = "driver";
+	public static final String URL_CONST = "url";
+	public static final String USER_CONST = "user";
+	public static final String PASS_CONST = "pass";
 }

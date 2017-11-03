@@ -3,12 +3,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../js/user.js"></script>
+<!-- <script type="text/javascript" src="../js/user.js"></script> -->
 <title>ユーザ管理</title>
+<script type="text/javascript" language="javascript">
+	function myFunction() {
+		var x = document.getElementById("showHide");
+		if (x.style.display === "none") {
+			x.style.display = "table-row-group";
+		} else {
+			x.style.display = "none";
+		}
+	}
+</script>
 </head>
 <body>
+
 	<!-- Begin vung header -->
 	<%@include file="header.jsp"%>
 	<!-- End vung header -->
@@ -35,7 +47,8 @@
 							<tr>
 								<td class="lbl_left"><font color="red">*</font> アカウント名:</td>
 								<td align="left"><input class="txBox" type="text" name="id"
-									value="${userInfor.loginName}" size="15" onfocus="this.style.borderColor='#0066ff';"
+									value="${userInfor.loginName}" size="15"
+									onfocus="this.style.borderColor='#0066ff';"
 									onblur="this.style.borderColor='#aaaaaa';" /></td>
 							</tr>
 							<tr>
@@ -74,7 +87,7 @@
 											<option value="${month}"
 												${month == monthbirthday ? 'selected' : ''}>${month}</option>
 										</c:forEach>
-								</select>月  <select name="daybirthday">
+								</select>月 <select name="daybirthday">
 										<c:forEach var="day" items="${lstDay}">
 											<option value="${day}"
 												${day == daybirthday ? 'selected' : ''}>${day}</option>
@@ -110,8 +123,10 @@
 									onblur="this.style.borderColor='#aaaaaa';" /></td>
 							</tr>
 							<tr>
-								<th align="left" colspan="2"><a href="#">日本語能力</a></th>
+								<th align="left" colspan="2"><a
+									href="javascript:myFunction()">日本語能力</a></th>
 							</tr>
+							<tbody id="showHide">
 							<tr>
 								<td class="lbl_left">資格:</td>
 								<td align="left"><select name="code_level">
@@ -167,6 +182,7 @@
 									onfocus="this.style.borderColor='#0066ff';"
 									onblur="this.style.borderColor='#aaaaaa';" /></td>
 							</tr>
+							</tbody>
 						</table>
 					</div>
 				</td>

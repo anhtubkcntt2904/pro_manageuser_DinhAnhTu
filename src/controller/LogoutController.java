@@ -41,7 +41,7 @@ public class LogoutController extends HttpServlet {
 			session.invalidate();
 			response.sendRedirect(request.getContextPath() + "/" + Constant.INDEX);
 		} catch (Exception e) {
-			response.sendRedirect(request.getContextPath() + "/Error.do");
+			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
 		}
 	}
 

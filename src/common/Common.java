@@ -173,25 +173,28 @@ public class Common {
 		}
 		return lstYear;
 	}
-	
+
 	/**
 	 * phương thức lấy ra năm hiện tại
+	 * 
 	 * @return năm hiện tại
 	 */
 	public static int getYearNow() {
 		int yearNow = Calendar.getInstance().get(Calendar.YEAR);
 		return yearNow;
 	}
-	
+
 	/**
-	 * phương thức convert các số năm. Tháng ngày thành 1 ngày tháng có format yyyy/mm/dd
+	 * phương thức convert các số năm. Tháng ngày thành 1 ngày tháng có format
+	 * yyyy/mm/dd
+	 * 
 	 * @param year
 	 * @param month
 	 * @param day
 	 * @return ngày tháng có format yyyy/mm/dd
 	 */
 	public static Date toDate(int year, int month, int day) {
-		String date = convertToString( year, month, day);
+		String date = convertToString(year, month, day);
 		DateFormat sm = new SimpleDateFormat("yyyy/mm/dd");
 		Date dateFmt = null;
 		try {
@@ -202,15 +205,36 @@ public class Common {
 		}
 		return dateFmt;
 	}
-	
+
 	/**
-	 * phương thức Convert các số năm. Tháng ngày thành 1 chuỗi ngày tháng có format yyyy/mm/dd
+	 * phương thức Convert các số năm. Tháng ngày thành 1 chuỗi ngày tháng có format
+	 * yyyy/mm/dd
+	 * 
 	 * @param year
 	 * @param month
 	 * @param day
 	 * @return 1 chuỗi ngày tháng có format yyyy/mm/dd
 	 */
-	public static String convertToString(int year,int month,int day) {
-		return String.format("%02d/%02d/%02d", year,month,day);
+	public static String convertToString(int year, int month, int day) {
+		return String.format("%02d/%02d/%02d", year, month, day);
 	}
+
+	/**
+	 * phương thức Convert date input to Year,Month,Day store in ArrayList
+	 * 
+	 * @param date
+	 *            date cần convert
+	 * @return list store year,month và day
+	 */
+	public static ArrayList<Integer> toArrayInteger(Date date) {
+		ArrayList<Integer> lstDate = new ArrayList<>();
+		int year = Integer.parseInt(new SimpleDateFormat("yyyy").format(date));
+		int month = Integer.parseInt(new SimpleDateFormat("MM").format(date));
+		int day = Integer.parseInt(new SimpleDateFormat("dd").format(date));
+		lstDate.add(year);
+		lstDate.add(month);
+		lstDate.add(day);
+		return lstDate;
+	}
+
 }

@@ -70,12 +70,14 @@ public class AddUserInputController extends HttpServlet {
 	 * @param response
 	 */
 	private void setDataLogic(HttpServletRequest request, HttpServletResponse response) {
-
+		
+		//lấy danh sách group và mst japan
 		MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
 		List<MstGroup> lstMstGroup = mstGroupLogic.getAllGroup();
 		MstJapanLogicImpl mstJapanLogic = new MstJapanLogicImpl();
 		List<MstJapan> lstMstJapan = mstJapanLogic.getAllMstJapan();
 
+		//lấy danh sách ngày,tháng và năm
 		Common common = new Common();
 		List<Integer> lstDay = common.getListDay();
 		List<Integer> lstMonth = common.getListMonth();
@@ -84,6 +86,7 @@ public class AddUserInputController extends HttpServlet {
 		int yearStart = Constant.START_YEAR;
 		List<Integer> lstYear = common.getListYear(yearStart, yearNow);
 
+		//set các thuộc tính lên request
 		request.setAttribute("lstMstGroup", lstMstGroup);
 		request.setAttribute("lstMstJapan", lstMstJapan);
 		request.setAttribute("lstYear", lstYear);

@@ -67,7 +67,7 @@ public class ListUserController extends HttpServlet {
 			
 			MessageProperties mess = new MessageProperties();
 
-			// tạo giá trị default cho name và group_id để gửi đến trang ADM002
+			// tạo giá trị default để gửi đến trang ADM002
 			String group_id = Constant.GROUP_ID_DEFAULT;
 			String name = Constant.NAME_DEFAULT;
 			String sortType = Constant.SORTTYPE_DEFAULT;
@@ -126,6 +126,8 @@ public class ListUserController extends HttpServlet {
 					sortByFullname = Constant.SORTBYFULLNAME_DEFAULT;
 					sortByCodeLevel = Constant.SORTBYCODELEVEL_DEFAULT;
 				}
+				
+				
 				// nếu type là null thì đến trang ADM002 mặc định
 			} else if (Constant.PAGING_TYPE.equals(type)) {
 				name = (String) session.getAttribute("name");
@@ -172,7 +174,7 @@ public class ListUserController extends HttpServlet {
 			request.setAttribute("lstGroup", lstGroup);
 			request.getRequestDispatcher(Constant.ADM002).forward(request, response);
 		} catch (Exception e) {
-			response.sendRedirect(request.getContextPath() + "/Error.do");
+			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
 		}
 	}
 

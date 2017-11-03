@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import common.Constant;
 import dao.BaseDao;
 import properties.DatabaseProperties;
 
@@ -21,10 +22,10 @@ public class BaseDaoImpl implements BaseDao{
 	public Connection connectDB() {
 		Connection conn = null;
 		DatabaseProperties dbProp = new DatabaseProperties();
-		String driver = dbProp.getDBProperties("driver");
-		String url = dbProp.getDBProperties("url");
-		String user = dbProp.getDBProperties("user");
-		String pass = dbProp.getDBProperties("pass");
+		String driver = dbProp.getDBProperties(Constant.DRIVER_CONST);
+		String url = dbProp.getDBProperties(Constant.URL_CONST);
+		String user = dbProp.getDBProperties(Constant.USER_CONST);
+		String pass = dbProp.getDBProperties(Constant.PASS_CONST);
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, user, pass);
