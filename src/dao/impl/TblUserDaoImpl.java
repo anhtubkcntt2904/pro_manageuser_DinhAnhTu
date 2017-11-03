@@ -49,7 +49,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 
 		// nếu vào trường hợp tìm kiếm có full name
 		if (fullName != null) {
-			fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
 			sql.append("and u.full_name like ? ");
 		}
 		// nếu vào trường hợp tìm kiếm có group id
@@ -145,7 +144,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 
 		// nếu vào trường hợp tìm kiếm có full name
 		if (fullName != null) {
-			fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
 			sql.append("and u.full_name like ? ");
 		}
 		// nếu vào trường hợp tìm kiếm có group id

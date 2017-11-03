@@ -48,4 +48,6 @@ public interface TblUserDao {
 	 * @return tổng số user
 	 */
 	public int getTotalUser(int groupId, String fullName);
+	
+	
 }

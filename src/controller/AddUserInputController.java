@@ -5,6 +5,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -61,23 +62,24 @@ public class AddUserInputController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		setDefault(request, response);
 	}
 
 	/**
 	 * phương thức set dữ liệu logic cho màn hình ADM003
+	 * 
 	 * @param request
 	 * @param response
 	 */
 	private void setDataLogic(HttpServletRequest request, HttpServletResponse response) {
-		
-		//lấy danh sách group và mst japan
+
+		// lấy danh sách group và mst japan
 		MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
 		List<MstGroup> lstMstGroup = mstGroupLogic.getAllGroup();
 		MstJapanLogicImpl mstJapanLogic = new MstJapanLogicImpl();
 		List<MstJapan> lstMstJapan = mstJapanLogic.getAllMstJapan();
 
-		//lấy danh sách ngày,tháng và năm
+		// lấy danh sách ngày,tháng và năm
 		Common common = new Common();
 		List<Integer> lstDay = common.getListDay();
 		List<Integer> lstMonth = common.getListMonth();
@@ -86,7 +88,7 @@ public class AddUserInputController extends HttpServlet {
 		int yearStart = Constant.START_YEAR;
 		List<Integer> lstYear = common.getListYear(yearStart, yearNow);
 
-		//set các thuộc tính lên request
+		// set các thuộc tính lên request
 		request.setAttribute("lstMstGroup", lstMstGroup);
 		request.setAttribute("lstMstJapan", lstMstJapan);
 		request.setAttribute("lstYear", lstYear);
@@ -97,6 +99,7 @@ public class AddUserInputController extends HttpServlet {
 
 	/**
 	 * phương thức set dữ liệu mặc định cho màn hình ADM003
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -106,14 +109,49 @@ public class AddUserInputController extends HttpServlet {
 			throws ServletException, IOException {
 		String type = request.getParameter("type");
 		UserInfor userInfor = new UserInfor();
+		Common common = new Common();
 
 		switch (type) {
 		case "default":
 			break;
+		case "confirm":
+			String loginName = request.getParameter("loginName");
+			int group_id = common.convertStringToInt(request.getParameter("group_id"));
+			String fullName = request.getParameter("fullName");
+			String fullNameKana = request.getParameter("fullNameKana");
+
+			// lấy ra birthday của user
+			int yearbirthday = common.convertStringToInt(request.getParameter("yearbirthday"));
+			int monthbirthday = common.convertStringToInt(request.getParameter("monthbirthday"));
+			int daybirthday = common.convertStringToInt(request.getParameter("daybirthday"));
+			Date dateBirthday = common.toDate(yearbirthday, monthbirthday, daybirthday);
+
+			String email = request.getParameter("email");
+			String tel = request.getParameter("tel");
+			String password = request.getParameter("password");
+			String code_level = request.getParameter("code_level");
+
+			// lấy ra ngày cấp chứng chỉ của user
+			int yearvalidate = common.convertStringToInt(request.getParameter("yearvalidate"));
+			int monthvalidate = common.convertStringToInt(request.getParameter("monthvalidate"));
+			int dayvalidate = common.convertStringToInt(request.getParameter("dayvalidate"));
+			Date dateValidate = common.toDate(yearvalidate, monthvalidate, dayvalidate);
+
+			// lấy ra ngày hết hạn chứng chỉ của user
+			int yearinvalidate = common.convertStringToInt(request.getParameter("yearinvalidate"));
+			int monthinvalidate = common.convertStringToInt(request.getParameter("monthinvalidate"));
+			int dayinvalidate = common.convertStringToInt(request.getParameter("dayinvalidate"));
+			Date dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
+
+			int total = common.convertStringToInt(request.getParameter("total"));
+
+			userInfor = new UserInfor(loginName, group_id, fullName, fullNameKana, dateBirthday, email, tel, password,
+					code_level, dateValidate, dateInvalidate, total);
+
 		default:
 			break;
 		}
-		
+
 		request.setAttribute("userInfor", userInfor);
 		request.getRequestDispatcher("/jsp/ADM003.jsp").forward(request, response);
 	}

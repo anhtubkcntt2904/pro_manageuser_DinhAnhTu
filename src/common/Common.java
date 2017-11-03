@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import entity.UserInfor;
 import properties.ConfigProperties;
 
 /**
@@ -195,7 +196,7 @@ public class Common {
 	 */
 	public static Date toDate(int year, int month, int day) {
 		String date = convertToString(year, month, day);
-		DateFormat sm = new SimpleDateFormat("yyyy/mm/dd");
+		DateFormat sm = new SimpleDateFormat("yyyy/MM/dd");
 		Date dateFmt = null;
 		try {
 			dateFmt = sm.parse(date);
@@ -235,6 +236,39 @@ public class Common {
 		lstDate.add(month);
 		lstDate.add(day);
 		return lstDate;
+	}
+
+	/**
+	 * phương thức chuyển một String sang int
+	 * 
+	 * @param string
+	 *            chuỗi cần parse
+	 * @return số kiểu int
+	 */
+	public static int convertStringToInt(String string) {
+		return Integer.parseInt(string);
+	}
+
+	/**
+	 * phương thức kiếm tra ngày hợp lệ
+	 * 
+	 * @param dateValidate
+	 *            ngày cần kiểm tra
+	 * @return true or false
+	 */
+	public static boolean isValidDate(String dateValidate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		// Thông thường dữ liệu đầu vào nếu không hợp lệ,
+		// Java Date sẽ tự đông chuyển đổi lại cho hợp lệ,
+		// Vì vây ta cần tắt chức năng này đi để dữ liệu được kiểm tra đúng đắn.
+		sdf.setLenient(false);
+		try {
+			Date date = sdf.parse(dateValidate);
+
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
 	}
 
 }
