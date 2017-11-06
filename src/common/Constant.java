@@ -16,6 +16,7 @@ public class Constant {
 	public static final String ERROR_SERVLET = "/Error.do";
 	public static final String INDEX = "index.jsp";
 	public static final String ADM002 = "/jsp/ADM002.jsp";
+	public static final String ADM003 = "/jsp/ADM003.jsp";
 	
 	
 	public static final String GROUP_ID_DEFAULT = "0";

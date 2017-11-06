@@ -174,7 +174,8 @@ public class ListUserController extends HttpServlet {
 			request.setAttribute("lstGroup", lstGroup);
 			request.getRequestDispatcher(Constant.ADM002).forward(request, response);
 		} catch (Exception e) {
-			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
+			e.printStackTrace();
+			//response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
 		}
 	}
 

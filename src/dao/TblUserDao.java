@@ -6,7 +6,7 @@ package dao;
 
 import java.util.List;
 
-import entity.User;
+import entity.TblUser;
 import entity.UserInfo;
 
 /**
@@ -48,6 +48,20 @@ public interface TblUserDao {
 	 * @return tổng số user
 	 */
 	public int getTotalUser(int groupId, String fullName);
-	
-	
+
+	/**
+	 * phương thức lấy ra thông tin của 1 user với điều kiện email và userId
+	 * 
+	 * @param email
+	 * @return thông tin của 1 user
+	 */
+	public TblUser getUserByEmail(String email);
+
+	/**
+	 * Phương thức lấy ra thông tin của 1 user theo login name
+	 * 
+	 * @param loginName
+	 * @return thông tin của 1 user
+	 */
+	public TblUser checkExistedLoginName(String loginName);
 }

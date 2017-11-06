@@ -271,4 +271,27 @@ public class Common {
 		return true;
 	}
 
+	/**
+	 * Phương thức kiểm tra kí tự 1 byte
+	 * 
+	 * @param string
+	 *            chuỗi cần kiểm tra các kí tự
+	 * @return true hoặc false
+	 */
+	public static boolean checkByte(String string) {
+		boolean checkByte = true;
+		// kiểm tra từng kí tự
+		for (int i = 0; i < string.length(); i++) {
+			char c = string.charAt(i);
+			int ascii = (int) c;
+			// nếu kí tự đó có mã decimal tương ứng > 127
+			// thì kí tự đó cần lớn hơn 1 byte để mã hóa
+			if (ascii > 127) {
+				checkByte = false;
+				break;
+			}
+
+		}
+		return checkByte;
+	}
 }

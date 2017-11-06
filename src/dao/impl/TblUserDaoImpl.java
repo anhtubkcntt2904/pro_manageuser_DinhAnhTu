@@ -15,6 +15,7 @@ import java.util.List;
 
 import dao.TblUserDao;
 import entity.MstGroup;
+import entity.TblUser;
 import entity.UserInfo;
 
 /**
@@ -29,6 +30,8 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	static int count1 = 0;
 	// biến đếm để set param cho PreparedStatement getTotalUser
 	static int count2 = 0;
+	// biến đếm để set param cho PreparedStatement getUserByEmail
+	static int count3 = 0;
 
 	@Override
 	public List<UserInfo> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
@@ -64,6 +67,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			sql.append(sortByCodeLevel);
 			sql.append(",tdu.end_date ");
 			sql.append(sortByEndDate);
+			
 			// trường hợp ưu tiên sắp xếp ưu tiên theo code level
 		} else if ("code_level".equals(sortType)) {
 			sql.append("order by tdu.code_level ");
@@ -72,6 +76,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			sql.append(sortByFullname);
 			sql.append(",tdu.end_date ");
 			sql.append(sortByEndDate);
+			
 			// trường hợp ưu tiên sắp xếp ưu tiên theo end date
 		} else if ("end_date".equals(sortType)) {
 			sql.append("order by tdu.end_date ");
@@ -81,7 +86,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			sql.append(",tdu.code_level ");
 			sql.append(sortByCodeLevel);
 		}
-		
+
 		sql.append(" limit ");
 		sql.append(offset + ",");
 		sql.append(limit);
@@ -185,6 +190,98 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			}
 		}
 		return countTotal;
+	}
+
+	@Override
+	public TblUser getUserByEmail(String email) {
+		Connection con = connectDB();
+		StringBuffer sql = new StringBuffer();
+		TblUser tblUser = new TblUser();
+		sql.append("select * ");
+		sql.append("from tblUser u ");
+		sql.append("where u.email = ? ");
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = con.prepareStatement(sql.toString());
+			
+			ps.setString(1, email);
+
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Integer userID = rs.getInt("u.user_id");
+				Integer groupID = rs.getInt("u.group_id");
+				String loginName = rs.getString("u.login_name");
+				String password = rs.getString("u.password");
+				String fullName = rs.getString("u.full_name");
+				String fullNameKana = rs.getString("u.full_name_kana");
+				String emailUser = rs.getString("u.email");
+				String tel = rs.getString("u.tel");
+				Date birthday = rs.getDate("u.birthday");
+				String salt = rs.getString("u.salt");
+				tblUser = new TblUser(userID, groupID, loginName, password, fullName, fullNameKana, emailUser, tel,
+						birthday, salt);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeDB(con);
+			try {
+				rs.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return tblUser;
+	}
+
+	@Override
+	public TblUser checkExistedLoginName(String loginName) {
+		Connection con = connectDB();
+		StringBuffer sql = new StringBuffer();
+		TblUser tblUser = new TblUser();
+		sql.append("select * ");
+		sql.append("from tblUser u ");
+		sql.append("where u.login_name = ? ");
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = con.prepareStatement(sql.toString());
+			
+			ps.setString(1, loginName);
+			
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Integer userID = rs.getInt("u.user_id");
+				Integer groupID = rs.getInt("u.group_id");
+				String loginname = rs.getString("u.login_name");
+				String password = rs.getString("u.password");
+				String fullName = rs.getString("u.full_name");
+				String fullNameKana = rs.getString("u.full_name_kana");
+				String emailUser = rs.getString("u.email");
+				String tel = rs.getString("u.tel");
+				Date birthday = rs.getDate("u.birthday");
+				String salt = rs.getString("u.salt");
+				tblUser = new TblUser(userID, groupID, loginname, password, fullName, fullNameKana, emailUser, tel,
+						birthday, salt);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeDB(con);
+			try {
+				rs.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return tblUser;
 	}
 
 }

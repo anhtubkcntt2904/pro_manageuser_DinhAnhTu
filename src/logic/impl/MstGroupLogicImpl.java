@@ -24,4 +24,16 @@ public class MstGroupLogicImpl implements MstGroupLogic{
 		return mstGroupDaoImpl.getAllMstGroup();
 	}
 
+	@Override
+	public boolean existedGroupId(int groupid) {
+		MstGroupDaoImpl mstGroupDao = new MstGroupDaoImpl();
+		List<MstGroup> lstGroup = mstGroupDao.getAllMstGroup();
+		for(int i = 0; i< lstGroup.size(); i++) {
+			if(groupid == lstGroup.get(i).getGroupId()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

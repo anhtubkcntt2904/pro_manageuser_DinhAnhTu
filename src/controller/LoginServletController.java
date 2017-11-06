@@ -68,7 +68,8 @@ public class LoginServletController extends HttpServlet {
 				response.sendRedirect(request.getContextPath() + Constant.ADM002_SERVLET);
 			}
 		} catch (Exception e) {
-			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
+			e.printStackTrace();
+			//response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
 		}
 	}
 

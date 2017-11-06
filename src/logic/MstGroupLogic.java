@@ -10,14 +10,24 @@ import entity.MstGroup;
 
 /**
  * interface chứa các thao tác với bảng mst_group
+ * 
  * @author AnhTu
  *
  */
 public interface MstGroupLogic {
-	
+
 	/**
 	 * phương thức lấy tất cả các group trong bảng mst_group
+	 * 
 	 * @return danh sách các group
 	 */
 	public List<MstGroup> getAllGroup();
+
+	/**
+	 * phương thức kiểm tra tồn tại của group id
+	 * 
+	 * @param groupid
+	 * @return true hoặc false
+	 */
+	public boolean existedGroupId(int groupid);
 }

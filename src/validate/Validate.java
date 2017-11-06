@@ -9,6 +9,8 @@ import java.util.List;
 
 import common.Common;
 import entity.UserInfor;
+import logic.impl.MstGroupLogicImpl;
+import logic.impl.TblUserLogicImpl;
 import properties.AdminProperties;
 import properties.MessageProperties;
 
@@ -56,24 +58,52 @@ public class Validate {
 	 *            thông tin user
 	 * @return danh sách lỗi
 	 */
-	private List<String> validateUserInfor(UserInfor userInfor) {
+	public List<String> validateUserInfor(UserInfor userInfor) {
 		List<String> lstError = new ArrayList<>();
 		MessageProperties messProp = new MessageProperties();
 		Common common = new Common();
+		TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
+		MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();	
 		
-		//format check loginname
+		// format check loginname
 		String loginformat = "^[^0-9][a-zA-Z_0-9]+";
 		boolean checkLoginName = userInfor.getloginName().matches(loginformat);
-		
-		//format check kana
+
+		// format check kana
 		String kanaformat = "[ァ-・ヽヾ゛゜ー]";
 		boolean checkKana = userInfor.getFullNameKana().matches(kanaformat);
-		
-		//check birthday
+
+		// check birthday
 		List<Integer> lstBirthday = common.toArrayInteger(userInfor.getBirthday());
-		String dateBirthday = common.convertToString(lstBirthday.get(0), lstBirthday.get(1), lstBirthday.get(1));
+		String dateBirthday = common.convertToString(lstBirthday.get(0), lstBirthday.get(1), lstBirthday.get(2));
 		boolean checkBirthday = common.isValidDate(dateBirthday);
-		 
+
+		// check email
+		String emailformat = "[a-zA-Z_0-9]+@[a-zA-Z_0-9]+";
+		boolean checkEmail = userInfor.getEmail().matches(emailformat);
+
+		// check password
+		boolean checkPass = common.checkByte(userInfor.getPassword());
+
+		// check start date
+		List<Integer> lstStartDate = common.toArrayInteger(userInfor.getStartDate());
+		String startDate = common.convertToString(lstStartDate.get(0), lstStartDate.get(1), lstStartDate.get(2));
+		boolean checkStartDate = common.isValidDate(startDate);
+
+		// check end date
+		List<Integer> lstEndDate = common.toArrayInteger(userInfor.getEndDate());
+		String endDate = common.convertToString(lstEndDate.get(0), lstEndDate.get(1), lstEndDate.get(2));
+		boolean checkEndDate = common.isValidDate(endDate);
+
+		// check existed login name
+		boolean existedLoginName = tblUserLogic.checkExistedLoginName(userInfor.getloginName());
+
+		// check existed email
+		boolean existedEmail = tblUserLogic.checkExistedEmail(userInfor.getEmail());
+		
+		//check group id
+		boolean checkGroupId = mstGroupLogic.existedGroupId(userInfor.getGroupId());
+
 		// validate loginName
 		if (userInfor.getloginName().trim().length() == 0) {
 			// thêm thông báo lỗi không nhập
@@ -84,11 +114,16 @@ public class Validate {
 		} else if (checkLoginName != true) {
 			// format login name không hợp lệ
 			lstError.add(messProp.getMessageProperties("ER019_LOGIN"));
+		} else if (existedLoginName) {
+			// tên đăng nhập đã tồn tại
+			lstError.add(messProp.getMessageProperties("ER003_LOGIN"));
 		}
 
 		// validate group id
 		if (userInfor.getGroupId() == 0) {
-			lstError.add(messProp.getMessageProperties("ER007_LOGIN"));
+			lstError.add(messProp.getMessageProperties("ER002_GROUPID"));
+		}else if(!checkGroupId) {
+			lstError.add(messProp.getMessageProperties("ER004_GROUPID"));
 		}
 
 		// validate fullname
@@ -104,15 +139,69 @@ public class Validate {
 		if (userInfor.getFullNameKana().trim().length() > 255) {
 			// thêm thông báo lỗi không nhập
 			lstError.add(messProp.getMessageProperties("ER006_FULLNAMEKANA"));
-		}else if(!checkKana) {
-			//full name không phải kí tự kana
+		} else if (!checkKana) {
+			// full name không phải kí tự kana
 			lstError.add(messProp.getMessageProperties("ER009_FULLNAMEKANA"));
 		}
-		
-		//validate ngày sinh
-		if(!checkBirthday) {
-			//ngày sinh không hợp lệ
+
+		// validate ngày sinh
+		if (!checkBirthday) {
+			// ngày sinh không hợp lệ
 			lstError.add(messProp.getMessageProperties("ER011_BIRTHDAY"));
+		}
+
+		// validate email
+		if (userInfor.getEmail().trim().length() == 0) {
+			// không nhập
+			lstError.add(messProp.getMessageProperties("ER001_EMAIL"));
+		} else if (!checkEmail) {
+			// sai format
+			lstError.add(messProp.getMessageProperties("ER005_EMAIL"));
+		} else if (existedEmail) {
+			//email đã tồn tại
+			lstError.add(messProp.getMessageProperties("ER003_EMAIL"));
+		} else if (userInfor.getEmail().trim().length() > 255) {
+			// maxlength
+			lstError.add(messProp.getMessageProperties("ER006_EMAIL"));
+		}
+
+		// validate tel
+		if (userInfor.getTel().trim().length() == 0) {
+			// không nhập
+			lstError.add(messProp.getMessageProperties("ER001_TEL"));
+		} else if (userInfor.getTel().trim().length() > 255) {
+			// maxlength
+			lstError.add(messProp.getMessageProperties("ER006_TEL"));
+		}
+
+		// validate pass
+		if (userInfor.getPassword().trim().length() == 0) {
+			// không nhập
+			lstError.add(messProp.getMessageProperties("ER001_PASS"));
+		} else if (!checkPass) {
+			// nhập vào kí tự > 1byte
+			lstError.add(messProp.getMessageProperties("ER008_PASS"));
+		}
+
+		// validate start date
+		if (!checkStartDate) {
+			// ngày không hợp lệ
+			lstError.add(messProp.getMessageProperties("ER011_STARTDATE"));
+		}
+
+		// validate end date
+		if (!checkEndDate) {
+			// ngày không hợp lệ
+			lstError.add(messProp.getMessageProperties("ER011_ENDDATE"));
+		} else if (userInfor.getEndDate().before(userInfor.getStartDate())) {
+			// ngày hết hạn nhỏ hơn ngày cấp chứng chỉ
+			lstError.add(messProp.getMessageProperties("ER012_ENDDATE"));
+		}
+
+		// validate total
+		if (Integer.toString(userInfor.getTotal()).trim().length() == 0) {
+			// không nhập
+			lstError.add(messProp.getMessageProperties("ER001_TOTAL"));
 		}
 		return lstError;
 	}

@@ -14,7 +14,7 @@ import entity.MstJapan;
  * @author Anh Tu
  *
  */
-public interface MstJapanLogic {	
+public interface MstJapanLogic {
 	/**
 	 * phương thức lấy ra các record của mst_japan
 	 * 
@@ -22,4 +22,11 @@ public interface MstJapanLogic {
 	 */
 	public List<MstJapan> getAllMstJapan();
 
+	/**
+	 * Phương thức kiểm tra tồn tại của code level
+	 * 
+	 * @param codelevel
+	 * @return true hoặc false
+	 */
+	public boolean existedCodelevel(String codelevel);
 }

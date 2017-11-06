@@ -25,4 +25,16 @@ public class MstJapanLogicImpl implements MstJapanLogic {
 		return mstJapanDao.getAllMstJapan();
 	}
 
+	@Override
+	public boolean existedCodelevel(String codelevel) {
+		MstJapanDaoImpl mstJapanDao = new MstJapanDaoImpl();
+		List<MstJapan> lstJapan = mstJapanDao.getAllMstJapan();
+		for (int i = 0; i < lstJapan.size(); i++) {
+			if (codelevel.equals(lstJapan.get(i).getCode_level())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

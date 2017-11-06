@@ -8,39 +8,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.impl.TblUserDaoImpl;
+import entity.TblUser;
 import entity.UserInfo;
 import logic.TblUserLogic;
 import validate.Validate;
 
 /**
  * class để implement các phương thức của interface userLogic
+ * 
  * @author AnhTu
  *
  */
 public class TblUserLogicImpl implements TblUserLogic {
-	//Danh sách các lỗi khi dăng nhập
+	// Danh sách các lỗi khi dăng nhập
 	public static List<String> lstErr = new ArrayList<>();
 
 	@Override
 	public boolean ExistLogin(String loginName, String password) {
 		Validate validate = new Validate();
-		//xác thực thông tin đăng nhập
+		// xác thực thông tin đăng nhập
 		lstErr = validate.validateLogin(loginName, password);
-		//nếu danh sách lỗi  rỗng
+		// nếu danh sách lỗi rỗng
 		if (lstErr.isEmpty()) {
-			//trả về true
+			// trả về true
 			return true;
 		} else
-			//nếu không rỗng thì trả về false
+			// nếu không rỗng thì trả về false
 			return false;
 	}
-	
+
 	@Override
 	public List<UserInfo> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullname, String sortByCodeLevel, String sortByEndDate) {
 		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
 		fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
-		return tblUserDao.getListUser(offset, limit, groupId, fullName, sortType, sortByFullname, sortByCodeLevel, sortByEndDate);
+		return tblUserDao.getListUser(offset, limit, groupId, fullName, sortType, sortByFullname, sortByCodeLevel,
+				sortByEndDate);
 	}
 
 	@Override
@@ -48,5 +51,25 @@ public class TblUserLogicImpl implements TblUserLogic {
 		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
 		fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
 		return tblUserDao.getTotalUser(groupId, fullName);
+	}
+
+	@Override
+	public boolean checkExistedEmail(String email) {
+		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
+		TblUser tblUser = tblUserDao.getUserByEmail(email);
+		if (tblUser != null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkExistedLoginName(String loginName) {
+		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
+		TblUser tblUser = tblUserDao.checkExistedLoginName(loginName);
+		if (tblUser != null) {
+			return true;
+		}
+		return false;
 	}
 }

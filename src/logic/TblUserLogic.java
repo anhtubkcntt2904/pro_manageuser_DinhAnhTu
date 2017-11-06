@@ -10,20 +10,23 @@ import entity.UserInfo;
 
 /**
  * interface chứa các phương thức của user
+ * 
  * @author AnhTu
  *
  */
 public interface TblUserLogic {
 	/**
 	 * phương thức kiểm tra thông tin login
+	 * 
 	 * @param loginName
 	 * @param password
 	 * @return true or false
 	 */
-	public boolean ExistLogin(String loginName,String password);
-	
+	public boolean ExistLogin(String loginName, String password);
+
 	/**
 	 * phương thức lấy danh sách user
+	 * 
 	 * @param offset
 	 * @param limit
 	 * @param groupId
@@ -36,12 +39,29 @@ public interface TblUserLogic {
 	 */
 	public List<UserInfo> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullname, String sortByCodeLevel, String sortByEndDate);
-	
+
 	/**
 	 * Phương thức lấy tổng số user theo điều kiện tìm kiếm
+	 * 
 	 * @param groupId
 	 * @param fullName
 	 * @return tổng số user
 	 */
-	public int getTotalUser(int groupId,String fullName);
+	public int getTotalUser(int groupId, String fullName);
+
+	/**
+	 * Phương thức kiểm tra email có tồn tại hay chưa
+	 * 
+	 * @param email
+	 * @return true hoặc false
+	 */
+	public boolean checkExistedEmail(String email);
+
+	/**
+	 * kiểm tra login name đã tồn tại trong bảng tbl user chưa
+	 * 
+	 * @param loginName
+	 * @return true hoặc false
+	 */
+	public boolean checkExistedLoginName(String loginName);
 }
