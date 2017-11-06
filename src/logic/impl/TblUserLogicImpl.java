@@ -41,7 +41,9 @@ public class TblUserLogicImpl implements TblUserLogic {
 	public List<UserInfo> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullname, String sortByCodeLevel, String sortByEndDate) {
 		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
-		fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
+		if (fullName != null) {
+			fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
+		}
 		return tblUserDao.getListUser(offset, limit, groupId, fullName, sortType, sortByFullname, sortByCodeLevel,
 				sortByEndDate);
 	}
@@ -49,7 +51,9 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public int getTotalUser(int groupId, String fullName) {
 		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
-		fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
+		if (fullName != null) {
+			fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
+		}
 		return tblUserDao.getTotalUser(groupId, fullName);
 	}
 

@@ -10,6 +10,7 @@ import java.util.List;
 import common.Common;
 import entity.UserInfor;
 import logic.impl.MstGroupLogicImpl;
+import logic.impl.MstJapanLogicImpl;
 import logic.impl.TblUserLogicImpl;
 import properties.AdminProperties;
 import properties.MessageProperties;
@@ -64,13 +65,14 @@ public class Validate {
 		Common common = new Common();
 		TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 		MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();	
+		MstJapanLogicImpl mstJapanLogic = new MstJapanLogicImpl();
 		
 		// format check loginname
 		String loginformat = "^[^0-9][a-zA-Z_0-9]+";
 		boolean checkLoginName = userInfor.getloginName().matches(loginformat);
 
 		// format check kana
-		String kanaformat = "[ァ-・ヽヾ゛゜ー]";
+		String kanaformat = "[ァ-・ヽヾ゛゜ー]+";
 		boolean checkKana = userInfor.getFullNameKana().matches(kanaformat);
 
 		// check birthday
@@ -79,7 +81,7 @@ public class Validate {
 		boolean checkBirthday = common.isValidDate(dateBirthday);
 
 		// check email
-		String emailformat = "[a-zA-Z_0-9]+@[a-zA-Z_0-9]+";
+		String emailformat = "[a-zA-Z_.0-9]+@[a-zA-Z_.0-9]+";
 		boolean checkEmail = userInfor.getEmail().matches(emailformat);
 
 		// check password
@@ -103,26 +105,31 @@ public class Validate {
 		
 		//check group id
 		boolean checkGroupId = mstGroupLogic.existedGroupId(userInfor.getGroupId());
+		
+		//check code level
+		boolean checkCodeLevel = mstJapanLogic.existedCodelevel(userInfor.getCodeLevel());
 
 		// validate loginName
 		if (userInfor.getloginName().trim().length() == 0) {
 			// thêm thông báo lỗi không nhập
-			lstError.add(messProp.getMessageProperties("ER001_LOGIN"));
+			lstError.add(messProp.getMessageProperties("ER001_LOGINNAME"));
 		} else if (userInfor.getloginName().trim().length() < 4 || userInfor.getloginName().trim().length() > 15) {
 			// thêm thông báo độ dài nhập không hợp lệ
-			lstError.add(messProp.getMessageProperties("ER007_LOGIN"));
+			lstError.add(messProp.getMessageProperties("ER007_LOGINNAME"));
 		} else if (checkLoginName != true) {
 			// format login name không hợp lệ
-			lstError.add(messProp.getMessageProperties("ER019_LOGIN"));
+			lstError.add(messProp.getMessageProperties("ER019_LOGINNAME"));
 		} else if (existedLoginName) {
 			// tên đăng nhập đã tồn tại
-			lstError.add(messProp.getMessageProperties("ER003_LOGIN"));
+			lstError.add(messProp.getMessageProperties("ER003_LOGINNAME"));
 		}
 
 		// validate group id
 		if (userInfor.getGroupId() == 0) {
+			//không chọn group id
 			lstError.add(messProp.getMessageProperties("ER002_GROUPID"));
 		}else if(!checkGroupId) {
+			//group id không tồn tại
 			lstError.add(messProp.getMessageProperties("ER004_GROUPID"));
 		}
 
@@ -189,6 +196,12 @@ public class Validate {
 			lstError.add(messProp.getMessageProperties("ER011_STARTDATE"));
 		}
 
+		//validate code level
+		if(!checkCodeLevel) {
+			//code level không tồn tại
+			lstError.add(messProp.getMessageProperties("ER004_CODELEVEL"));
+		}
+		
 		// validate end date
 		if (!checkEndDate) {
 			// ngày không hợp lệ
@@ -199,7 +212,7 @@ public class Validate {
 		}
 
 		// validate total
-		if (Integer.toString(userInfor.getTotal()).trim().length() == 0) {
+		if (userInfor.getTotal() == 0) {
 			// không nhập
 			lstError.add(messProp.getMessageProperties("ER001_TOTAL"));
 		}

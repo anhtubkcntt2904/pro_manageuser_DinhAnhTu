@@ -198,7 +198,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		StringBuffer sql = new StringBuffer();
 		TblUser tblUser = new TblUser();
 		sql.append("select * ");
-		sql.append("from tblUser u ");
+		sql.append("from tbl_user u ");
 		sql.append("where u.email = ? ");
 
 		PreparedStatement ps = null;
@@ -213,7 +213,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				Integer userID = rs.getInt("u.user_id");
 				Integer groupID = rs.getInt("u.group_id");
 				String loginName = rs.getString("u.login_name");
-				String password = rs.getString("u.password");
+				String password = rs.getString("u.passwords");
 				String fullName = rs.getString("u.full_name");
 				String fullNameKana = rs.getString("u.full_name_kana");
 				String emailUser = rs.getString("u.email");
@@ -244,7 +244,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		StringBuffer sql = new StringBuffer();
 		TblUser tblUser = new TblUser();
 		sql.append("select * ");
-		sql.append("from tblUser u ");
+		sql.append("from tbl_user u ");
 		sql.append("where u.login_name = ? ");
 
 		PreparedStatement ps = null;
@@ -259,7 +259,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				Integer userID = rs.getInt("u.user_id");
 				Integer groupID = rs.getInt("u.group_id");
 				String loginname = rs.getString("u.login_name");
-				String password = rs.getString("u.password");
+				String password = rs.getString("u.passwords");
 				String fullName = rs.getString("u.full_name");
 				String fullNameKana = rs.getString("u.full_name_kana");
 				String emailUser = rs.getString("u.email");

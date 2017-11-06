@@ -35,9 +35,12 @@
 				</th>
 			</tr>
 			<tr>
-				<td class="errMsg">
-					<div style="padding-left: 120px">&nbsp;</div>
-				</td>
+				<c:forEach var="errMess" items="${lstError}">
+					<tr>
+						<td class="errMsg" colspan="2"><font color="red"><c:out
+									value="${errMess}" /></font></td>
+					</tr>
+				</c:forEach>			
 			</tr>
 			<tr>
 				<td align="left">
@@ -78,16 +81,19 @@
 							<tr>
 								<td class="lbl_left"><font color="red">*</font> 生年月日:</td>
 								<td align="left"><select name="yearbirthday">
+								<option value="2017">2017</option>
 										<c:forEach var="year" items="${lstYear}">
 											<option value="${year}"
 												${year == yearbirthday ? 'selected' : ''}>${year}</option>
 										</c:forEach>
 								</select>年 <select name="monthbirthday">
+								<option value="12">12</option>
 										<c:forEach var="month" items="${lstMonth}">
 											<option value="${month}"
 												${month == monthbirthday ? 'selected' : ''}>${month}</option>
 										</c:forEach>
 								</select>月 <select name="daybirthday">
+								<option value="31">31</option>
 										<c:forEach var="day" items="${lstDay}">
 											<option value="${day}"
 												${day == daybirthday ? 'selected' : ''}>${day}</option>
@@ -140,16 +146,19 @@
 								<tr>
 									<td class="lbl_left">資格交付日:</td>
 									<td align="left"><select name="yearvalidate">
+									<option value="2017">2017</option>
 											<c:forEach var="year" items="${lstYear}">
 												<option value="${year}"
 													${year == yearvalidate ? 'selected' : ''}>${year}</option>
 											</c:forEach>
 									</select>年<select name="monthvalidate">
+									<option value="12">12</option>
 											<c:forEach var="month" items="${lstMonth}">
 												<option value="${month}"
 													${month == monthvalidate ? 'selected' : ''}>${month}</option>
 											</c:forEach>
 									</select>月 <select name="dayvalidate">
+									<option value="31">31</option>
 											<c:forEach var="day" items="${lstDay}">
 												<option value="${day}"
 													${day == dayvalidate ? 'selected' : ''}>${day}</option>
@@ -159,16 +168,19 @@
 								<tr>
 									<td class="lbl_left">失効日:</td>
 									<td align="left"><select name="yearinvalidate">
+									<option value="2017">2017</option>
 											<c:forEach var="year" items="${lstYear}">
 												<option value="${year}"
 													${year == yearinvalidate ? 'selected' : ''}>${year}</option>
 											</c:forEach>
 									</select>年 <select name="monthinvalidate">
+									<option value="12">12</option>
 											<c:forEach var="month" items="${lstMonth}">
 												<option value="${month}"
 													${month == monthinvalidate ? 'selected' : ''}>${month}</option>
 											</c:forEach>
 									</select>月 <select name="dayinvalidate">
+									<option value="31">31</option>
 											<c:forEach var="day" items="${lstDay}">
 												<option value="${day}"
 													${day == dayinvalidate ? 'selected' : ''}>${day}</option>
@@ -178,7 +190,7 @@
 								<tr>
 									<td class="lbl_left">点数:</td>
 									<td align="left"><input class="txBox" type="text"
-										name="total" value="" size="5"
+										name="total" value="${userInfor.total}" size="5"
 										onfocus="this.style.borderColor='#0066ff';"
 										onblur="this.style.borderColor='#aaaaaa';" /></td>
 									<%-- <c:when test="${userInfor.total == 0}">

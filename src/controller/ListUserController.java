@@ -145,7 +145,6 @@ public class ListUserController extends HttpServlet {
 				lstPaging = common.getListPaging(totalUser, limit, currentPage);
 				totalPage = common.getTotalPage(totalUser, limit);
 			}
-
 			// xét giá trị tìm kiếm lên session
 			session.setAttribute("lstPaging", lstPaging);
 			session.setAttribute("totalPage", totalPage);

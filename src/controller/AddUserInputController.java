@@ -1,7 +1,7 @@
 /**
  * Copyright(C) 2017 Luvina
  * AddUserInputController.java, 2/11/2017 Đinh Anh Tú
- *//*
+ */
 package controller;
 
 import java.io.IOException;
@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import common.Common;
 import common.Constant;
@@ -23,67 +24,75 @@ import logic.impl.MstGroupLogicImpl;
 import logic.impl.MstJapanLogicImpl;
 import validate.Validate;
 
-*//**
+/**
  * Servlet implementation class AddUserInputController
- *//*
+ */
 public class AddUserInputController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	*//**
+	/**
 	 * @see HttpServlet#HttpServlet()
-	 *//*
+	 */
 	public AddUserInputController() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	*//**
+	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
-	 *//*
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		 * response.getWriter().append("Served at: ").append(request.getContextPath());
+		/* * response.getWriter().append("Served at: ").append(request.getContextPath());*/
 		 
 		try {
 			setDataLogic(request, response);
-			setDefaultValue(request, response);
+			UserInfor userInfor = setDefaultValue(request, response);
+			request.setAttribute("userInfor", userInfor);
+			request.getRequestDispatcher(Constant.ADM003).forward(request, response);
 		} catch (Exception e) {
 			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
 		}
 
 	}
 
-	*//**
+	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
-	 *//*
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Validate validate = new Validate();
 		try {
-			setDataLogic(request, response);
 			UserInfor userInfor = setDefaultValue(request, response);
 			List<String> lstError = validate.validateUserInfor(userInfor);
 			if(lstError.size() > 0){
 				setDataLogic(request, response);
 				request.setAttribute("lstError", lstError);
-				request.getRequestDispatcher(Constant.ADM003).forward(request, response);;
+				request.getRequestDispatcher(Constant.ADM003).forward(request, response);
+			}else {
+				long keyAdd = System.currentTimeMillis() % 1000;
+				HttpSession session = request.getSession();
+				String userInforSession = "userInfor" + keyAdd;
+				session.setAttribute(userInforSession, userInfor);
+				response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?key=" + userInforSession);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
 		}
 	}
 
-	*//**
+	/**
 	 * phương thức set dữ liệu logic cho màn hình ADM003
 	 * 
 	 * @param request
 	 * @param response
-	 *//*
+	 */
 	private void setDataLogic(HttpServletRequest request, HttpServletResponse response) {
 
 		// lấy danh sách group và mst japan
@@ -110,14 +119,14 @@ public class AddUserInputController extends HttpServlet {
 
 	}
 
-	*//**
+	/**
 	 * phương thức set dữ liệu mặc định cho màn hình ADM003
 	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
-	 *//*
+	 */
 	private UserInfor setDefaultValue(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String type = request.getParameter("type");
@@ -156,7 +165,7 @@ public class AddUserInputController extends HttpServlet {
 			int dayinvalidate = common.convertStringToInt(request.getParameter("dayinvalidate"));
 			Date dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
 
-			Integer total = common.convertStringToInt(request.getParameter("total"));
+			int total = common.convertStringToInt(request.getParameter("total"));
 
 			userInfor = new UserInfor(loginName, group_id, fullName, fullNameKana, dateBirthday, email, tel, password,
 					code_level, dateValidate, dateInvalidate, total);
@@ -165,10 +174,9 @@ public class AddUserInputController extends HttpServlet {
 			break;
 		}
 
-		request.setAttribute("userInfor", userInfor);
-		request.getRequestDispatcher("/jsp/ADM003.jsp").forward(request, response);
+		/*request.setAttribute("userInfor", userInfor);
+		request.getRequestDispatcher("/jsp/ADM003.jsp").forward(request, response);*/
 		
 		return userInfor;
 	}
 }
-*/
