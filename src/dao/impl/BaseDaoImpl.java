@@ -18,9 +18,9 @@ import properties.DatabaseProperties;
  *
  */
 public class BaseDaoImpl implements BaseDao{
+	public static Connection conn = null;
 	@Override
 	public Connection connectDB() {
-		Connection conn = null;
 		DatabaseProperties dbProp = new DatabaseProperties();
 		String driver = dbProp.getDBProperties(Constant.DRIVER_CONST);
 		String url = dbProp.getDBProperties(Constant.URL_CONST);

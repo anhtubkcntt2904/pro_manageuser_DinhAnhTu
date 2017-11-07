@@ -56,7 +56,7 @@ public interface TblUserDao {
 	 * @param email
 	 * @return thông tin của 1 user
 	 */
-	public TblUser getUserByEmail(Integer userId,String email);
+	public TblUser getUserByEmail(Integer userId, String email);
 
 	/**
 	 * Phương thức lấy ra thông tin của 1 user theo login name và userId
@@ -65,5 +65,13 @@ public interface TblUserDao {
 	 * @param loginName
 	 * @return thông tin của 1 user
 	 */
-	public TblUser checkExistedLoginName(Integer userId,String loginName);
+	public TblUser checkExistedLoginName(Integer userId, String loginName);
+
+	/**
+	 * Phương thức insert user vào database
+	 * 
+	 * @param tblUser
+	 * @return user id của user vừa insert
+	 */
+	public int insertUser(TblUser tblUser);
 }

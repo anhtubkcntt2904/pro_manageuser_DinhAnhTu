@@ -293,4 +293,38 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		return tblUser;
 	}
 
+	@Override
+	public int insertUser(TblUser tblUser) {
+		// Connection conn = BaseDaoImpl.conn;
+		StringBuffer sql = new StringBuffer();
+		int userid = 0;
+		sql.append("insert into tbl_user u ");
+		sql.append("(u.group_id,u.login_name,u.password,u.full_name,u.full_name_kana,u.email,u.tel,u.birthday,u.salt ");
+		sql.append("values(?,?,?,?,?,?,?,?)");
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(sql.toString());
+			ps.setInt(1, tblUser.getGroupId());
+			ps.setString(2, tblUser.getLoginName());
+			ps.setString(3, tblUser.getPassword());
+			ps.setString(4, tblUser.getFullname());
+			ps.setString(5, tblUser.getFullnamekana());
+			ps.setString(6, tblUser.getEmail());
+			ps.setDate(7, (java.sql.Date) tblUser.getBirthday());
+			ps.setString(8, tblUser.getSalt());
+
+			ps.executeUpdate();
+
+			rs = ps.getGeneratedKeys();
+			while (rs.next()) {
+				tblUser.setUserId(rs.getInt(1));
+				userid = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return userid;
+	}
+
 }

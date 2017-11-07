@@ -58,7 +58,7 @@ public class AddUserInputController extends HttpServlet {
 			request.getRequestDispatcher(Constant.ADM003).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			// response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
+			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
 		}
 
 	}
@@ -70,22 +70,22 @@ public class AddUserInputController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Validate validate = new Validate();
 		try {
-			UserInfor userInfor = setDefaultValue(request, response);
-			List<String> lstError = validate.validateUserInfor(userInfor);
+				Validate validate = new Validate();
+				UserInfor userInfor = setDefaultValue(request, response);
+				List<String> lstError = validate.validateUserInfor(userInfor);
 
-			if (lstError != null) {
-				setDataLogic(request, response);
-				request.setAttribute("lstError", lstError);
-				request.getRequestDispatcher(Constant.ADM003).forward(request, response);
-			} else {
-
-				long keyAdd = System.currentTimeMillis() % 1000;
-				HttpSession session = request.getSession();
-				session.setAttribute("userInfor" + keyAdd, userInfor);
-				response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?keyAdd=" + keyAdd);
-			}
+				/*if (lstError.size() > 0) {
+					setDataLogic(request, response);
+					request.setAttribute("lstError", lstError);
+					request.getRequestDispatcher(Constant.ADM003).forward(request, response);
+				} else {*/
+					// tạo key để thêm vào userInfor session
+					long keyAdd = System.currentTimeMillis() % 1000;
+					HttpSession session = request.getSession();
+					session.setAttribute("userInfor" + keyAdd, userInfor);
+					response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?keyAdd=" + keyAdd);
+				//}
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
@@ -140,8 +140,10 @@ public class AddUserInputController extends HttpServlet {
 
 		switch (type) {
 		case Constant.DEFAULT:
+			userInfor = new UserInfor();
 			break;
 		case Constant.CONFIRM:
+			userInfor = new UserInfor();
 			String loginName = request.getParameter("loginName");
 			int group_id = common.convertStringToInt(request.getParameter("group_id"));
 			String fullName = request.getParameter("fullName");
@@ -173,14 +175,35 @@ public class AddUserInputController extends HttpServlet {
 
 			String total = request.getParameter("total");
 
-			userInfor = new UserInfor(loginName, group_id, fullName, fullNameKana, dateBirthday, yearbirthday,
-					monthbirthday, daybirthday, email, tel, password, confirmpass, code_level, dateValidate,
-					yearvalidate, monthvalidate, dayvalidate, dateInvalidate, yearinvalidate, monthinvalidate,
-					dayinvalidate, total);
-		case Constant.BACK:
-			String keyAdd = request.getParameter("keyAdd");
-			userInfor = (UserInfor) request.getSession().getAttribute("userInfor" + keyAdd);
+			userInfor.setLoginName(loginName);
+			userInfor.setGroupId(group_id);
+			userInfor.setFullName(fullName);
+			userInfor.setFullNameKana(fullNameKana);
+			userInfor.setBirthday(dateBirthday);
+			userInfor.setYearbirthday(yearbirthday);
+			userInfor.setMonthbirthday(monthbirthday);
+			userInfor.setDaybirthday(daybirthday);
+			userInfor.setEmail(email);
+			userInfor.setTel(tel);
+			userInfor.setPassword(password);
+			userInfor.setCodeLevel(code_level);
+			userInfor.setStartDate(dateValidate);
+			userInfor.setYearvalidate(yearvalidate);
+			userInfor.setMonthvalidate(monthvalidate);
+			userInfor.setDayvalidate(dayvalidate);
+			userInfor.setEndDate(dateInvalidate);
+			userInfor.setYearinvalidate(yearinvalidate);
+			userInfor.setMonthinvalidate(monthinvalidate);
+			userInfor.setDayinvalidate(dayinvalidate);
+			userInfor.setTotal(total);
 			break;
+		case Constant.BACK:
+			String keyBack = request.getParameter("keyAdd");
+			userInfor = (UserInfor) request.getSession().getAttribute("userInfor" + keyBack);
+			break;
+		case Constant.OK:
+			String keyOK = request.getParameter("keyAdd");
+			userInfor = (UserInfor) request.getSession().getAttribute("userInfor" + keyOK);
 		default:
 			break;
 		}
@@ -189,7 +212,6 @@ public class AddUserInputController extends HttpServlet {
 		 * request.setAttribute("userInfor", userInfor);
 		 * request.getRequestDispatcher("/jsp/ADM003.jsp").forward(request, response);
 		 */
-
 		return userInfor;
 	}
 }

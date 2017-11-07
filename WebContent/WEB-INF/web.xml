@@ -21,6 +21,14 @@
     <url-pattern>/AddUserConfirm.do</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>AddUserOKController</servlet-name>
+    <servlet-class>controller.AddUserConfirmController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddUserOKController</servlet-name>
+    <url-pattern>/AddUserOK.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>AddUserInputController</servlet-name>
     <servlet-class>controller.AddUserInputController</servlet-class>
   </servlet>

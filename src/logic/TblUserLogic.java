@@ -7,6 +7,7 @@ package logic;
 import java.util.List;
 
 import entity.UserInfo;
+import entity.UserInfor;
 
 /**
  * interface chứa các phương thức của user
@@ -56,7 +57,7 @@ public interface TblUserLogic {
 	 * @param email
 	 * @return true hoặc false
 	 */
-	public boolean checkExistedEmail(Integer userId,String email);
+	public boolean checkExistedEmail(Integer userId, String email);
 
 	/**
 	 * kiểm tra login name đã tồn tại trong bảng tbl user chưa
@@ -65,5 +66,13 @@ public interface TblUserLogic {
 	 * @param loginName
 	 * @return true hoặc false
 	 */
-	public boolean checkExistedLoginName(Integer userId,String loginName);
+	public boolean checkExistedLoginName(Integer userId, String loginName);
+
+	/**
+	 * Insert data user vào bảng tbl_user và tbl_detail_user_japan
+	 * 
+	 * @param userInfor
+	 * @return true hoặc false
+	 */
+	public Boolean createUser(UserInfor userInfor);
 }

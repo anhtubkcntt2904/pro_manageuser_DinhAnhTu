@@ -57,4 +57,5 @@ public class Constant {
 	public static final String DEFAULT = "default";
 	public static final String CONFIRM = "confirm";
 	public static final String BACK = "back";
+	public static final String OK = "ok";
 }

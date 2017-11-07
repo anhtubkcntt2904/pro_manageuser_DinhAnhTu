@@ -22,4 +22,5 @@ public interface MstJapanDao {
 	 * @return danh sách MstJapan
 	 */
 	public List<MstJapan> getAllMstJapan();
+	
 }

@@ -5,11 +5,13 @@
 package logic.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import dao.impl.TblUserDaoImpl;
 import entity.TblUser;
 import entity.UserInfo;
+import entity.UserInfor;
 import logic.TblUserLogic;
 import validate.Validate;
 
@@ -75,5 +77,37 @@ public class TblUserLogicImpl implements TblUserLogic {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Boolean createUser(UserInfor userInfor) {
+		Boolean check = false;
+		int userid;
+		TblUser tblUser = new TblUser();
+		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
+		 int userId = userInfor.getUserId();
+		 int groupId = userInfor.getGroupId();
+		 String loginName = userInfor.getLoginName();
+		 String password= userInfor.getPassword();
+		 String fullname = userInfor.getFullName();
+		 String fullnamekana = userInfor.getFullNameKana();
+		 String email = userInfor.getEmail();
+		 String tel = userInfor.getTel();
+		 Date birthday = userInfor.getBirthday();
+		 String salt = "";
+		 
+		 tblUser.setUserId(userId);
+		 tblUser.setGroupId(groupId);
+		 tblUser.setLoginName(loginName);
+		 tblUser.setPassword(password);
+		 tblUser.setFullname(fullname);
+		 tblUser.setFullnamekana(fullnamekana);
+		 tblUser.setEmail(email);
+		 tblUser.setTel(tel);
+		 tblUser.setBirthday(birthday);
+		 tblUser.setSalt(salt);
+		 
+		 userid = tblUserDao.insertUser(tblUser);
+		return null;
 	}
 }

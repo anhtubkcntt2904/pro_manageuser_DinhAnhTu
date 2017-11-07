@@ -26,7 +26,7 @@
 	<!-- End vung header -->	
 
 <!-- Begin vung input-->	
-	<form action="ADM006.html" method="post" name="inputform">	
+	<form action="AddUserOK.do?type=ok" method="post" name="inputform">	
 	<table  class="tbl_input" border="0" width="75%"  cellpadding="0" cellspacing="0" >			
 		<tr>
 			<th align="left">
@@ -111,7 +111,7 @@
 					<input class="btn" type="submit" value="OK" />					
 				</td>	
 				<td>
-					<input class="btn" type="button" value="戻る" onclick="location.href='/manage_user/AddUserInput.do?type=back&keyAdd=${keyAdd}';"/>						
+					<input class="btn" type="button" value="戻る" onclick="location.href='/manage_user/AddUserInput.do?type=back';"/>						
 				</td>
 		</tr>		
 	</table>

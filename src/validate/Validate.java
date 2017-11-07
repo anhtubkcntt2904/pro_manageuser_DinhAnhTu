@@ -70,7 +70,7 @@ public class Validate {
 		// format check loginname
 		String loginformat = "^[^0-9][a-zA-Z_0-9]+";
 		boolean checkLoginName = userInfor.getLoginName().matches(loginformat);
-
+		
 		// format check kana
 		String kanaformat = "[ァ-・ヽヾ゛゜ー]+";
 		boolean checkKana = userInfor.getFullNameKana().matches(kanaformat);
