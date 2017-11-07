@@ -67,7 +67,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			sql.append(sortByCodeLevel);
 			sql.append(",tdu.end_date ");
 			sql.append(sortByEndDate);
-			
+
 			// trường hợp ưu tiên sắp xếp ưu tiên theo code level
 		} else if ("code_level".equals(sortType)) {
 			sql.append("order by tdu.code_level ");
@@ -76,7 +76,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			sql.append(sortByFullname);
 			sql.append(",tdu.end_date ");
 			sql.append(sortByEndDate);
-			
+
 			// trường hợp ưu tiên sắp xếp ưu tiên theo end date
 		} else if ("end_date".equals(sortType)) {
 			sql.append("order by tdu.end_date ");
@@ -193,21 +193,25 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	}
 
 	@Override
-	public TblUser getUserByEmail(String email) {
+	public TblUser getUserByEmail(Integer userId, String email) {
 		Connection con = connectDB();
 		StringBuffer sql = new StringBuffer();
-		TblUser tblUser = new TblUser();
+		TblUser tblUser = null;
 		sql.append("select * ");
 		sql.append("from tbl_user u ");
 		sql.append("where u.email = ? ");
-
+		if (userId != null) {
+			sql.append(" and user_id = ?");
+		}
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			ps = con.prepareStatement(sql.toString());
-			
-			ps.setString(1, email);
-
+			int i = 0;
+			ps.setString(++i, email);
+			if (userId != null) {
+				ps.setInt(++i, userId);
+			}
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Integer userID = rs.getInt("u.user_id");
@@ -239,21 +243,26 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	}
 
 	@Override
-	public TblUser checkExistedLoginName(String loginName) {
+	public TblUser checkExistedLoginName(Integer userId, String loginName) {
 		Connection con = connectDB();
 		StringBuffer sql = new StringBuffer();
-		TblUser tblUser = new TblUser();
+		TblUser tblUser = null;
 		sql.append("select * ");
 		sql.append("from tbl_user u ");
 		sql.append("where u.login_name = ? ");
+		if (userId != null) {
+			sql.append(" and user_id = ?");
+		}
 
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			ps = con.prepareStatement(sql.toString());
-			
-			ps.setString(1, loginName);
-			
+			int i = 0;
+			ps.setString(++i, loginName);
+			if (userId != null) {
+				ps.setInt(++i, userId);
+			}
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Integer userID = rs.getInt("u.user_id");

@@ -50,7 +50,7 @@
 							</select></td>
 							<td align="left"><input class="btn" type="submit" value="検索" />
 								<input class="btn" type="button" value="新規追加"
-								onclick="location.href='/manage_user/AddUserInput.do?type=add';" /></td>
+								onclick="location.href='/manage_user/AddUserInput.do?type=default';" /></td>
 						</tr>
 					</table>
 				</td>

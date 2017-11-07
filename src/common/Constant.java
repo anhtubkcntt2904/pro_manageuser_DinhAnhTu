@@ -53,4 +53,8 @@ public class Constant {
 	public static final String URL_CONST = "url";
 	public static final String USER_CONST = "user";
 	public static final String PASS_CONST = "pass";
+	
+	public static final String DEFAULT = "default";
+	public static final String CONFIRM = "confirm";
+	public static final String BACK = "back";
 }

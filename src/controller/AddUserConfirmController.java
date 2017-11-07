@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.Constant;
+import entity.UserInfor;
+
 /**
  * Servlet implementation class AddUserConfirmController
  */
@@ -27,8 +30,12 @@ public class AddUserConfirmController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String key = (String) request.getAttribute("key");
-		System.out.println(key);
+		String keyAdd = request.getParameter("keyAdd");
+		request.setAttribute("keyAdd", keyAdd);
+		HttpSession session = request.getSession();
+		UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
+		request.setAttribute("userInfor", userInfor);
+		request.getRequestDispatcher(Constant.ADM004).forward(request, response);
 	}
 
 	/**

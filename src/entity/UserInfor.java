@@ -11,47 +11,75 @@ import java.util.Date;
  *
  */
 public class UserInfor {
+	private int userId;
 	private String loginName;
 	private int groupId;
 	private String fullName;
 	private String fullNameKana;
 	private Date birthday;
+	private int yearbirthday, monthbirthday, daybirthday;
 	private String email;
 	private String tel;
 	private String password;
+	private String confirmpass;
 	private String codeLevel;
 	private Date startDate;
+	private int yearvalidate, monthvalidate, dayvalidate;
 	private Date endDate;
-	private int total;
+	private int yearinvalidate, monthinvalidate, dayinvalidate;
+	private String total;
 
 	/**
+	 * @param userId
 	 * @param loginName
 	 * @param groupId
 	 * @param fullName
 	 * @param fullNameKana
 	 * @param birthday
+	 * @param yearbirthday
+	 * @param monthbirthday
+	 * @param daybirthday
 	 * @param email
 	 * @param tel
 	 * @param password
+	 * @param confirmpass
 	 * @param codeLevel
 	 * @param startDate
+	 * @param yearvalidate
+	 * @param monthvalidate
+	 * @param dayvalidate
 	 * @param endDate
+	 * @param yearinvalidate
+	 * @param monthinvalidate
+	 * @param dayinvalidate
 	 * @param total
 	 */
-	public UserInfor(String loginName, int groupId, String fullName, String fullNameKana, Date birthday, String email,
-			String tel, String password, String codeLevel, Date startDate, Date endDate, int total) {
+	public UserInfor(String loginName, int groupId, String fullName, String fullNameKana, Date birthday,
+			int yearbirthday, int monthbirthday, int daybirthday, String email, String tel, String password,
+			String confirmpass, String codeLevel, Date startDate, int yearvalidate, int monthvalidate, int dayvalidate,
+			Date endDate, int yearinvalidate, int monthinvalidate, int dayinvalidate, String total) {
 		super();
 		this.loginName = loginName;
 		this.groupId = groupId;
 		this.fullName = fullName;
 		this.fullNameKana = fullNameKana;
 		this.birthday = birthday;
+		this.yearbirthday = yearbirthday;
+		this.monthbirthday = monthbirthday;
+		this.daybirthday = daybirthday;
 		this.email = email;
 		this.tel = tel;
 		this.password = password;
+		this.confirmpass = confirmpass;
 		this.codeLevel = codeLevel;
 		this.startDate = startDate;
+		this.yearvalidate = yearvalidate;
+		this.monthvalidate = monthvalidate;
+		this.dayvalidate = dayvalidate;
 		this.endDate = endDate;
+		this.yearinvalidate = yearinvalidate;
+		this.monthinvalidate = monthinvalidate;
+		this.dayinvalidate = dayinvalidate;
 		this.total = total;
 	}
 
@@ -64,9 +92,24 @@ public class UserInfor {
 	}
 
 	/**
+	 * @return the userId
+	 */
+	public int getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId
+	 *            the userId to set
+	 */
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	/**
 	 * @return the loginName
 	 */
-	public String getloginName() {
+	public String getLoginName() {
 		return loginName;
 	}
 
@@ -74,7 +117,7 @@ public class UserInfor {
 	 * @param loginName
 	 *            the loginName to set
 	 */
-	public void setloginName(String loginName) {
+	public void setLoginName(String loginName) {
 		this.loginName = loginName;
 	}
 
@@ -139,6 +182,51 @@ public class UserInfor {
 	}
 
 	/**
+	 * @return the yearbirthday
+	 */
+	public int getYearbirthday() {
+		return yearbirthday;
+	}
+
+	/**
+	 * @param yearbirthday
+	 *            the yearbirthday to set
+	 */
+	public void setYearbirthday(int yearbirthday) {
+		this.yearbirthday = yearbirthday;
+	}
+
+	/**
+	 * @return the monthbirthday
+	 */
+	public int getMonthbirthday() {
+		return monthbirthday;
+	}
+
+	/**
+	 * @param monthbirthday
+	 *            the monthbirthday to set
+	 */
+	public void setMonthbirthday(int monthbirthday) {
+		this.monthbirthday = monthbirthday;
+	}
+
+	/**
+	 * @return the daybirthday
+	 */
+	public int getDaybirthday() {
+		return daybirthday;
+	}
+
+	/**
+	 * @param daybirthday
+	 *            the daybirthday to set
+	 */
+	public void setDaybirthday(int daybirthday) {
+		this.daybirthday = daybirthday;
+	}
+
+	/**
 	 * @return the email
 	 */
 	public String getEmail() {
@@ -184,6 +272,21 @@ public class UserInfor {
 	}
 
 	/**
+	 * @return the confirmpass
+	 */
+	public String getConfirmpass() {
+		return confirmpass;
+	}
+
+	/**
+	 * @param confirmpass
+	 *            the confirmpass to set
+	 */
+	public void setConfirmpass(String confirmpass) {
+		this.confirmpass = confirmpass;
+	}
+
+	/**
 	 * @return the codeLevel
 	 */
 	public String getCodeLevel() {
@@ -214,6 +317,51 @@ public class UserInfor {
 	}
 
 	/**
+	 * @return the yearvalidate
+	 */
+	public int getYearvalidate() {
+		return yearvalidate;
+	}
+
+	/**
+	 * @param yearvalidate
+	 *            the yearvalidate to set
+	 */
+	public void setYearvalidate(int yearvalidate) {
+		this.yearvalidate = yearvalidate;
+	}
+
+	/**
+	 * @return the monthvalidate
+	 */
+	public int getMonthvalidate() {
+		return monthvalidate;
+	}
+
+	/**
+	 * @param monthvalidate
+	 *            the monthvalidate to set
+	 */
+	public void setMonthvalidate(int monthvalidate) {
+		this.monthvalidate = monthvalidate;
+	}
+
+	/**
+	 * @return the dayvalidate
+	 */
+	public int getDayvalidate() {
+		return dayvalidate;
+	}
+
+	/**
+	 * @param dayvalidate
+	 *            the dayvalidate to set
+	 */
+	public void setDayvalidate(int dayvalidate) {
+		this.dayvalidate = dayvalidate;
+	}
+
+	/**
 	 * @return the endDate
 	 */
 	public Date getEndDate() {
@@ -229,9 +377,54 @@ public class UserInfor {
 	}
 
 	/**
+	 * @return the yearinvalidate
+	 */
+	public int getYearinvalidate() {
+		return yearinvalidate;
+	}
+
+	/**
+	 * @param yearinvalidate
+	 *            the yearinvalidate to set
+	 */
+	public void setYearinvalidate(int yearinvalidate) {
+		this.yearinvalidate = yearinvalidate;
+	}
+
+	/**
+	 * @return the monthinvalidate
+	 */
+	public int getMonthinvalidate() {
+		return monthinvalidate;
+	}
+
+	/**
+	 * @param monthinvalidate
+	 *            the monthinvalidate to set
+	 */
+	public void setMonthinvalidate(int monthinvalidate) {
+		this.monthinvalidate = monthinvalidate;
+	}
+
+	/**
+	 * @return the dayinvalidate
+	 */
+	public int getDayinvalidate() {
+		return dayinvalidate;
+	}
+
+	/**
+	 * @param dayinvalidate
+	 *            the dayinvalidate to set
+	 */
+	public void setDayinvalidate(int dayinvalidate) {
+		this.dayinvalidate = dayinvalidate;
+	}
+
+	/**
 	 * @return the total
 	 */
-	public int getTotal() {
+	public String getTotal() {
 		return total;
 	}
 
@@ -239,7 +432,7 @@ public class UserInfor {
 	 * @param total
 	 *            the total to set
 	 */
-	public void setTotal(int total) {
+	public void setTotal(String total) {
 		this.total = total;
 	}
 

@@ -45,16 +45,20 @@ public class AddUserInputController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		/* * response.getWriter().append("Served at: ").append(request.getContextPath());*/
-		 
+
+		/*
+		 * *
+		 * response.getWriter().append("Served at: ").append(request.getContextPath());
+		 */
+
 		try {
 			setDataLogic(request, response);
 			UserInfor userInfor = setDefaultValue(request, response);
 			request.setAttribute("userInfor", userInfor);
 			request.getRequestDispatcher(Constant.ADM003).forward(request, response);
 		} catch (Exception e) {
-			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
+			e.printStackTrace();
+			// response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
 		}
 
 	}
@@ -70,16 +74,17 @@ public class AddUserInputController extends HttpServlet {
 		try {
 			UserInfor userInfor = setDefaultValue(request, response);
 			List<String> lstError = validate.validateUserInfor(userInfor);
-			if(lstError.size() > 0){
+
+			if (lstError != null) {
 				setDataLogic(request, response);
 				request.setAttribute("lstError", lstError);
 				request.getRequestDispatcher(Constant.ADM003).forward(request, response);
-			}else {
+			} else {
+
 				long keyAdd = System.currentTimeMillis() % 1000;
 				HttpSession session = request.getSession();
-				String userInforSession = "userInfor" + keyAdd;
-				session.setAttribute(userInforSession, userInfor);
-				response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?key=" + userInforSession);
+				session.setAttribute("userInfor" + keyAdd, userInfor);
+				response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?keyAdd=" + keyAdd);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -134,9 +139,9 @@ public class AddUserInputController extends HttpServlet {
 		Common common = new Common();
 
 		switch (type) {
-		case "default":
+		case Constant.DEFAULT:
 			break;
-		case "confirm":
+		case Constant.CONFIRM:
 			String loginName = request.getParameter("loginName");
 			int group_id = common.convertStringToInt(request.getParameter("group_id"));
 			String fullName = request.getParameter("fullName");
@@ -151,6 +156,7 @@ public class AddUserInputController extends HttpServlet {
 			String email = request.getParameter("email");
 			String tel = request.getParameter("tel");
 			String password = request.getParameter("password");
+			String confirmpass = request.getParameter("confirmpass");
 			String code_level = request.getParameter("code_level");
 
 			// lấy ra ngày cấp chứng chỉ của user
@@ -165,18 +171,25 @@ public class AddUserInputController extends HttpServlet {
 			int dayinvalidate = common.convertStringToInt(request.getParameter("dayinvalidate"));
 			Date dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
 
-			int total = common.convertStringToInt(request.getParameter("total"));
+			String total = request.getParameter("total");
 
-			userInfor = new UserInfor(loginName, group_id, fullName, fullNameKana, dateBirthday, email, tel, password,
-					code_level, dateValidate, dateInvalidate, total);
-
+			userInfor = new UserInfor(loginName, group_id, fullName, fullNameKana, dateBirthday, yearbirthday,
+					monthbirthday, daybirthday, email, tel, password, confirmpass, code_level, dateValidate,
+					yearvalidate, monthvalidate, dayvalidate, dateInvalidate, yearinvalidate, monthinvalidate,
+					dayinvalidate, total);
+		case Constant.BACK:
+			String keyAdd = request.getParameter("keyAdd");
+			userInfor = (UserInfor) request.getSession().getAttribute("userInfor" + keyAdd);
+			break;
 		default:
 			break;
 		}
 
-		/*request.setAttribute("userInfor", userInfor);
-		request.getRequestDispatcher("/jsp/ADM003.jsp").forward(request, response);*/
-		
+		/*
+		 * request.setAttribute("userInfor", userInfor);
+		 * request.getRequestDispatcher("/jsp/ADM003.jsp").forward(request, response);
+		 */
+
 		return userInfor;
 	}
 }

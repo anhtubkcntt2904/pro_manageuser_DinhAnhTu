@@ -52,16 +52,18 @@ public interface TblUserLogic {
 	/**
 	 * Phương thức kiểm tra email có tồn tại hay chưa
 	 * 
+	 * @param userId
 	 * @param email
 	 * @return true hoặc false
 	 */
-	public boolean checkExistedEmail(String email);
+	public boolean checkExistedEmail(Integer userId,String email);
 
 	/**
 	 * kiểm tra login name đã tồn tại trong bảng tbl user chưa
 	 * 
+	 * @param userId
 	 * @param loginName
 	 * @return true hoặc false
 	 */
-	public boolean checkExistedLoginName(String loginName);
+	public boolean checkExistedLoginName(Integer userId,String loginName);
 }

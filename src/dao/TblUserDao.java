@@ -52,16 +52,18 @@ public interface TblUserDao {
 	/**
 	 * phương thức lấy ra thông tin của 1 user với điều kiện email và userId
 	 * 
+	 * @param userId
 	 * @param email
 	 * @return thông tin của 1 user
 	 */
-	public TblUser getUserByEmail(String email);
+	public TblUser getUserByEmail(Integer userId,String email);
 
 	/**
-	 * Phương thức lấy ra thông tin của 1 user theo login name
+	 * Phương thức lấy ra thông tin của 1 user theo login name và userId
 	 * 
+	 * @param userId
 	 * @param loginName
 	 * @return thông tin của 1 user
 	 */
-	public TblUser checkExistedLoginName(String loginName);
+	public TblUser checkExistedLoginName(Integer userId,String loginName);
 }

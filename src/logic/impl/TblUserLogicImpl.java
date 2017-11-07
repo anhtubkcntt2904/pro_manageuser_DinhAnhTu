@@ -58,9 +58,9 @@ public class TblUserLogicImpl implements TblUserLogic {
 	}
 
 	@Override
-	public boolean checkExistedEmail(String email) {
+	public boolean checkExistedEmail(Integer userId,String email) {
 		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
-		TblUser tblUser = tblUserDao.getUserByEmail(email);
+		TblUser tblUser = tblUserDao.getUserByEmail(userId,email);
 		if (tblUser != null) {
 			return true;
 		}
@@ -68,9 +68,9 @@ public class TblUserLogicImpl implements TblUserLogic {
 	}
 
 	@Override
-	public boolean checkExistedLoginName(String loginName) {
+	public boolean checkExistedLoginName(Integer userId,String loginName) {
 		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
-		TblUser tblUser = tblUserDao.checkExistedLoginName(loginName);
+		TblUser tblUser = tblUserDao.checkExistedLoginName(userId,loginName);
 		if (tblUser != null) {
 			return true;
 		}

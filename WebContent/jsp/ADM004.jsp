@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
 <!-- <script type="text/javascript" src="../js/user.js"></script> -->
@@ -59,7 +60,8 @@
 					</tr>
 					<tr>
 						<td class="lbl_left">生年月日:</td>
-						<td align="left"><label for="birthday">${userInfor.birthday}</label></td>
+						<td align="left"><label for="birthday"><fmt:formatDate pattern="yyyy/MM/dd"
+									value="${userInfor.birthday}" /></label></td>
 					</tr>				
 					<tr>
 						<td class="lbl_left">メールアドレス:</td>
@@ -73,22 +75,26 @@
 						<th colspan="2"><a
 									href="javascript:myFunction()">日本語能力</a></th>
 					</tr>
+					<tbody id="showHide">
 					<tr>
 						<td class="lbl_left">資格:</td>
 						<td align="left"><label for="codeLevel">${userInfor.codeLevel}</label></td>
 					</tr>
 					<tr>
 						<td class="lbl_left">資格交付日:</td>
-						<td align="left"><label for="startDate">${userInfor.startDate}</label></td>
+						<td align="left"><label for="startDate"><fmt:formatDate pattern="yyyy/MM/dd"
+									value="${userInfor.startDate}" /></label></td>
 					</tr>
 					<tr>
 						<td class="lbl_left">失効日:</td>
-						<td align="left"><label for="endDate">${userInfor.endDate}</label></td>
+						<td align="left"><label for="endDate"><fmt:formatDate pattern="yyyy/MM/dd"
+									value="${userInfor.endDate}" /></label></td>
 					</tr>	
 					<tr>
 						<td class="lbl_left">点数:</td>
 						<td align="left"><label for="total">${userInfor.total}</label></td>
-					</tr>												
+					</tr>				
+					</tbody>								
 				</table>
 				</div>				
 			</td>		
@@ -97,6 +103,7 @@
 	<div style="padding-left:100px;">&nbsp;</div>
 		<!-- Begin vung button -->
 	<div style="padding-left:45px;">
+	<input type="hidden" name="keyAdd" value="${keyAdd}">
 	<table border="0" cellpadding="4" cellspacing="0" width="300px">	
 		<tr>
 			<th width="200px" align="center">&nbsp;</th>
@@ -104,7 +111,7 @@
 					<input class="btn" type="submit" value="OK" />					
 				</td>	
 				<td>
-					<input class="btn" type="button" value="戻る" />						
+					<input class="btn" type="button" value="戻る" onclick="location.href='/manage_user/AddUserInput.do?type=back&keyAdd=${keyAdd}';"/>						
 				</td>
 		</tr>		
 	</table>
