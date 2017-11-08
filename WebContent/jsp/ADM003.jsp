@@ -137,8 +137,8 @@
 								<th align="left" colspan="2"><a
 									href="javascript:myFunction()">日本語能力</a></th>
 							</tr>
-							<tbody id="showHide">
-								<tr>
+							<tbody id="showHide" style="display: none">
+								<tr> 
 									<td class="lbl_left">資格:</td>
 									<td align="left"><select name="code_level">
 											<option value="0">選択してください</option>

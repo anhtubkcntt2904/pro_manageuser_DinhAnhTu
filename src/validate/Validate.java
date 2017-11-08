@@ -61,7 +61,7 @@ public class Validate {
 	 */
 	public List<String> validateUserInfor(UserInfor userInfor) {
 		List<String> lstError = new ArrayList<>();
-		MessageProperties messProp = new MessageProperties();
+		/*MessageProperties messProp = new MessageProperties();
 		Common common = new Common();
 		TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 		MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
@@ -231,6 +231,6 @@ public class Validate {
 		} else if (!checkTotal) {
 			lstError.add(messProp.getMessageProperties("ER0018_TOTAL"));
 		}
-		return lstError;
+*/		return lstError;
 	}
 }

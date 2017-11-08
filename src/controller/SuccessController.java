@@ -1,29 +1,27 @@
-/**
- * Copyright(C) 2017 Luvina
- * LogoutController.java, 16/10/2017 Đinh Anh Tú
- */
 package controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import common.Constant;
+import properties.MessageProperties;
 
 /**
- * Servlet implementation class LogoutController
+ * Servlet implementation class ErrorController
  */
-public class LogoutController extends HttpServlet {
+public class SuccessController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public LogoutController() {
+	public SuccessController() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -35,13 +33,19 @@ public class LogoutController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		// Lấy session hiện tại và xóa session
-		try {
-			HttpSession session = request.getSession();
-			session.invalidate();
-			response.sendRedirect(request.getContextPath() + "/" + Constant.INDEX);
-		} catch (Exception e) {
-			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);
+		String type = request.getParameter("type");
+		switch (type) {
+		case Constant.SYSTEM_ERROR:
+			MessageProperties mess = new MessageProperties();
+			String error = mess.getMessageProperties("ER015");
+			request.setAttribute("error", error);
+			RequestDispatcher req = request.getRequestDispatcher(Constant.ERROR);
+			req.forward(request, response);
+			break;
+		case Constant.INSERT_SUCCESS:
+			break;
+		default:
+			break;
 		}
 	}
 

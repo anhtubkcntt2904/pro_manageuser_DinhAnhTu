@@ -17,7 +17,7 @@ public interface BaseDao {
 	 * Phương thức kết nối đến DB
 	 * @return Connection
 	 */
-	public Connection connectDB();
+	public void connectDB();
 	
 	/**
 	 * Phương thức đóng kết nối

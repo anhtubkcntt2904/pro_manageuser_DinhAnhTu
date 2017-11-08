@@ -58,7 +58,7 @@ public class AddUserInputController extends HttpServlet {
 			request.getRequestDispatcher(Constant.ADM003).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
+			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);
 		}
 
 	}
@@ -88,7 +88,7 @@ public class AddUserInputController extends HttpServlet {
 				//}
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
+			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);
 		}
 	}
 

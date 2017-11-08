@@ -31,8 +31,8 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			Connection con = connectDB();
-			ps = con.prepareStatement(sql);
+			connectDB();
+			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				int groupId = rs.getInt("g.group_id");
@@ -42,6 +42,14 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			closeDB(conn);
+			try {
+				rs.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return lstMstGroup;
 	}

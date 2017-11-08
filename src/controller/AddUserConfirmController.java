@@ -36,14 +36,13 @@ public class AddUserConfirmController extends HttpServlet {
 		try {
 			String keyAdd = request.getParameter("keyAdd");
 			request.setAttribute("keyAdd", keyAdd);
-			System.out.println("key add po get : " + keyAdd);
 			HttpSession session = request.getSession();
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
 			request.setAttribute("userInfor", userInfor);
 			request.getRequestDispatcher(Constant.ADM004).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
+			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);
 		}
 	}
 
@@ -56,16 +55,20 @@ public class AddUserConfirmController extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			String keyAdd = request.getParameter("keyAdd");
-			System.out.println("key add do post : " + keyAdd);
 			HttpSession session = request.getSession();
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
+			Boolean isSuccess = false;
 			if (userInfor != null) {
-
+				isSuccess = tblUserLogic.createUser(userInfor);
+			}
+			if (isSuccess) {
+				System.out.println("insert success");
+				response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.INSERT_SUCCESS);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
+			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}
 	}
 

@@ -20,7 +20,7 @@ import properties.DatabaseProperties;
 public class BaseDaoImpl implements BaseDao{
 	public static Connection conn = null;
 	@Override
-	public Connection connectDB() {
+	public void connectDB() {
 		DatabaseProperties dbProp = new DatabaseProperties();
 		String driver = dbProp.getDBProperties(Constant.DRIVER_CONST);
 		String url = dbProp.getDBProperties(Constant.URL_CONST);
@@ -34,7 +34,6 @@ public class BaseDaoImpl implements BaseDao{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return conn;
 	}
 
 	@Override

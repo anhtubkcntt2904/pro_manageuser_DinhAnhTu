@@ -13,12 +13,13 @@ public class Constant {
 	public static final String CONTEXT_ROOT = "/manage_user/";
 	public static final String ADM002_SERVLET = "/ListUser.do";
 	public static final String ADM001_SERVLET = "/Login.do";
-	public static final String ERROR_SERVLET = "/Error.do";
+	public static final String SUCCESS_SERVLET = "/Success.do";
 	public static final String ADM004_SERVLET = "/AddUserConfirm.do";
 	public static final String INDEX = "index.jsp";
 	public static final String ADM002 = "/jsp/ADM002.jsp";
 	public static final String ADM003 = "/jsp/ADM003.jsp";
 	public static final String ADM004 = "/jsp/ADM004.jsp";
+	public static final String ERROR = "/jsp/System_Error.jsp";
 	
 	
 	public static final String GROUP_ID_DEFAULT = "0";
@@ -58,4 +59,7 @@ public class Constant {
 	public static final String CONFIRM = "confirm";
 	public static final String BACK = "back";
 	public static final String OK = "ok";
+	
+	public static final String INSERT_SUCCESS = "insertsuccess";
+	public static final String SYSTEM_ERROR = "systemerror";
 }

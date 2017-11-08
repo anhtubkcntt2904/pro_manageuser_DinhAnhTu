@@ -53,12 +53,12 @@
     <url-pattern>/Logout.do</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>ErrorController</servlet-name>
-    <servlet-class>controller.ErrorController</servlet-class>
+    <servlet-name>SuccessController</servlet-name>
+    <servlet-class>controller.SuccessController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ErrorController</servlet-name>
-    <url-pattern>/Error.do</url-pattern>
+    <servlet-name>SuccessController</servlet-name>
+    <url-pattern>/Success.do</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>5</session-timeout>

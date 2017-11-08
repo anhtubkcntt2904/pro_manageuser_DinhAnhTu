@@ -32,8 +32,8 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao{
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			Connection con = connectDB();
-			ps = con.prepareStatement(sql);
+			connectDB();
+			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				String codeLevel = rs.getString("j.code_level");
@@ -43,6 +43,14 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			closeDB(conn);
+			try {
+				rs.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return lstMstJapan;
 	}

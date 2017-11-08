@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import entity.TblUser;
@@ -72,6 +73,7 @@ public interface TblUserDao {
 	 * 
 	 * @param tblUser
 	 * @return user id của user vừa insert
+	 * @throws SQLException 
 	 */
-	public int insertUser(TblUser tblUser);
+	public int insertUser(TblUser tblUser) throws SQLException;
 }

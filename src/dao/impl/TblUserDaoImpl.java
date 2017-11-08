@@ -5,12 +5,13 @@
 package dao.impl;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import dao.TblUserDao;
@@ -36,7 +37,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	@Override
 	public List<UserInfo> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullname, String sortByCodeLevel, String sortByEndDate) {
-		Connection con = connectDB();
+		connectDB();
 		// thông tin mỗi user hiển thị trên màn ADM002
 		UserInfo userInfo = new UserInfo();
 		// danh sách các user với thông tin từng user
@@ -94,7 +95,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = con.prepareStatement(sql.toString());
+			ps = conn.prepareStatement(sql.toString());
 
 			// nếu vào trường hợp tìm kiếm có full name
 			if (fullName != null) {
@@ -125,7 +126,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			closeDB(con);
+			closeDB(conn);
 			try {
 				rs.close();
 				ps.close();
@@ -138,7 +139,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 
 	@Override
 	public int getTotalUser(int groupId, String fullName) {
-		Connection con = connectDB();
+		connectDB();
 		StringBuffer sql = new StringBuffer();
 		// biến đếm số bản ghi
 		int countTotal = 0;
@@ -159,7 +160,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = con.prepareStatement(sql.toString());
+			ps = conn.prepareStatement(sql.toString());
 
 			// nếu vào trường hợp tìm kiếm có full name
 			if (fullName != null) {
@@ -181,7 +182,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			closeDB(con);
+			closeDB(conn);
 			try {
 				rs.close();
 				ps.close();
@@ -194,7 +195,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 
 	@Override
 	public TblUser getUserByEmail(Integer userId, String email) {
-		Connection con = connectDB();
+		connectDB();
 		StringBuffer sql = new StringBuffer();
 		TblUser tblUser = null;
 		sql.append("select * ");
@@ -206,7 +207,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = con.prepareStatement(sql.toString());
+			ps = conn.prepareStatement(sql.toString());
 			int i = 0;
 			ps.setString(++i, email);
 			if (userId != null) {
@@ -230,7 +231,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			closeDB(con);
+			closeDB(conn);
 			try {
 				rs.close();
 				ps.close();
@@ -244,7 +245,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 
 	@Override
 	public TblUser checkExistedLoginName(Integer userId, String loginName) {
-		Connection con = connectDB();
+		connectDB();
 		StringBuffer sql = new StringBuffer();
 		TblUser tblUser = null;
 		sql.append("select * ");
@@ -257,7 +258,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = con.prepareStatement(sql.toString());
+			ps = conn.prepareStatement(sql.toString());
 			int i = 0;
 			ps.setString(++i, loginName);
 			if (userId != null) {
@@ -281,7 +282,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			closeDB(con);
+			closeDB(conn);
 			try {
 				rs.close();
 				ps.close();
@@ -294,35 +295,39 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	}
 
 	@Override
-	public int insertUser(TblUser tblUser) {
+	public int insertUser(TblUser tblUser) throws SQLException {
 		// Connection conn = BaseDaoImpl.conn;
 		StringBuffer sql = new StringBuffer();
 		int userid = 0;
-		sql.append("insert into tbl_user u ");
-		sql.append("(u.group_id,u.login_name,u.password,u.full_name,u.full_name_kana,u.email,u.tel,u.birthday,u.salt ");
-		sql.append("values(?,?,?,?,?,?,?,?)");
+		sql.append("INSERT INTO tbl_user (group_id, login_name, passwords, full_name, full_name_kana, email, tel, birthday) ");
+		//sql.append("(\'group_id\', \'login_name\', \'passwords\', \'full_name\', \'full_name_kana\', \'email\', \'tel\', \'birthday\') ");
+		sql.append("VALUES(?,?,?,?,?,?,?,?)");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
+		System.out.println(dt1.format(tblUser.getBirthday()));
 		try {
-			ps = conn.prepareStatement(sql.toString());
+			ps = conn.prepareStatement(sql.toString(),Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, tblUser.getGroupId());
 			ps.setString(2, tblUser.getLoginName());
 			ps.setString(3, tblUser.getPassword());
 			ps.setString(4, tblUser.getFullname());
 			ps.setString(5, tblUser.getFullnamekana());
 			ps.setString(6, tblUser.getEmail());
-			ps.setDate(7, (java.sql.Date) tblUser.getBirthday());
-			ps.setString(8, tblUser.getSalt());
+			ps.setString(7, tblUser.getTel());
+			ps.setDate(8,java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
+			//ps.setString(8, tblUser.getSalt());
 
 			ps.executeUpdate();
 
 			rs = ps.getGeneratedKeys();
 			while (rs.next()) {
-				tblUser.setUserId(rs.getInt(1));
+				//tblUser.setUserId(rs.getInt(1));
 				userid = rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
+			//e.printStackTrace();
 		}
 		return userid;
 	}
