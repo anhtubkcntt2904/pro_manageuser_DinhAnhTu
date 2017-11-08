@@ -86,19 +86,19 @@
 							<tr>
 								<td class="lbl_left"><font color="red">*</font> 生年月日:</td>
 								<td align="left"><select name="yearbirthday">
-								<option value="2017">2017</option>
+								<option value="${yearNow}">${yearNow}</option>
 										<c:forEach var="year" items="${lstYear}">
 											<option value="${year}"
 												${year == userInfor.yearbirthday ? 'selected' : ''}>${year}</option>
 										</c:forEach>
 								</select>年 <select name="monthbirthday">
-								<option value="12">12</option>
+								<option value="${monthnow}">${monthnow}</option>
 										<c:forEach var="month" items="${lstMonth}">
 											<option value="${month}"
 												${month == userInfor.monthbirthday ? 'selected' : ''}>${month}</option>
 										</c:forEach>
 								</select>月 <select name="daybirthday">
-								<option value="31">31</option>
+								<option value="${daynow}">${daynow}</option>
 										<c:forEach var="day" items="${lstDay}">
 											<option value="${day}"
 												${day == userInfor.daybirthday ? 'selected' : ''}>${day}</option>
@@ -151,19 +151,19 @@
 								<tr>
 									<td class="lbl_left">資格交付日:</td>
 									<td align="left"><select name="yearvalidate">
-									<option value="2017">2017</option>
+									<option value="${yearNow}">${yearNow}</option>
 											<c:forEach var="year" items="${lstYear}">
 												<option value="${year}"
 													${year == userInfor.yearvalidate ? 'selected' : ''}>${year}</option>
 											</c:forEach>
 									</select>年<select name="monthvalidate">
-									<option value="12">12</option>
+									<option value="${monthnow}">${monthnow}</option>
 											<c:forEach var="month" items="${lstMonth}">
 												<option value="${month}"
 													${month == userInfor.monthvalidate ? 'selected' : ''}>${month}</option>
 											</c:forEach>
 									</select>月 <select name="dayvalidate">
-									<option value="31">31</option>
+									<option value="${daynow}">${daynow}</option>
 											<c:forEach var="day" items="${lstDay}">
 												<option value="${day}"
 													${day == userInfor.dayvalidate ? 'selected' : ''}>${day}</option>
@@ -173,19 +173,19 @@
 								<tr>
 									<td class="lbl_left">失効日:</td>
 									<td align="left"><select name="yearinvalidate">
-									<option value="2017">2017</option>
+									<option value="${yearNow + 1}">${yearNow  + 1}</option>
 											<c:forEach var="year" items="${lstYear}">
 												<option value="${year}"
 													${year == userInfor.yearinvalidate ? 'selected' : ''}>${year}</option>
 											</c:forEach>
 									</select>年 <select name="monthinvalidate">
-									<option value="12">12</option>
+									<option value="${monthnow}">${monthnow}</option>
 											<c:forEach var="month" items="${lstMonth}">
 												<option value="${month}"
 													${month == userInfor.monthinvalidate ? 'selected' : ''}>${month}</option>
 											</c:forEach>
 									</select>月 <select name="dayinvalidate">
-									<option value="31">31</option>
+									<option value="${daynow}">${daynow}</option>
 											<c:forEach var="day" items="${lstDay}">
 												<option value="${day}"
 													${day == userInfor.dayinvalidate ? 'selected' : ''}>${day}</option>
@@ -224,7 +224,8 @@
 				<tr>
 					<th width="200px" align="center">&nbsp;</th>
 					<td><input class="btn" type="submit" value="確認" /></td>
-					<td><input class="btn" type="button" value="戻る" /></td>
+					<td><input class="btn" type="button" value="戻る"
+					onclick="location.href='/manage_user/ListUser.do';" /></td>
 				</tr>
 			</table>
 			<!-- End vung button -->

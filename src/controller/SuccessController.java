@@ -39,10 +39,15 @@ public class SuccessController extends HttpServlet {
 			MessageProperties mess = new MessageProperties();
 			String error = mess.getMessageProperties("ER015");
 			request.setAttribute("error", error);
-			RequestDispatcher req = request.getRequestDispatcher(Constant.ERROR);
-			req.forward(request, response);
+			RequestDispatcher req1 = request.getRequestDispatcher(Constant.ERROR);
+			req1.forward(request, response);
 			break;
 		case Constant.INSERT_SUCCESS:
+			MessageProperties messinsert = new MessageProperties();
+			String insertsuccess = messinsert.getMessageProperties("MSG001");
+			request.setAttribute("insertsuccess", insertsuccess);
+			RequestDispatcher req2 = request.getRequestDispatcher(Constant.SUCCESS);
+			req2.forward(request, response);
 			break;
 		default:
 			break;

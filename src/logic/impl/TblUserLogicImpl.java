@@ -84,9 +84,9 @@ public class TblUserLogicImpl implements TblUserLogic {
 	}
 
 	@Override
-	public Boolean createUser(UserInfor userInfor) throws SQLException {
+	public Boolean createUser(UserInfor userInfor) throws SQLException  {
 		BaseDaoImpl baseDaoImpl = new BaseDaoImpl();
-		Boolean check = false;
+		Boolean check = true;
 		int userid;
 		try {
 			TblUser tblUser = new TblUser();
@@ -124,10 +124,10 @@ public class TblUserLogicImpl implements TblUserLogic {
 			BaseDaoImpl.conn.setAutoCommit(false);
 
 			userid = tblUserDao.insertUser(tblUser);
-			if (userid != 0) {
+			if (userid != 0 && !"0".equals(codeLevel)) {
 				tblUser.setUserId(userid);
 
-				tblDetailUserJapan.setUserId(userid);
+				//tblDetailUserJapan.setUserId(userid);
 				tblDetailUserJapan.setCodeLevel(codeLevel);
 				tblDetailUserJapan.setStartDate(startDate);
 				tblDetailUserJapan.setEndDate(endDate);
@@ -135,15 +135,22 @@ public class TblUserLogicImpl implements TblUserLogic {
 
 				check = tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan);
 			}
-			if (check) {
+			if (check = true) {
 				BaseDaoImpl.conn.commit();
 				System.out.println("đã commit");
+			}else {
+				BaseDaoImpl.conn.rollback();
+				System.out.println("roll back boolean");
 			}
-		} catch (SQLException e) {
+		}/* catch (SQLException e) {
 			e.printStackTrace();
+			check = false;
 			BaseDaoImpl.conn.rollback();
-			System.out.println("đã roll back");
-		} finally {
+			System.out.println("đã roll back exception sql");
+		}*/catch(Exception e) {
+			BaseDaoImpl.conn.rollback();
+			System.out.println("da roll back excep");
+		}finally {
 			baseDaoImpl.closeDB(BaseDaoImpl.conn);
 		}
 		return check;

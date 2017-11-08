@@ -299,9 +299,9 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		// Connection conn = BaseDaoImpl.conn;
 		StringBuffer sql = new StringBuffer();
 		int userid = 0;
-		sql.append("INSERT INTO tbl_user (group_id, login_name, passwords, full_name, full_name_kana, email, tel, birthday) ");
+		sql.append("INSERT INTO tbl_user (group_id, login_name, passwords, full_name, full_name_kana, email, tel, birthday,salt) ");
 		//sql.append("(\'group_id\', \'login_name\', \'passwords\', \'full_name\', \'full_name_kana\', \'email\', \'tel\', \'birthday\') ");
-		sql.append("VALUES(?,?,?,?,?,?,?,?)");
+		sql.append("VALUES(?,?,?,?,?,?,?,?,?)");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -316,6 +316,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps.setString(6, tblUser.getEmail());
 			ps.setString(7, tblUser.getTel());
 			ps.setDate(8,java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
+			ps.setString(9, tblUser.getSalt());
 			//ps.setString(8, tblUser.getSalt());
 
 			ps.executeUpdate();

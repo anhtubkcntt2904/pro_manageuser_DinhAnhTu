@@ -42,7 +42,7 @@ public class AddUserConfirmController extends HttpServlet {
 			request.getRequestDispatcher(Constant.ADM004).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);
+			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}
 	}
 
@@ -65,6 +65,8 @@ public class AddUserConfirmController extends HttpServlet {
 			if (isSuccess) {
 				System.out.println("insert success");
 				response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.INSERT_SUCCESS);
+			}else {
+				response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

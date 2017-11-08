@@ -20,6 +20,7 @@ public class Constant {
 	public static final String ADM003 = "/jsp/ADM003.jsp";
 	public static final String ADM004 = "/jsp/ADM004.jsp";
 	public static final String ERROR = "/jsp/System_Error.jsp";
+	public static final String SUCCESS = "/jsp/ADM006.jsp";
 	
 	
 	public static final String GROUP_ID_DEFAULT = "0";
@@ -48,7 +49,7 @@ public class Constant {
 	public static final String ENDDATE_SORT = "end_date";
 	
 	
-	public static final int START_YEAR = 1980;
+	public static final int START_YEAR = 1900;
 	
 	public static final String DRIVER_CONST = "driver";
 	public static final String URL_CONST = "url";

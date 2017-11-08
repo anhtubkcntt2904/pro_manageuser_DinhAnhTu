@@ -28,7 +28,7 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao{
 		// TODO Auto-generated method stub
 		MstJapan mstJapan = new MstJapan();
 		List<MstJapan> lstMstJapan = new ArrayList<>();
-		String sql = "select j.code_level, j.name_level from mst_japan j";
+		String sql = "select j.code_level, j.name_level from mst_japan j order by j.code_level desc";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {

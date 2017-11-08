@@ -61,7 +61,7 @@ public class Validate {
 	 */
 	public List<String> validateUserInfor(UserInfor userInfor) {
 		List<String> lstError = new ArrayList<>();
-		/*MessageProperties messProp = new MessageProperties();
+		MessageProperties messProp = new MessageProperties();
 		Common common = new Common();
 		TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 		MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
@@ -202,6 +202,12 @@ public class Validate {
 		} else if (userInfor.getPassword().trim().length() < 4 || userInfor.getPassword().trim().length() > 15) {
 			lstError.add(messProp.getMessageProperties("ER007_PASS"));
 		}
+		
+		//validate confirm pass
+		if(!userInfor.getPassword().equals(userInfor.getConfirmpass())) {
+			//pass không trùng
+			lstError.add(messProp.getMessageProperties("ER0017"));
+		}
 
 		// validate start date
 		if (!checkStartDate) {
@@ -231,6 +237,6 @@ public class Validate {
 		} else if (!checkTotal) {
 			lstError.add(messProp.getMessageProperties("ER0018_TOTAL"));
 		}
-*/		return lstError;
+		return lstError;
 	}
 }
