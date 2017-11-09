@@ -1,3 +1,7 @@
+/**
+ * Copyright(C) 2017 Luvina
+ * SuccessController.java, 16/10/2017 Đinh Anh Tú
+ */
 package controller;
 
 import java.io.IOException;

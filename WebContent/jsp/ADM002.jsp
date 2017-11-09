@@ -18,7 +18,7 @@
 	<!-- End vung header -->
 
 	<!-- Begin vung dieu kien tim kiem -->
-	<form action="doListUser?type=search" method="post" name="mainform">
+	<form action="ListUser.do?type=search" method="post" name="mainform">
 		<table class="tbl_input" border="0" width="90%" cellpadding="0"
 			cellspacing="0">
 			<tr>
@@ -66,10 +66,10 @@
 			<th align="center" width="20px">ID</th>
 			<th align="left">氏名 <c:choose>
 					<c:when test="${sessionScope.sortByFullname == 'asc'}">
-						<a href="doListUser?type=sort&sortType=full_name">▲▽</a>
+						<a href="ListUser.do?type=sort&sortType=full_name">▲▽</a>
 					</c:when>
 					<c:otherwise>
-						<a href="doListUser?type=sort&sortType=full_name">△▼</a>
+						<a href="ListUser.do?type=sort&sortType=full_name">△▼</a>
 					</c:otherwise>
 				</c:choose>
 			</th>
@@ -79,19 +79,19 @@
 			<th align="left" width="70px">電話番号</th>
 			<th align="left">日本語能力 <c:choose>
 					<c:when test="${sessionScope.sortByCodeLevel == 'asc'}">
-						<a href="doListUser?type=sort&sortType=code_level">▲▽</a>
+						<a href="ListUser.do?type=sort&sortType=code_level">▲▽</a>
 					</c:when>
 					<c:otherwise>
-						<a href="doListUser?type=sort&sortType=code_level">△▼</a>
+						<a href="ListUser.do?type=sort&sortType=code_level">△▼</a>
 					</c:otherwise>
 				</c:choose>
 			</th>
 			<th align="left">失効日 <c:choose>
 					<c:when test="${sessionScope.sortByEndDate == 'asc'}">
-						<a href="doListUser?type=sort&sortType=end_date">▲▽</a>
+						<a href="ListUser.do?type=sort&sortType=end_date">▲▽</a>
 					</c:when>
 					<c:otherwise>
-						<a href="doListUser?type=sort&sortType=end_date">△▼</a>
+						<a href="ListUser.do?type=sort&sortType=end_date">△▼</a>
 					</c:otherwise>
 				</c:choose>
 			</th>
@@ -102,7 +102,7 @@
 				<c:when test="${lstUserInfo.size() > 0}">
 					<c:forEach var="userInfo" items="${lstUserInfo}">
 						<tr>
-							<td align="right"><c:out value="${userInfo.userId}" /></td>
+							<td align="right"><a href="DetailUser.do?userid=${userInfo.userId}"><c:out value="${userInfo.userId}" /></a></td>
 							<td><c:out value="${userInfo.fullName}" /></td>
 							<%-- <td align="center"><c:out value="${userInfo.birthDay}" /></td> --%>
 							<td align="center"><fmt:formatDate pattern="yyyy/MM/dd"
@@ -135,7 +135,7 @@
 					<%-- <c:if test= "${lstPaging.get(listPaging.size()) > 3}"> <a href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) - 3"> aaa </a></c:if> --%>
 					<c:if test="${lstPaging.get(listPaging.size()) > 3}">
 						<a
-							href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) - 3}">
+							href="ListUser.do?type=paging&currentPage=${lstPaging.get(listPaging.size()) - 3}">
 							<< </a>
 					</c:if>
 
@@ -145,7 +145,7 @@
 								<c:out value="${paging}" />
 							</c:when>
 							<c:otherwise>
-								<a href="doListUser?type=paging&currentPage=${paging}"><c:out
+								<a href="ListUser.do?type=paging&currentPage=${paging}"><c:out
 										value="${paging}" /></a>
 							</c:otherwise>
 						</c:choose>
@@ -153,7 +153,7 @@
 					<c:if
 						test="${lstPaging.get(listPaging.size()) + 1 < totalPage && totalPage > 3}">
 						<a
-							href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) + 3}">
+							href="ListUser.do?type=paging&currentPage=${lstPaging.get(listPaging.size()) + 3}">
 							>> </a>
 					</c:if>
 				</c:if></td>

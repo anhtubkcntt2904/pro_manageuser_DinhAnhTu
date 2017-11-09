@@ -28,6 +28,14 @@
     <servlet-name>AddUserOKController</servlet-name>
     <url-pattern>/AddUserOK.do</url-pattern>
   </servlet-mapping>
+   <servlet>
+    <servlet-name>ViewDetailUserController</servlet-name>
+    <servlet-class>controller.ViewDetailUserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewDetailUserController</servlet-name>
+    <url-pattern>/DetailUser.do</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>AddUserInputController</servlet-name>
     <servlet-class>controller.AddUserInputController</servlet-class>

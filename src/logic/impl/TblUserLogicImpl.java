@@ -76,7 +76,8 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public boolean checkExistedLoginName(Integer userId, String loginName) {
 		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
-		TblUser tblUser = tblUserDao.checkExistedLoginName(userId, loginName);
+		TblUser tblUser = new TblUser();
+		tblUser = tblUserDao.checkExistedLoginName(userId, loginName);
 		if (tblUser != null) {
 			return true;
 		}
@@ -84,7 +85,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	}
 
 	@Override
-	public Boolean createUser(UserInfor userInfor) throws SQLException  {
+	public Boolean createUser(UserInfor userInfor) throws SQLException {
 		BaseDaoImpl baseDaoImpl = new BaseDaoImpl();
 		Boolean check = true;
 		int userid;
@@ -127,7 +128,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			if (userid != 0 && !"0".equals(codeLevel)) {
 				tblUser.setUserId(userid);
 
-				//tblDetailUserJapan.setUserId(userid);
+				// tblDetailUserJapan.setUserId(userid);
 				tblDetailUserJapan.setCodeLevel(codeLevel);
 				tblDetailUserJapan.setStartDate(startDate);
 				tblDetailUserJapan.setEndDate(endDate);
@@ -137,22 +138,38 @@ public class TblUserLogicImpl implements TblUserLogic {
 			}
 			if (check = true) {
 				BaseDaoImpl.conn.commit();
-				System.out.println("đã commit");
-			}else {
+			} else {
 				BaseDaoImpl.conn.rollback();
-				System.out.println("roll back boolean");
 			}
-		}/* catch (SQLException e) {
-			e.printStackTrace();
-			check = false;
+		} /*
+			 * catch (SQLException e) { e.printStackTrace(); check = false;
+			 * BaseDaoImpl.conn.rollback();
+			 * System.out.println("đã roll back exception sql"); }
+			 */catch (Exception e) {
 			BaseDaoImpl.conn.rollback();
-			System.out.println("đã roll back exception sql");
-		}*/catch(Exception e) {
-			BaseDaoImpl.conn.rollback();
-			System.out.println("da roll back excep");
-		}finally {
+		} finally {
 			baseDaoImpl.closeDB(BaseDaoImpl.conn);
 		}
 		return check;
+	}
+
+	@Override
+	public boolean isExistedUser(int userId) {
+		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
+		TblUser tblUser = new TblUser();
+		boolean existedUser = false;
+		tblUser = tblUserDao.getUserById(userId);
+		if (tblUser != null) {
+			existedUser = true;
+		}
+		return existedUser;
+	}
+
+	@Override
+	public UserInfor getUserInforById(int userId) {
+		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
+		UserInfor userInfor = new UserInfor();
+		userInfor = tblUserDao.getUserInforById(userId);
+		return userInfor;
 	}
 }

@@ -5,6 +5,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -70,11 +71,12 @@ public class AddUserInputController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		List<String> lstError = new ArrayList<>();
 		// TODO Auto-generated method stub
 		try {
 			Validate validate = new Validate();
 			UserInfor userInfor = setDefaultValue(request, response);
-			List<String> lstError = validate.validateUserInfor(userInfor);
+			lstError = validate.validateUserInfor(userInfor);
 
 			if (lstError.size() > 0) {
 				setDataLogic(request, response);
@@ -119,7 +121,7 @@ public class AddUserInputController extends HttpServlet {
 		List<Integer> lstYear = common.getListYear(yearStart, yearNow);
 
 		Calendar now = Calendar.getInstance();
-		int monthnow = now.get(Calendar.MONTH) + 1;
+		int monthnow = now.get(Calendar.MONTH);
 		int daynow = now.get(Calendar.DATE);
 
 		// set các thuộc tính lên request
@@ -161,16 +163,19 @@ public class AddUserInputController extends HttpServlet {
 
 			// lấy ra birthday của user
 			int yearbirthday = common.convertStringToInt(request.getParameter("yearbirthday"));
+			System.out.println(yearbirthday);
 			int monthbirthday = common.convertStringToInt(request.getParameter("monthbirthday"));
+			System.out.println(monthbirthday);
 			int daybirthday = common.convertStringToInt(request.getParameter("daybirthday"));
+			System.out.println(daybirthday);
 			Date dateBirthday = common.toDate(yearbirthday, monthbirthday, daybirthday);
-
+			System.out.println(dateBirthday);
+			
 			String email = request.getParameter("email");
 			String tel = request.getParameter("tel");
 			String password = request.getParameter("password");
 			String confirmpass = request.getParameter("confirmpass");
 			String code_level = request.getParameter("code_level");
-			System.out.println("code level :" + code_level);
 
 			if (!"0".equals(code_level)) {
 				System.out.println("code level = 0");

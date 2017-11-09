@@ -21,6 +21,7 @@ public class Constant {
 	public static final String ADM004 = "/jsp/ADM004.jsp";
 	public static final String ERROR = "/jsp/System_Error.jsp";
 	public static final String SUCCESS = "/jsp/ADM006.jsp";
+	public static final String ADM005 = "/jsp/ADM005.jsp";
 	
 	
 	public static final String GROUP_ID_DEFAULT = "0";

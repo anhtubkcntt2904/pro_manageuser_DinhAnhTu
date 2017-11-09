@@ -18,6 +18,7 @@ import dao.TblUserDao;
 import entity.MstGroup;
 import entity.TblUser;
 import entity.UserInfo;
+import entity.UserInfor;
 
 /**
  * class implements interface TblUserDao
@@ -252,7 +253,9 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		sql.append("from tbl_user u ");
 		sql.append("where u.login_name = ? ");
 		if (userId != null) {
-			sql.append(" and user_id = ?");
+			if (userId != 0) {
+				sql.append(" and user_id = ?");
+			}
 		}
 
 		PreparedStatement ps = null;
@@ -262,7 +265,9 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			int i = 0;
 			ps.setString(++i, loginName);
 			if (userId != null) {
-				ps.setInt(++i, userId);
+				if (userId != 0) {
+					ps.setInt(++i, userId);
+				}
 			}
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -299,15 +304,16 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		// Connection conn = BaseDaoImpl.conn;
 		StringBuffer sql = new StringBuffer();
 		int userid = 0;
-		sql.append("INSERT INTO tbl_user (group_id, login_name, passwords, full_name, full_name_kana, email, tel, birthday,salt) ");
-		//sql.append("(\'group_id\', \'login_name\', \'passwords\', \'full_name\', \'full_name_kana\', \'email\', \'tel\', \'birthday\') ");
+		sql.append(
+				"INSERT INTO tbl_user (group_id, login_name, passwords, full_name, full_name_kana, email, tel, birthday,salt) ");
+		// sql.append("(\'group_id\', \'login_name\', \'passwords\', \'full_name\',
+		// \'full_name_kana\', \'email\', \'tel\', \'birthday\') ");
 		sql.append("VALUES(?,?,?,?,?,?,?,?,?)");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
-		System.out.println(dt1.format(tblUser.getBirthday()));
 		try {
-			ps = conn.prepareStatement(sql.toString(),Statement.RETURN_GENERATED_KEYS);
+			ps = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, tblUser.getGroupId());
 			ps.setString(2, tblUser.getLoginName());
 			ps.setString(3, tblUser.getPassword());
@@ -315,22 +321,85 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps.setString(5, tblUser.getFullnamekana());
 			ps.setString(6, tblUser.getEmail());
 			ps.setString(7, tblUser.getTel());
-			ps.setDate(8,java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
+			ps.setDate(8, java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
 			ps.setString(9, tblUser.getSalt());
-			//ps.setString(8, tblUser.getSalt());
+			// ps.setString(8, tblUser.getSalt());
 
 			ps.executeUpdate();
 
 			rs = ps.getGeneratedKeys();
 			while (rs.next()) {
-				//tblUser.setUserId(rs.getInt(1));
+				// tblUser.setUserId(rs.getInt(1));
 				userid = rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			throw e;
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 		return userid;
+	}
+
+	@Override
+	public TblUser getUserById(int userId) {
+		connectDB();
+		TblUser tblUser = new TblUser();
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from tbl_user ");
+		sql.append("where user_id = ?");
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			ps = conn.prepareStatement(sql.toString());
+			ps.setInt(1, userId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				tblUser.setUserId(rs.getInt("user_id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeDB(conn);
+		}
+		return tblUser;
+	}
+
+	@Override
+	public UserInfor getUserInforById(int userId) {
+		connectDB();
+		UserInfor userInfor = new UserInfor();
+		StringBuffer sql = new StringBuffer();
+		sql.append(
+				"select u.login_name, u.group_id, u.full_name, u.full_name_kana, u.birthday, u.email, u.tel, duj.code_level, duj.start_date, duj.end_date, duj.total ");
+		sql.append("from tbl_user u ");
+		sql.append("inner join tbl_detail_user_japan duj on ");
+		sql.append("u.user_id = duj.user_id ");
+		sql.append("where u.user_id = ? ");
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(sql.toString());
+			ps.setInt(1, userId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				userInfor.setLoginName(rs.getString("u.login_name"));
+				userInfor.setGroupId(rs.getInt("u.group_id"));
+				userInfor.setFullName(rs.getString("u.full_name"));
+				userInfor.setFullNameKana(rs.getString("u.full_name_kana"));
+				userInfor.setBirthday(rs.getDate("u.birthday"));
+				userInfor.setEmail(rs.getString("u.email"));
+				userInfor.setTel(rs.getString("u.tel"));
+				userInfor.setCodeLevel(rs.getString("duj.code_level"));
+				userInfor.setStartDate(rs.getDate("duj.start_date"));
+				userInfor.setEndDate(rs.getDate("duj.end_date"));
+				userInfor.setTotal(Integer.toString(rs.getInt("duj.total")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeDB(conn);
+		}
+		return userInfor;
 	}
 
 }

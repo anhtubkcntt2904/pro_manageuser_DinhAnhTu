@@ -9,6 +9,7 @@ import java.util.List;
 
 import entity.TblUser;
 import entity.UserInfo;
+import entity.UserInfor;
 
 /**
  * Interface chứa các phương thức thao tác với bảng user
@@ -73,7 +74,23 @@ public interface TblUserDao {
 	 * 
 	 * @param tblUser
 	 * @return user id của user vừa insert
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public int insertUser(TblUser tblUser) throws SQLException;
+
+	/**
+	 * phương thức lấy thông tin user bằng user id
+	 * 
+	 * @param userId
+	 * @return thông tin user
+	 */
+	public TblUser getUserById(int userId);
+
+	/**
+	 * Phương thức lấy thông tin user bằng user id
+	 * 
+	 * @param userId
+	 * @return thông tin user
+	 */
+	public UserInfor getUserInforById(int userId);
 }

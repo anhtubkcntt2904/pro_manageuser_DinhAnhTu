@@ -76,4 +76,20 @@ public interface TblUserLogic {
 	 * @return true hoặc false
 	 */
 	public Boolean createUser(UserInfor userInfor) throws SQLException;
+
+	/**
+	 * phương thức kiểm tra user có tồn tại hay không
+	 * 
+	 * @param userId
+	 * @return true hoặc false
+	 */
+	public boolean isExistedUser(int userId);
+
+	/**
+	 * Phương thức lấy thông tin user bằng user id
+	 * 
+	 * @param userId
+	 * @return thông tin user
+	 */
+	public UserInfor getUserInforById(int userId);
 }

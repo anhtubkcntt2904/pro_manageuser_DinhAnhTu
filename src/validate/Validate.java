@@ -70,14 +70,16 @@ public class Validate {
 		// format check loginname
 		String loginformat = "^[^0-9][a-zA-Z_0-9]+";
 		boolean checkLoginName = userInfor.getLoginName().matches(loginformat);
-		
+
 		// format check kana
 		String kanaformat = "[ァ-・ヽヾ゛゜ー]+";
 		boolean checkKana = userInfor.getFullNameKana().matches(kanaformat);
 
 		// check birthday
+		System.out.println("string birth day : " + userInfor.getBirthday());
 		List<Integer> lstBirthday = common.toArrayInteger(userInfor.getBirthday());
 		String dateBirthday = common.convertToString(lstBirthday.get(0), lstBirthday.get(1), lstBirthday.get(2));
+		System.out.println("date birth day :" + dateBirthday);
 		boolean checkBirthday = common.isValidDate(dateBirthday);
 
 		// check email
@@ -87,15 +89,7 @@ public class Validate {
 		// check password
 		boolean checkPass = common.checkByte(userInfor.getPassword());
 
-		// check start date
-		List<Integer> lstStartDate = common.toArrayInteger(userInfor.getStartDate());
-		String startDate = common.convertToString(lstStartDate.get(0), lstStartDate.get(1), lstStartDate.get(2));
-		boolean checkStartDate = common.isValidDate(startDate);
-
-		// check end date
-		List<Integer> lstEndDate = common.toArrayInteger(userInfor.getEndDate());
-		String endDate = common.convertToString(lstEndDate.get(0), lstEndDate.get(1), lstEndDate.get(2));
-		boolean checkEndDate = common.isValidDate(endDate);
+		
 
 		// check existed login name
 		boolean existedLoginName = tblUserLogic.checkExistedLoginName(userInfor.getUserId(), userInfor.getLoginName());
@@ -106,12 +100,55 @@ public class Validate {
 		// check group id
 		boolean checkGroupId = mstGroupLogic.existedGroupId(userInfor.getGroupId());
 
-		// check code level
-		boolean checkCodeLevel = mstJapanLogic.existedCodelevel(userInfor.getCodeLevel());
+		if (!"0".equals(userInfor.getCodeLevel())) {
+			
+			// check code level
+			boolean checkCodeLevel = mstJapanLogic.existedCodelevel(userInfor.getCodeLevel());
+			
+			// check start date
+			List<Integer> lstStartDate = common.toArrayInteger(userInfor.getStartDate());
+			String startDate = common.convertToString(lstStartDate.get(0), lstStartDate.get(1), lstStartDate.get(2));
+			boolean checkStartDate = common.isValidDate(startDate);
 
-		// check total
-		String totalhalfsize = "[0-9]+";
-		boolean checkTotal = userInfor.getTotal().matches(totalhalfsize);
+			// check end date
+			List<Integer> lstEndDate = common.toArrayInteger(userInfor.getEndDate());
+			String endDate = common.convertToString(lstEndDate.get(0), lstEndDate.get(1), lstEndDate.get(2));
+			boolean checkEndDate = common.isValidDate(endDate);
+			
+			// check total
+			String totalhalfsize = "[0-9]+";
+			boolean checkTotal = userInfor.getTotal().matches(totalhalfsize);
+			
+			// validate start date
+			if (!checkStartDate) {
+				// ngày không hợp lệ
+				lstError.add(messProp.getMessageProperties("ER011_STARTDATE"));
+			}
+
+			// validate code level
+			if (!checkCodeLevel) {
+				// code level không tồn tại
+				lstError.add(messProp.getMessageProperties("ER004_CODELEVEL"));
+			}
+
+			// validate end date
+			if (!checkEndDate) {
+				// ngày không hợp lệ
+				lstError.add(messProp.getMessageProperties("ER011_ENDDATE"));
+			} else if (userInfor.getEndDate().before(userInfor.getStartDate())) {
+				// ngày hết hạn nhỏ hơn ngày cấp chứng chỉ
+				lstError.add(messProp.getMessageProperties("ER012_ENDDATE"));
+			}
+
+			// validate total
+			if (userInfor.getTotal().trim().length() == 0) {
+				// không nhập
+				lstError.add(messProp.getMessageProperties("ER001_TOTAL"));
+			} else if (!checkTotal) {
+				lstError.add(messProp.getMessageProperties("ER0018_TOTAL"));
+			}
+		}
+		
 
 		// check tel
 		String telformat = "[0-9]{1,4}-[0-9]{1,4}-[0-9]{1,4}";
@@ -185,9 +222,9 @@ public class Validate {
 			// không nhập
 			lstError.add(messProp.getMessageProperties("ER001_TEL"));
 		} else if (!checkTel) {
-			//không đúng định dạng
+			// không đúng định dạng
 			lstError.add(messProp.getMessageProperties("ER005_TEL"));
-		} else if (userInfor.getTel().trim().length() > 255) {
+		} else if (userInfor.getTel().trim().length() > 14) {
 			// maxlength
 			lstError.add(messProp.getMessageProperties("ER006_TEL"));
 		}
@@ -202,41 +239,14 @@ public class Validate {
 		} else if (userInfor.getPassword().trim().length() < 4 || userInfor.getPassword().trim().length() > 15) {
 			lstError.add(messProp.getMessageProperties("ER007_PASS"));
 		}
-		
-		//validate confirm pass
-		if(!userInfor.getPassword().equals(userInfor.getConfirmpass())) {
-			//pass không trùng
+
+		// validate confirm pass
+		if (!userInfor.getPassword().equals(userInfor.getConfirmpass())) {
+			// pass không trùng
 			lstError.add(messProp.getMessageProperties("ER0017"));
 		}
-
-		// validate start date
-		if (!checkStartDate) {
-			// ngày không hợp lệ
-			lstError.add(messProp.getMessageProperties("ER011_STARTDATE"));
-		}
-
-		// validate code level
-		if (!checkCodeLevel) {
-			// code level không tồn tại
-			lstError.add(messProp.getMessageProperties("ER004_CODELEVEL"));
-		}
-
-		// validate end date
-		if (!checkEndDate) {
-			// ngày không hợp lệ
-			lstError.add(messProp.getMessageProperties("ER011_ENDDATE"));
-		} else if (userInfor.getEndDate().before(userInfor.getStartDate())) {
-			// ngày hết hạn nhỏ hơn ngày cấp chứng chỉ
-			lstError.add(messProp.getMessageProperties("ER012_ENDDATE"));
-		}
-
-		// validate total
-		if (userInfor.getTotal().trim().length() == 0) {
-			// không nhập
-			lstError.add(messProp.getMessageProperties("ER001_TOTAL"));
-		} else if (!checkTotal) {
-			lstError.add(messProp.getMessageProperties("ER0018_TOTAL"));
-		}
+		
+	
 		return lstError;
 	}
 }

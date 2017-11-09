@@ -196,10 +196,12 @@ public class Common {
 	 */
 	public static Date toDate(int year, int month, int day) {
 		String date = convertToString(year, month, day);
-		DateFormat sm = new SimpleDateFormat("yyyy/MM/dd");
+		System.out.println("date to date :" + date);
+		DateFormat sm = new SimpleDateFormat("yyyy/mm/dd");
 		Date dateFmt = null;
 		try {
 			dateFmt = sm.parse(date);
+			System.out.println("date format :" + dateFmt);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -230,7 +232,7 @@ public class Common {
 	public static ArrayList<Integer> toArrayInteger(Date date) {
 		ArrayList<Integer> lstDate = new ArrayList<>();
 		int year = Integer.parseInt(new SimpleDateFormat("yyyy").format(date));
-		int month = Integer.parseInt(new SimpleDateFormat("MM").format(date));
+		int month = Integer.parseInt(new SimpleDateFormat("mm").format(date));
 		int day = Integer.parseInt(new SimpleDateFormat("dd").format(date));
 		lstDate.add(year);
 		lstDate.add(month);
