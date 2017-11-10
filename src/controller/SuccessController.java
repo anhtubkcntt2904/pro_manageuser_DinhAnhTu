@@ -54,6 +54,11 @@ public class SuccessController extends HttpServlet {
 			req2.forward(request, response);
 			break;
 		default:
+			MessageProperties messD = new MessageProperties();
+			String errorD = messD.getMessageProperties("ER015");
+			request.setAttribute("error", errorD);
+			RequestDispatcher reqD = request.getRequestDispatcher(Constant.ERROR);
+			reqD.forward(request, response);
 			break;
 		}
 	}

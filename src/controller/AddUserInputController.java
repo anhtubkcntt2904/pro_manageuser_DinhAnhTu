@@ -47,12 +47,7 @@ public class AddUserInputController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
-		/*
-		 * *
-		 * response.getWriter().append("Served at: ").append(request.getContextPath());
-		 */
-
+		
 		try {
 			setDataLogic(request, response);
 			UserInfor userInfor = setDefaultValue(request, response);
@@ -78,19 +73,19 @@ public class AddUserInputController extends HttpServlet {
 			UserInfor userInfor = setDefaultValue(request, response);
 			lstError = validate.validateUserInfor(userInfor);
 
-			if (lstError.size() > 0) {
+		/*	if (lstError.size() > 0) {
 				setDataLogic(request, response);
 				request.setAttribute("lstError", lstError);
 				request.setAttribute("userInfor", userInfor);
 				request.getRequestDispatcher(Constant.ADM003).forward(request, response);
-			} else {
+			} else {*/
 
 				// tạo key để thêm vào userInfor session
 				long keyAdd = System.currentTimeMillis() % 1000;
 				HttpSession session = request.getSession();
 				session.setAttribute("userInfor" + keyAdd, userInfor);
 				response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?keyAdd=" + keyAdd);
-			}
+			//}
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);
@@ -119,10 +114,7 @@ public class AddUserInputController extends HttpServlet {
 		int yearNow = common.getYearNow();
 		int yearStart = Constant.START_YEAR;
 		List<Integer> lstYear = common.getListYear(yearStart, yearNow);
-
-		Calendar now = Calendar.getInstance();
-		int monthnow = now.get(Calendar.MONTH);
-		int daynow = now.get(Calendar.DATE);
+		List<Integer> lstYearEnd = common.getListYear(yearStart, yearNow + 1);
 
 		// set các thuộc tính lên request
 		request.setAttribute("lstMstGroup", lstMstGroup);
@@ -130,10 +122,7 @@ public class AddUserInputController extends HttpServlet {
 		request.setAttribute("lstYear", lstYear);
 		request.setAttribute("lstMonth", lstMonth);
 		request.setAttribute("lstDay", lstDay);
-		request.setAttribute("monthnow", monthnow);
-		request.setAttribute("daynow", daynow);
-		request.setAttribute("yearNow", yearNow);
-
+		request.setAttribute("lstYearEnd", lstYearEnd);
 	}
 
 	/**
@@ -149,10 +138,25 @@ public class AddUserInputController extends HttpServlet {
 		String type = request.getParameter("type");
 		UserInfor userInfor = new UserInfor();
 		Common common = new Common();
+		Calendar now = Calendar.getInstance();
+		int monthnow = now.get(Calendar.MONTH) + 1;
+		int daynow = now.get(Calendar.DATE);
+		int yearnow = common.getYearNow();
 
 		switch (type) {
 		case Constant.DEFAULT:
 			userInfor = new UserInfor();
+			userInfor.setYearbirthday(yearnow);
+			userInfor.setMonthbirthday(monthnow);
+			userInfor.setDaybirthday(daynow);
+			
+			userInfor.setYearvalidate(yearnow);
+			userInfor.setMonthvalidate(monthnow);
+			userInfor.setDayvalidate(daynow);
+			
+			userInfor.setYearinvalidate(yearnow + 1);
+			userInfor.setMonthinvalidate(monthnow);
+			userInfor.setDayinvalidate(daynow);
 			break;
 		case Constant.CONFIRM:
 			userInfor = new UserInfor();
@@ -163,44 +167,47 @@ public class AddUserInputController extends HttpServlet {
 
 			// lấy ra birthday của user
 			int yearbirthday = common.convertStringToInt(request.getParameter("yearbirthday"));
-			System.out.println(yearbirthday);
 			int monthbirthday = common.convertStringToInt(request.getParameter("monthbirthday"));
-			System.out.println(monthbirthday);
 			int daybirthday = common.convertStringToInt(request.getParameter("daybirthday"));
-			System.out.println(daybirthday);
 			Date dateBirthday = common.toDate(yearbirthday, monthbirthday, daybirthday);
-			System.out.println(dateBirthday);
 			
 			String email = request.getParameter("email");
 			String tel = request.getParameter("tel");
 			String password = request.getParameter("password");
 			String confirmpass = request.getParameter("confirmpass");
 			String code_level = request.getParameter("code_level");
+			
+			Date dateValidate,dateInvalidate;
+			String total;
+			int yearvalidate,monthvalidate,dayvalidate;
+			int yearinvalidate,monthinvalidate,dayinvalidate;
 
 			if (!"0".equals(code_level)) {
-				System.out.println("code level = 0");
 				// lấy ra ngày cấp chứng chỉ của user
-				int yearvalidate = common.convertStringToInt(request.getParameter("yearvalidate"));
-				int monthvalidate = common.convertStringToInt(request.getParameter("monthvalidate"));
-				int dayvalidate = common.convertStringToInt(request.getParameter("dayvalidate"));
-				Date dateValidate = common.toDate(yearvalidate, monthvalidate, dayvalidate);
+				 yearvalidate = common.convertStringToInt(request.getParameter("yearvalidate"));
+				 monthvalidate = common.convertStringToInt(request.getParameter("monthvalidate"));
+				 dayvalidate = common.convertStringToInt(request.getParameter("dayvalidate"));
+				 dateValidate = common.toDate(yearvalidate, monthvalidate, dayvalidate);
 
 				// lấy ra ngày hết hạn chứng chỉ của user
-				int yearinvalidate = common.convertStringToInt(request.getParameter("yearinvalidate"));
-				int monthinvalidate = common.convertStringToInt(request.getParameter("monthinvalidate"));
-				int dayinvalidate = common.convertStringToInt(request.getParameter("dayinvalidate"));
-				Date dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
+				 yearinvalidate = common.convertStringToInt(request.getParameter("yearinvalidate"));
+				 monthinvalidate = common.convertStringToInt(request.getParameter("monthinvalidate"));
+				 dayinvalidate = common.convertStringToInt(request.getParameter("dayinvalidate"));
+				 dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
 
-				String total = request.getParameter("total");
-				userInfor.setStartDate(dateValidate);
-				userInfor.setYearvalidate(yearvalidate);
-				userInfor.setMonthvalidate(monthvalidate);
-				userInfor.setDayvalidate(dayvalidate);
-				userInfor.setEndDate(dateInvalidate);
-				userInfor.setYearinvalidate(yearinvalidate);
-				userInfor.setMonthinvalidate(monthinvalidate);
-				userInfor.setDayinvalidate(dayinvalidate);
-				userInfor.setTotal(total);
+				 total = request.getParameter("total");
+			}else {
+				 yearvalidate = yearnow;
+				 monthvalidate = monthnow;
+				 dayvalidate = daynow;
+				 dateValidate = common.toDate(yearvalidate, monthvalidate, dayvalidate);
+				
+				 yearinvalidate = yearnow + 1;
+				 monthinvalidate = monthnow;
+				 dayinvalidate = daynow;
+				 dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
+				
+				 total = "";
 			}
 
 			userInfor.setLoginName(loginName);
@@ -215,7 +222,18 @@ public class AddUserInputController extends HttpServlet {
 			userInfor.setTel(tel);
 			userInfor.setPassword(password);
 			userInfor.setCodeLevel(code_level);
-
+			userInfor.setConfirmpass(confirmpass);
+			
+			
+			userInfor.setStartDate(dateValidate);
+			userInfor.setYearvalidate(yearvalidate);
+			userInfor.setMonthvalidate(monthvalidate);
+			userInfor.setDayvalidate(dayvalidate);
+			userInfor.setEndDate(dateInvalidate);
+			userInfor.setYearinvalidate(yearinvalidate);
+			userInfor.setMonthinvalidate(monthinvalidate);
+			userInfor.setDayinvalidate(dayinvalidate);
+			userInfor.setTotal(total);
 			break;
 		case Constant.BACK:
 			String keyBack = request.getParameter("keyAdd");

@@ -198,12 +198,14 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	public TblUser getUserByEmail(Integer userId, String email) {
 		connectDB();
 		StringBuffer sql = new StringBuffer();
-		TblUser tblUser = null;
-		sql.append("select * ");
+		TblUser tblUser = new TblUser();
+		sql.append("select u.user_id ");
 		sql.append("from tbl_user u ");
 		sql.append("where u.email = ? ");
 		if (userId != null) {
-			sql.append(" and user_id = ?");
+			if (userId != 0) {
+				sql.append(" and user_id = ?");
+			}
 		}
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -212,22 +214,23 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			int i = 0;
 			ps.setString(++i, email);
 			if (userId != null) {
-				ps.setInt(++i, userId);
+				if (userId != 0) {
+					ps.setInt(++i, userId);
+				}
 			}
 			rs = ps.executeQuery();
-			while (rs.next()) {
-				Integer userID = rs.getInt("u.user_id");
-				Integer groupID = rs.getInt("u.group_id");
-				String loginName = rs.getString("u.login_name");
-				String password = rs.getString("u.passwords");
-				String fullName = rs.getString("u.full_name");
-				String fullNameKana = rs.getString("u.full_name_kana");
-				String emailUser = rs.getString("u.email");
-				String tel = rs.getString("u.tel");
-				Date birthday = rs.getDate("u.birthday");
-				String salt = rs.getString("u.salt");
-				tblUser = new TblUser(userID, groupID, loginName, password, fullName, fullNameKana, emailUser, tel,
-						birthday, salt);
+			if (rs.next()) {
+				/*
+				 * Integer userID = rs.getInt("u.user_id"); Integer groupID =
+				 * rs.getInt("u.group_id"); String loginName = rs.getString("u.login_name");
+				 * String password = rs.getString("u.passwords"); String fullName =
+				 * rs.getString("u.full_name"); String fullNameKana =
+				 * rs.getString("u.full_name_kana"); String emailUser = rs.getString("u.email");
+				 * String tel = rs.getString("u.tel"); Date birthday = rs.getDate("u.birthday");
+				 * String salt = rs.getString("u.salt"); tblUser = new TblUser(userID, groupID,
+				 * loginName, password, fullName, fullNameKana, emailUser, tel, birthday, salt);
+				 */
+				tblUser.setUserId(rs.getInt("u.user_id"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -248,13 +251,13 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	public TblUser checkExistedLoginName(Integer userId, String loginName) {
 		connectDB();
 		StringBuffer sql = new StringBuffer();
-		TblUser tblUser = null;
-		sql.append("select * ");
+		TblUser tblUser = new TblUser();
+		sql.append("select u.user_id ");
 		sql.append("from tbl_user u ");
 		sql.append("where u.login_name = ? ");
 		if (userId != null) {
 			if (userId != 0) {
-				sql.append(" and user_id = ?");
+				sql.append(" and u.user_id = ?");
 			}
 		}
 
@@ -270,19 +273,8 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				}
 			}
 			rs = ps.executeQuery();
-			while (rs.next()) {
-				Integer userID = rs.getInt("u.user_id");
-				Integer groupID = rs.getInt("u.group_id");
-				String loginname = rs.getString("u.login_name");
-				String password = rs.getString("u.passwords");
-				String fullName = rs.getString("u.full_name");
-				String fullNameKana = rs.getString("u.full_name_kana");
-				String emailUser = rs.getString("u.email");
-				String tel = rs.getString("u.tel");
-				Date birthday = rs.getDate("u.birthday");
-				String salt = rs.getString("u.salt");
-				tblUser = new TblUser(userID, groupID, loginname, password, fullName, fullNameKana, emailUser, tel,
-						birthday, salt);
+			if (rs.next()) {
+				tblUser.setUserId(rs.getInt("user_id"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -295,7 +287,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				e.printStackTrace();
 			}
 		}
-
 		return tblUser;
 	}
 
@@ -305,10 +296,8 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		StringBuffer sql = new StringBuffer();
 		int userid = 0;
 		sql.append(
-				"INSERT INTO tbl_user (group_id, login_name, passwords, full_name, full_name_kana, email, tel, birthday,salt) ");
-		// sql.append("(\'group_id\', \'login_name\', \'passwords\', \'full_name\',
-		// \'full_name_kana\', \'email\', \'tel\', \'birthday\') ");
-		sql.append("VALUES(?,?,?,?,?,?,?,?,?)");
+				"INSERT INTO tbl_user (group_id, login_name, passwords, full_name, full_name_kana, email, tel, birthday) ");
+		sql.append("VALUES(?,?,?,?,?,?,?,?)");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -322,8 +311,8 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps.setString(6, tblUser.getEmail());
 			ps.setString(7, tblUser.getTel());
 			ps.setDate(8, java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
-			ps.setString(9, tblUser.getSalt());
-			// ps.setString(8, tblUser.getSalt());
+			//ps.setString(9, tblUser.getSalt());
+			
 
 			ps.executeUpdate();
 

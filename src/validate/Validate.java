@@ -67,7 +67,7 @@ public class Validate {
 		MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
 		MstJapanLogicImpl mstJapanLogic = new MstJapanLogicImpl();
 
-		// format check loginname
+		/*// format check loginname
 		String loginformat = "^[^0-9][a-zA-Z_0-9]+";
 		boolean checkLoginName = userInfor.getLoginName().matches(loginformat);
 
@@ -76,10 +76,8 @@ public class Validate {
 		boolean checkKana = userInfor.getFullNameKana().matches(kanaformat);
 
 		// check birthday
-		System.out.println("string birth day : " + userInfor.getBirthday());
 		List<Integer> lstBirthday = common.toArrayInteger(userInfor.getBirthday());
 		String dateBirthday = common.convertToString(lstBirthday.get(0), lstBirthday.get(1), lstBirthday.get(2));
-		System.out.println("date birth day :" + dateBirthday);
 		boolean checkBirthday = common.isValidDate(dateBirthday);
 
 		// check email
@@ -135,7 +133,7 @@ public class Validate {
 			if (!checkEndDate) {
 				// ngày không hợp lệ
 				lstError.add(messProp.getMessageProperties("ER011_ENDDATE"));
-			} else if (userInfor.getEndDate().before(userInfor.getStartDate())) {
+			} else if (userInfor.getEndDate().before(userInfor.getStartDate()) || userInfor.getEndDate().equals(userInfor.getStartDate())) {
 				// ngày hết hạn nhỏ hơn ngày cấp chứng chỉ
 				lstError.add(messProp.getMessageProperties("ER012_ENDDATE"));
 			}
@@ -236,17 +234,17 @@ public class Validate {
 		} else if (!checkPass) {
 			// nhập vào kí tự > 1byte
 			lstError.add(messProp.getMessageProperties("ER008_PASS"));
-		} else if (userInfor.getPassword().trim().length() < 4 || userInfor.getPassword().trim().length() > 15) {
+		} else if (userInfor.getPassword().trim().length() < 5 || userInfor.getPassword().trim().length() > 15) {
 			lstError.add(messProp.getMessageProperties("ER007_PASS"));
 		}
 
 		// validate confirm pass
 		if (!userInfor.getPassword().equals(userInfor.getConfirmpass())) {
 			// pass không trùng
-			lstError.add(messProp.getMessageProperties("ER0017"));
+			lstError.add(messProp.getMessageProperties("ER017_CONFIRMPASS"));
 		}
 		
 	
-		return lstError;
+*/		return lstError;
 	}
 }

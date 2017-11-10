@@ -63,7 +63,6 @@ public class AddUserConfirmController extends HttpServlet {
 				isSuccess = tblUserLogic.createUser(userInfor);
 			}
 			if (isSuccess) {
-				System.out.println("insert success");
 				response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.INSERT_SUCCESS);
 			}else {
 				response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);

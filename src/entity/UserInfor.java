@@ -30,60 +30,6 @@ public class UserInfor {
 	private String total;
 
 	/**
-	 * @param userId
-	 * @param loginName
-	 * @param groupId
-	 * @param fullName
-	 * @param fullNameKana
-	 * @param birthday
-	 * @param yearbirthday
-	 * @param monthbirthday
-	 * @param daybirthday
-	 * @param email
-	 * @param tel
-	 * @param password
-	 * @param confirmpass
-	 * @param codeLevel
-	 * @param startDate
-	 * @param yearvalidate
-	 * @param monthvalidate
-	 * @param dayvalidate
-	 * @param endDate
-	 * @param yearinvalidate
-	 * @param monthinvalidate
-	 * @param dayinvalidate
-	 * @param total
-	 */
-	public UserInfor(String loginName, int groupId, String fullName, String fullNameKana, Date birthday,
-			int yearbirthday, int monthbirthday, int daybirthday, String email, String tel, String password,
-			String confirmpass, String codeLevel, Date startDate, int yearvalidate, int monthvalidate, int dayvalidate,
-			Date endDate, int yearinvalidate, int monthinvalidate, int dayinvalidate, String total) {
-		super();
-		this.loginName = loginName;
-		this.groupId = groupId;
-		this.fullName = fullName;
-		this.fullNameKana = fullNameKana;
-		this.birthday = birthday;
-		this.yearbirthday = yearbirthday;
-		this.monthbirthday = monthbirthday;
-		this.daybirthday = daybirthday;
-		this.email = email;
-		this.tel = tel;
-		this.password = password;
-		this.confirmpass = confirmpass;
-		this.codeLevel = codeLevel;
-		this.startDate = startDate;
-		this.yearvalidate = yearvalidate;
-		this.monthvalidate = monthvalidate;
-		this.dayvalidate = dayvalidate;
-		this.endDate = endDate;
-		this.yearinvalidate = yearinvalidate;
-		this.monthinvalidate = monthinvalidate;
-		this.dayinvalidate = dayinvalidate;
-		this.total = total;
-	}
-
-	/**
 	 * 
 	 */
 	public UserInfor() {

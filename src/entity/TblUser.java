@@ -25,33 +25,6 @@ public class TblUser {
 	private String salt;
 
 	/**
-	 * @param userId
-	 * @param groupId
-	 * @param loginName
-	 * @param password
-	 * @param fullname
-	 * @param fullnamekana
-	 * @param email
-	 * @param tel
-	 * @param birthday
-	 * @param salt
-	 */
-	public TblUser(int userId, int groupId, String loginName, String password, String fullname, String fullnamekana,
-			String email, String tel, Date birthday, String salt) {
-		super();
-		this.userId = userId;
-		this.groupId = groupId;
-		this.loginName = loginName;
-		this.password = password;
-		this.fullname = fullname;
-		this.fullnamekana = fullnamekana;
-		this.email = email;
-		this.tel = tel;
-		this.birthday = birthday;
-		this.salt = salt;
-	}
-
-	/**
 	 * 
 	 */
 	public TblUser() {

@@ -196,12 +196,10 @@ public class Common {
 	 */
 	public static Date toDate(int year, int month, int day) {
 		String date = convertToString(year, month, day);
-		System.out.println("date to date :" + date);
 		DateFormat sm = new SimpleDateFormat("yyyy/mm/dd");
 		Date dateFmt = null;
 		try {
 			dateFmt = sm.parse(date);
-			System.out.println("date format :" + dateFmt);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
