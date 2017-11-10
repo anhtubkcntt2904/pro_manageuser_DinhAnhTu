@@ -296,8 +296,8 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		StringBuffer sql = new StringBuffer();
 		int userid = 0;
 		sql.append(
-				"INSERT INTO tbl_user (group_id, login_name, passwords, full_name, full_name_kana, email, tel, birthday) ");
-		sql.append("VALUES(?,?,?,?,?,?,?,?)");
+				"INSERT INTO tbl_user (group_id, login_name, passwords, full_name, full_name_kana, email, tel, birthday,salt) ");
+		sql.append("VALUES(?,?,?,?,?,?,?,?,?)");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -311,7 +311,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps.setString(6, tblUser.getEmail());
 			ps.setString(7, tblUser.getTel());
 			ps.setDate(8, java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
-			//ps.setString(9, tblUser.getSalt());
+			ps.setString(9, tblUser.getSalt());
 			
 
 			ps.executeUpdate();
@@ -371,6 +371,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps.setInt(1, userId);
 			rs = ps.executeQuery();
 			while (rs.next()) {
+				userInfor.setUserId(userId);
 				userInfor.setLoginName(rs.getString("u.login_name"));
 				userInfor.setGroupId(rs.getInt("u.group_id"));
 				userInfor.setFullName(rs.getString("u.full_name"));

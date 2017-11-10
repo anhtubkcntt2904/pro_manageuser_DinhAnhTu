@@ -87,7 +87,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public Boolean createUser(UserInfor userInfor) throws SQLException {
 		BaseDaoImpl baseDaoImpl = new BaseDaoImpl();
-		Boolean check = false;
+		Boolean check = true;
 		int userid;
 		try {
 			TblUser tblUser = new TblUser();
@@ -110,8 +110,6 @@ public class TblUserLogicImpl implements TblUserLogic {
 			Date startDate = userInfor.getStartDate();
 			Date endDate = userInfor.getEndDate();
 			String total = userInfor.getTotal();
-			
-			System.out.println(codeLevel + " " + startDate+ " " + endDate+ "  " + total);
 
 			// tblUser.setUserId(userId);
 			tblUser.setGroupId(groupId);
@@ -127,31 +125,22 @@ public class TblUserLogicImpl implements TblUserLogic {
 			BaseDaoImpl.conn.setAutoCommit(false);
 
 			userid = tblUserDao.insertUser(tblUser);
-			System.out.println(userid);
 			if (userid != 0 && !"0".equals(codeLevel)) {
 				tblUser.setUserId(userid);
 
-				/*tblDetailUserJapan.setUserId(userid);*/
+				/* tblDetailUserJapan.setUserId(userid); */
 				tblDetailUserJapan.setCodeLevel(codeLevel);
 				tblDetailUserJapan.setStartDate(startDate);
 				tblDetailUserJapan.setEndDate(endDate);
 				tblDetailUserJapan.setTotal(total);
-				System.out.println(tblDetailUserJapan.getCodeLevel());
-				System.out.println("logic test user id detail : " + tblDetailUserJapan.getUserId());
-
 				check = tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan);
 			}
-			if (check == true) {
-				BaseDaoImpl.conn.commit();
-				System.out.println("commit in if else");
-			} else {
-				System.out.println("roll back in if else");
-				BaseDaoImpl.conn.rollback();
-			}
+
+			BaseDaoImpl.conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("roll back in exception");
 			BaseDaoImpl.conn.rollback();
+			System.out.println("roll back in exception");
 		} finally {
 			baseDaoImpl.closeDB(BaseDaoImpl.conn);
 		}

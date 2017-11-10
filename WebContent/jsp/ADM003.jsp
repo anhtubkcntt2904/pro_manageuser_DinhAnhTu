@@ -119,6 +119,7 @@
 									onfocus="this.style.borderColor='#0066ff';"
 									onblur="this.style.borderColor='#aaaaaa';" /></td>
 							</tr>
+							<c:if test ="${type != 'edit'}">
 							<tr>
 								<td class="lbl_left"><font color="red">*</font> パスワード:</td>
 								<td align="left"><input class="txBox" type="password"
@@ -133,6 +134,7 @@
 									onfocus="this.style.borderColor='#0066ff';"
 									onblur="this.style.borderColor='#aaaaaa';" /></td>
 							</tr>
+							</c:if>
 							<tr>
 								<th align="left" colspan="2"><a
 									href="javascript:myFunction()">日本語能力</a></th>

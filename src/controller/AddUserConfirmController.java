@@ -34,6 +34,7 @@ public class AddUserConfirmController extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
+			// 03 -> 04 confirm
 			String keyAdd = request.getParameter("keyAdd");
 			request.setAttribute("keyAdd", keyAdd);
 			HttpSession session = request.getSession();
@@ -42,7 +43,8 @@ public class AddUserConfirmController extends HttpServlet {
 			request.getRequestDispatcher(Constant.ADM004).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
+			response.sendRedirect(
+					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}
 	}
 
@@ -54,6 +56,7 @@ public class AddUserConfirmController extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
+			// 04-> submit create user
 			String keyAdd = request.getParameter("keyAdd");
 			HttpSession session = request.getSession();
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
@@ -63,13 +66,16 @@ public class AddUserConfirmController extends HttpServlet {
 				isSuccess = tblUserLogic.createUser(userInfor);
 			}
 			if (isSuccess) {
-				response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.INSERT_SUCCESS);
-			}else {
-				response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
+				response.sendRedirect(
+						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.INSERT_SUCCESS);
+			} else {
+				response.sendRedirect(
+						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
+			response.sendRedirect(
+					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}
 	}
 

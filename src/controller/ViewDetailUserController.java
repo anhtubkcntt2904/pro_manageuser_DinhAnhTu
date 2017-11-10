@@ -37,6 +37,7 @@ public class ViewDetailUserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		//click id user ADM002
 		int userid = Integer.parseInt(request.getParameter("userid"));
 		TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 		UserInfor userInfor = new UserInfor();

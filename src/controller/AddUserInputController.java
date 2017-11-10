@@ -24,6 +24,7 @@ import entity.MstJapan;
 import entity.UserInfor;
 import logic.impl.MstGroupLogicImpl;
 import logic.impl.MstJapanLogicImpl;
+import logic.impl.TblUserLogicImpl;
 import validate.Validate;
 
 /**
@@ -47,12 +48,21 @@ public class AddUserInputController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
 		try {
-			setDataLogic(request, response);
-			UserInfor userInfor = setDefaultValue(request, response);
-			request.setAttribute("userInfor", userInfor);
-			request.getRequestDispatcher(Constant.ADM003).forward(request, response);
+			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
+			boolean existedUser = false;
+			int userid = Integer.parseInt(request.getParameter("user_id"));
+			existedUser = tblUserLogic.isExistedUser(userid);
+			if (existedUser) {
+				// trường hợp default vào màn hình
+				setDataLogic(request, response);
+				UserInfor userInfor = setDefaultValue(request, response);
+				request.setAttribute("userInfor", userInfor);
+				request.getRequestDispatcher(Constant.ADM003).forward(request, response);
+			} else {
+				response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);
@@ -67,28 +77,43 @@ public class AddUserInputController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<String> lstError = new ArrayList<>();
+		String type = request.getParameter("type");
+		UserInfor userInfor = new UserInfor();
 		// TODO Auto-generated method stub
 		try {
-			Validate validate = new Validate();
-			UserInfor userInfor = setDefaultValue(request, response);
-			lstError = validate.validateUserInfor(userInfor);
+			switch (type) {
+			case Constant.CONFIRM:
+				// trường hợp click confirm add user
+				Validate validate = new Validate();
+				userInfor = setDefaultValue(request, response);
+				lstError = validate.validateUserInfor(userInfor);
 
-		/*	if (lstError.size() > 0) {
+				if (lstError.size() > 0) {
+					setDataLogic(request, response);
+					request.setAttribute("lstError", lstError);
+					request.setAttribute("userInfor", userInfor);
+					request.getRequestDispatcher(Constant.ADM003).forward(request, response);
+				} else {
+
+					// tạo key để thêm vào userInfor session
+					long keyAdd = System.currentTimeMillis() % 1000;
+					HttpSession session = request.getSession();
+					session.setAttribute("userInfor" + keyAdd, userInfor);
+					response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?keyAdd=" + keyAdd);
+				}
+				break;
+			case Constant.EDIT:
 				setDataLogic(request, response);
-				request.setAttribute("lstError", lstError);
+				userInfor = setDefaultValue(request, response);
 				request.setAttribute("userInfor", userInfor);
+				request.setAttribute("type", type);
 				request.getRequestDispatcher(Constant.ADM003).forward(request, response);
-			} else {*/
-
-				// tạo key để thêm vào userInfor session
-				long keyAdd = System.currentTimeMillis() % 1000;
-				HttpSession session = request.getSession();
-				session.setAttribute("userInfor" + keyAdd, userInfor);
-				response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?keyAdd=" + keyAdd);
-			//}
+				break;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);
+			response.sendRedirect(
+					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}
 	}
 
@@ -149,15 +174,16 @@ public class AddUserInputController extends HttpServlet {
 			userInfor.setYearbirthday(yearnow);
 			userInfor.setMonthbirthday(monthnow);
 			userInfor.setDaybirthday(daynow);
-			
+
 			userInfor.setYearvalidate(yearnow);
 			userInfor.setMonthvalidate(monthnow);
 			userInfor.setDayvalidate(daynow);
-			
+
 			userInfor.setYearinvalidate(yearnow + 1);
 			userInfor.setMonthinvalidate(monthnow);
 			userInfor.setDayinvalidate(daynow);
 			break;
+		// 03 click confirm
 		case Constant.CONFIRM:
 			userInfor = new UserInfor();
 			String loginName = request.getParameter("loginName");
@@ -170,44 +196,44 @@ public class AddUserInputController extends HttpServlet {
 			int monthbirthday = common.convertStringToInt(request.getParameter("monthbirthday"));
 			int daybirthday = common.convertStringToInt(request.getParameter("daybirthday"));
 			Date dateBirthday = common.toDate(yearbirthday, monthbirthday, daybirthday);
-			
+
 			String email = request.getParameter("email");
 			String tel = request.getParameter("tel");
 			String password = request.getParameter("password");
 			String confirmpass = request.getParameter("confirmpass");
 			String code_level = request.getParameter("code_level");
-			
-			Date dateValidate,dateInvalidate;
+
+			Date dateValidate, dateInvalidate;
 			String total;
-			int yearvalidate,monthvalidate,dayvalidate;
-			int yearinvalidate,monthinvalidate,dayinvalidate;
+			int yearvalidate, monthvalidate, dayvalidate;
+			int yearinvalidate, monthinvalidate, dayinvalidate;
 
 			if (!"0".equals(code_level)) {
 				// lấy ra ngày cấp chứng chỉ của user
-				 yearvalidate = common.convertStringToInt(request.getParameter("yearvalidate"));
-				 monthvalidate = common.convertStringToInt(request.getParameter("monthvalidate"));
-				 dayvalidate = common.convertStringToInt(request.getParameter("dayvalidate"));
-				 dateValidate = common.toDate(yearvalidate, monthvalidate, dayvalidate);
+				yearvalidate = common.convertStringToInt(request.getParameter("yearvalidate"));
+				monthvalidate = common.convertStringToInt(request.getParameter("monthvalidate"));
+				dayvalidate = common.convertStringToInt(request.getParameter("dayvalidate"));
+				dateValidate = common.toDate(yearvalidate, monthvalidate, dayvalidate);
 
 				// lấy ra ngày hết hạn chứng chỉ của user
-				 yearinvalidate = common.convertStringToInt(request.getParameter("yearinvalidate"));
-				 monthinvalidate = common.convertStringToInt(request.getParameter("monthinvalidate"));
-				 dayinvalidate = common.convertStringToInt(request.getParameter("dayinvalidate"));
-				 dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
+				yearinvalidate = common.convertStringToInt(request.getParameter("yearinvalidate"));
+				monthinvalidate = common.convertStringToInt(request.getParameter("monthinvalidate"));
+				dayinvalidate = common.convertStringToInt(request.getParameter("dayinvalidate"));
+				dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
 
-				 total = request.getParameter("total");
-			}else {
-				 yearvalidate = yearnow;
-				 monthvalidate = monthnow;
-				 dayvalidate = daynow;
-				 dateValidate = common.toDate(yearvalidate, monthvalidate, dayvalidate);
-				
-				 yearinvalidate = yearnow + 1;
-				 monthinvalidate = monthnow;
-				 dayinvalidate = daynow;
-				 dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
-				
-				 total = "";
+				total = request.getParameter("total");
+			} else {
+				yearvalidate = yearnow;
+				monthvalidate = monthnow;
+				dayvalidate = daynow;
+				dateValidate = common.toDate(yearvalidate, monthvalidate, dayvalidate);
+
+				yearinvalidate = yearnow + 1;
+				monthinvalidate = monthnow;
+				dayinvalidate = daynow;
+				dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
+
+				total = "";
 			}
 
 			userInfor.setLoginName(loginName);
@@ -223,8 +249,7 @@ public class AddUserInputController extends HttpServlet {
 			userInfor.setPassword(password);
 			userInfor.setCodeLevel(code_level);
 			userInfor.setConfirmpass(confirmpass);
-			
-			
+
 			userInfor.setStartDate(dateValidate);
 			userInfor.setYearvalidate(yearvalidate);
 			userInfor.setMonthvalidate(monthvalidate);
@@ -235,21 +260,26 @@ public class AddUserInputController extends HttpServlet {
 			userInfor.setDayinvalidate(dayinvalidate);
 			userInfor.setTotal(total);
 			break;
+		// 04 click back
 		case Constant.BACK:
 			String keyBack = request.getParameter("keyAdd");
 			userInfor = (UserInfor) request.getSession().getAttribute("userInfor" + keyBack);
 			break;
+		// 04 click ok
 		case Constant.OK:
 			String keyOK = request.getParameter("keyAdd");
 			userInfor = (UserInfor) request.getSession().getAttribute("userInfor" + keyOK);
+
+		case Constant.EDIT:
+			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
+			int userid = Integer.parseInt(request.getParameter("user_id"));
+			userInfor = tblUserLogic.getUserInforById(userid);
+			break;
+
 		default:
 			break;
 		}
 
-		/*
-		 * request.setAttribute("userInfor", userInfor);
-		 * request.getRequestDispatcher("/jsp/ADM003.jsp").forward(request, response);
-		 */
 		return userInfor;
 	}
 }

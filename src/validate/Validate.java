@@ -67,7 +67,7 @@ public class Validate {
 		MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
 		MstJapanLogicImpl mstJapanLogic = new MstJapanLogicImpl();
 
-		/*// format check loginname
+		// format check loginname
 		String loginformat = "^[^0-9][a-zA-Z_0-9]+";
 		boolean checkLoginName = userInfor.getLoginName().matches(loginformat);
 
@@ -245,6 +245,6 @@ public class Validate {
 		}
 		
 	
-*/		return lstError;
+		return lstError;
 	}
 }

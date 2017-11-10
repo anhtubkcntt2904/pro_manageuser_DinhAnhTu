@@ -61,6 +61,7 @@ public class Constant {
 	public static final String CONFIRM = "confirm";
 	public static final String BACK = "back";
 	public static final String OK = "ok";
+	public static final String EDIT = "edit";
 	
 	public static final String INSERT_SUCCESS = "insertsuccess";
 	public static final String SYSTEM_ERROR = "systemerror";
