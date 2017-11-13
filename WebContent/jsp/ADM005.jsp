@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
-<!-- <script type="text/javascript" src="../js/user.js"></script> -->
+<script type="text/javascript" src="../js/user.js"></script>
 <title>ユーザ管理</title>
 <script type="text/javascript" language="javascript">
 	function myFunction() {
@@ -26,7 +26,8 @@
 	<!-- End vung header -->
 
 	<!-- Begin vung input-->
-	<form action="AddUserInput.do?type=edit" method="post" name="inputform">
+	<form action="AddUserInput.do?typeget=edit" method="get"
+		name="inputform">
 		<table class="tbl_input" border="0" width="75%" cellpadding="0"
 			cellspacing="0">
 			<tr>
@@ -42,6 +43,7 @@
 							<tr>
 								<td><input type="hidden" name="user_id"
 									value="${userInfor05.userId}" /></td>
+								<td><input type="hidden" name="type" value="edit" /></td>
 							</tr>
 						</table>
 						<table border="1" width="70%" class="tbl_input" cellpadding="4"
@@ -137,24 +139,14 @@
 		</table>
 		<div style="padding-left: 100px;">&nbsp;</div>
 		<!-- Begin vung button -->
-		<%-- <div style="padding-left: 45px;">
-			<input type="hidden" name="keyAdd" value="${keyAdd}">
-				<table border="0" cellpadding="4" cellspacing="0" width="300px">
-					<tr>
-						<th width="200px" align="center">&nbsp;</th>
-						<td><input class="btn" type="submit" value="OK" /></td>
-						<td><input class="btn" type="button" value="戻る"
-							onclick="location.href='ListUser.do';" /></td>
-					</tr>
-				</table> --%>
-
 		<div style="padding-left: 100px;">
 			<table border="0" cellpadding="4" cellspacing="0" width="300px">
 				<tr>
 					<th width="200px" align="center">&nbsp;</th>
 					<td><input class="btn" type="submit" value="編集" /></td>
 					<td><input class="btn" type="button" value="削除" /></td>
-					<td><input class="btn" type="button" value="戻る" /></td>
+					<td><input class="btn" type="button" value="戻る"
+						onclick="location.href='ListUser.do';" /></td>
 				</tr>
 			</table>
 			<!-- End vung button -->
@@ -162,7 +154,10 @@
 	<!-- End vung input -->
 
 	<!-- Begin vung footer -->
-	<%@include file="footer.jsp"%>
+	<div class="lbl_footer">
+		<br><br><br><br> Copyright © 2010 ルビナソフトウエア株式会社.
+						All rights reserved. 
+	</div>
 	<!-- End vung footer -->
 </body>
 

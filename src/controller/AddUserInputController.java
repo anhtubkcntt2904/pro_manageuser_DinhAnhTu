@@ -48,20 +48,31 @@ public class AddUserInputController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		// trường hợp 02 thêm mới và 05 sửa
 		try {
-			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
-			boolean existedUser = false;
-			int userid = Integer.parseInt(request.getParameter("user_id"));
-			existedUser = tblUserLogic.isExistedUser(userid);
-			if (existedUser) {
-				// trường hợp default vào màn hình
+			String type = request.getParameter("type");
+			System.out.println(type);
+			switch (type) {
+			case Constant.EDIT:
+				TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
+				boolean existedUser = false;
+				int userid = Integer.parseInt(request.getParameter("user_id"));
+				existedUser = tblUserLogic.isExistedUser(userid);
+				if (existedUser) {
+					setDataLogic(request, response);
+					UserInfor userInfor = setDefaultValue(request, response);
+					request.setAttribute("userInfor", userInfor);
+					request.getRequestDispatcher(Constant.ADM003).forward(request, response);
+				} else {
+					response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);
+				}
+				break;
+			case Constant.DEFAULT:
 				setDataLogic(request, response);
 				UserInfor userInfor = setDefaultValue(request, response);
 				request.setAttribute("userInfor", userInfor);
 				request.getRequestDispatcher(Constant.ADM003).forward(request, response);
-			} else {
-				response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);
+				break;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,40 +88,29 @@ public class AddUserInputController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<String> lstError = new ArrayList<>();
-		String type = request.getParameter("type");
 		UserInfor userInfor = new UserInfor();
 		// TODO Auto-generated method stub
 		try {
-			switch (type) {
-			case Constant.CONFIRM:
-				// trường hợp click confirm add user
-				Validate validate = new Validate();
-				userInfor = setDefaultValue(request, response);
-				lstError = validate.validateUserInfor(userInfor);
+			// trường hợp click confirm 03
+			Validate validate = new Validate();
+			userInfor = setDefaultValue(request, response);
+			lstError = validate.validateUserInfor(userInfor);
 
-				if (lstError.size() > 0) {
-					setDataLogic(request, response);
-					request.setAttribute("lstError", lstError);
-					request.setAttribute("userInfor", userInfor);
-					request.getRequestDispatcher(Constant.ADM003).forward(request, response);
-				} else {
-
-					// tạo key để thêm vào userInfor session
-					long keyAdd = System.currentTimeMillis() % 1000;
-					HttpSession session = request.getSession();
-					session.setAttribute("userInfor" + keyAdd, userInfor);
-					response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?keyAdd=" + keyAdd);
-				}
-				break;
-			case Constant.EDIT:
+			if (lstError.size() > 0) {
 				setDataLogic(request, response);
-				userInfor = setDefaultValue(request, response);
+				request.setAttribute("lstError", lstError);
 				request.setAttribute("userInfor", userInfor);
-				request.setAttribute("type", type);
 				request.getRequestDispatcher(Constant.ADM003).forward(request, response);
-				break;
+			} else {
+
+				// tạo key để thêm vào userInfor session
+				long keyAdd = System.currentTimeMillis() % 1000;
+				HttpSession session = request.getSession();
+				session.setAttribute("userInfor" + keyAdd, userInfor);
+				response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?keyAdd=" + keyAdd);
 			}
-		} catch (Exception e) {
+
+		} catch (Exception e) { 
 			e.printStackTrace();
 			response.sendRedirect(
 					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
@@ -269,7 +269,7 @@ public class AddUserInputController extends HttpServlet {
 		case Constant.OK:
 			String keyOK = request.getParameter("keyAdd");
 			userInfor = (UserInfor) request.getSession().getAttribute("userInfor" + keyOK);
-
+		// 05 click edit
 		case Constant.EDIT:
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 			int userid = Integer.parseInt(request.getParameter("user_id"));
