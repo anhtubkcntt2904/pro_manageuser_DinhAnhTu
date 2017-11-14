@@ -92,4 +92,20 @@ public interface TblUserLogic {
 	 * @return thông tin user
 	 */
 	public UserInfor getUserInforById(int userId);
+
+	/**
+	 * Phương thức update thông tin user infor
+	 * 
+	 * @param userInfor
+	 * @return true hoặc false
+	 */
+	public Boolean updateUserInfor(UserInfor userInfor) throws SQLException;
+
+	/**
+	 * phương thức kiểm tra user có code level không
+	 * 
+	 * @param userId
+	 * @return true hoặc false
+	 */
+	public Boolean checkUserCodeLevel(int userId);
 }

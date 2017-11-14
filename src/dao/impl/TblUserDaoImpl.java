@@ -312,7 +312,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps.setString(7, tblUser.getTel());
 			ps.setDate(8, java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
 			ps.setString(9, tblUser.getSalt());
-			
 
 			ps.executeUpdate();
 
@@ -395,10 +394,11 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	@Override
 	public boolean updateUser(TblUser tblUser) throws SQLException {
 		boolean check = false;
-		connectDB();
 		StringBuffer sql = new StringBuffer();
 		sql.append("update tbl_user ");
-		sql.append("set group_id = ? , login_name = ?, full_name = ?, full_name_kana = ?, email = ?, tel = ?, birthday = ?,salt = ?");
+		sql.append(
+				"set group_id = ? , login_name = ?, full_name = ?, full_name_kana = ?, email = ?, tel = ?, birthday = ?,salt = ?");
+		sql.append("where user_id = ?");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -413,14 +413,15 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps.setString(++i, tblUser.getTel());
 			ps.setDate(++i, java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
 			ps.setString(++i, tblUser.getSalt());
-			
+			if (tblUser.getUserId() != 0) {
+				ps.setInt(++i, tblUser.getUserId());
+			}
 			int record = ps.executeUpdate();
-			
-			if(record > 0) {
+
+			if (record > 0) {
 				check = true;
 			}
 
-			
 		} catch (SQLException e) {
 			throw e;
 			// e.printStackTrace();

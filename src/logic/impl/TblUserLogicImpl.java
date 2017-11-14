@@ -166,4 +166,101 @@ public class TblUserLogicImpl implements TblUserLogic {
 		userInfor = tblUserDao.getUserInforById(userId);
 		return userInfor;
 	}
+
+	@Override
+	public Boolean updateUserInfor(UserInfor userInfor) throws SQLException {
+		BaseDaoImpl baseDaoImpl = new BaseDaoImpl();
+		Boolean check = true;
+		try {
+			TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
+			TblUser tblUser = new TblUser();
+			TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
+			TblDetailUserJapanDaoImpl tblDetailUserJapanDaoImpl = new TblDetailUserJapanDaoImpl();
+			baseDaoImpl.connectDB();
+			
+			//Lấy thông tin người dùng nhập vào
+			int userId = userInfor.getUserId();
+			int groupId = userInfor.getGroupId();
+			String loginName = userInfor.getLoginName();
+			String password = userInfor.getPassword();
+			String fullname = userInfor.getFullName();
+			String fullnamekana = userInfor.getFullNameKana();
+			String email = userInfor.getEmail();
+			String tel = userInfor.getTel();
+			Date birthday = userInfor.getBirthday();
+			String salt = "";
+			
+			String codeLevel = userInfor.getCodeLevel();
+			Date startDate = userInfor.getStartDate();
+			Date endDate = userInfor.getEndDate();
+			String total = userInfor.getTotal();
+			
+			tblUser.setUserId(userId);
+			tblUser.setGroupId(groupId);
+			tblUser.setLoginName(loginName);
+			tblUser.setPassword(password);
+			tblUser.setFullname(fullname);
+			tblUser.setFullnamekana(fullnamekana);
+			tblUser.setEmail(email);
+			tblUser.setTel(tel);
+			tblUser.setBirthday(birthday);
+			tblUser.setSalt(salt);
+			
+			tblDetailUserJapan.setCodeLevel(codeLevel);
+			tblDetailUserJapan.setStartDate(startDate);
+			tblDetailUserJapan.setEndDate(endDate);
+			tblDetailUserJapan.setTotal(total);
+
+			Boolean ExistedUserCodeLevel = false;
+			ExistedUserCodeLevel = checkUserCodeLevel(userId);
+			
+			BaseDaoImpl.conn.setAutoCommit(false);
+//			tblUserDao.updateUser(tblUser);
+			if(tblUserDao.updateUser(tblUser)) {
+				tblDetailUserJapan.setUserId(userId);
+			}
+			//nếu trong db, user có trình độ tiếng nhật
+			if (ExistedUserCodeLevel) {
+				//nếu người dùng xóa TĐTN
+				if ("0".equals(codeLevel)) {
+					System.out.println("come to delete");
+					System.out.println(tblDetailUserJapan.getUserId());
+					check = tblDetailUserJapanDaoImpl.deleteDetailUserJapan(tblDetailUserJapan.getUserId());
+					System.out.println("code level :" + codeLevel);
+				//nếu người dùng chỉnh sửa TĐTN hoặc không thay đổi
+				} else {
+					System.out.println("come to update");
+					check = tblDetailUserJapanDaoImpl.updateDetailUserJapan(tblDetailUserJapan);
+				}
+			//nếu trong db, user không có trình độ tiếng nhật
+			} else {
+				//nếu người dùng thêm TĐTN
+				if (!"0".equals(codeLevel)) {
+					System.out.println("come to insert");
+					check = tblDetailUserJapanDaoImpl.insertDetailUserJapan(tblDetailUserJapan);
+				}
+				//Nếu người dùng không thay đổi thì không thực hiện gì cả
+			}
+			BaseDaoImpl.conn.commit();
+		} catch (Exception e) {
+			System.out.println("come to exception");
+			e.printStackTrace();
+			BaseDaoImpl.conn.rollback();
+			System.out.println("roll back in exception");
+		}finally {
+			baseDaoImpl.closeDB(BaseDaoImpl.conn);
+		}
+		return check;
+	}
+
+	@Override
+	public Boolean checkUserCodeLevel(int userId) {
+		TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
+		TblDetailUserJapanDaoImpl tblDetailUserJapanDaoImpl = new TblDetailUserJapanDaoImpl();
+		tblDetailUserJapan = tblDetailUserJapanDaoImpl.getDetailUserJapanById(userId);
+		if (tblDetailUserJapan.getCodeLevel() != null) {
+			return true;
+		}
+		return false;
+	}
 }

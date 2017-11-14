@@ -28,7 +28,23 @@ public interface TblDetailUserJapanDao {
 	 * 
 	 * @param tblDetailUserJapan
 	 * @return true hoặc false
-	 *  @throws SQLException
 	 */
-	public Boolean updateDetailUserJpan(TblDetailUserJapan tblDetailUserJapan) throws SQLException;
+	public Boolean updateDetailUserJapan(TblDetailUserJapan tblDetailUserJapan) throws SQLException;
+
+	/**
+	 * Lấy thông tin detail user japan bằng user id
+	 * 
+	 * @param userId
+	 * @return thông tin detail user japan
+	 */
+	public TblDetailUserJapan getDetailUserJapanById(int userId);
+
+	/**
+	 * xóa detail user japan theo code level
+	 * 
+	 * @param code_level
+	 * @return true hoặc false
+	 */
+	public Boolean deleteDetailUserJapan(int userId) throws SQLException;
+
 }

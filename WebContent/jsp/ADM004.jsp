@@ -26,7 +26,7 @@
 	<!-- End vung header -->
 
 	<!-- Begin vung input-->
-	<form action="AddUserOK.do?type=ok" method="post" name="inputform">
+	<form action="AddUserOK.do" method="post" name="inputform">
 		<table class="tbl_input" border="0" width="75%" cellpadding="0"
 			cellspacing="0">
 			<tr>

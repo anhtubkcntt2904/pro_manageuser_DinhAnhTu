@@ -62,8 +62,15 @@ public class AddUserConfirmController extends HttpServlet {
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 			Boolean isSuccess = false;
-			if (userInfor != null) {
+			Boolean isExistedUser = false;
+			int userId = Integer.parseInt(request.getParameter("user_id"));
+			System.out.println("user id do post : " + userId);
+			isExistedUser = tblUserLogic.isExistedUser(userId);
+			System.out.println("true false do post :" + isExistedUser);
+			if (userInfor != null && !isExistedUser) {
 				isSuccess = tblUserLogic.createUser(userInfor);
+			}else {
+				isSuccess = tblUserLogic.updateUserInfor(userInfor);
 			}
 			if (isSuccess) {
 				response.sendRedirect(
