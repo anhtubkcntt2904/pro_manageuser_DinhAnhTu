@@ -40,6 +40,13 @@
 			<tr>
 				<td align="left">
 					<div style="padding-left: 100px;">
+						<table border="0">
+							<tr>
+								<td><input type="hidden" name="user_id"
+									value="${userInfor.userId}" /></td>
+								<td><input type="hidden" name="type" value="edit" /></td>
+							</tr>
+						</table>
 						<table border="1" width="70%" class="tbl_input" cellpadding="4"
 							cellspacing="0">
 							<tr>
@@ -140,7 +147,7 @@
 						<th width="200px" align="center">&nbsp;</th>
 						<td><input class="btn" type="submit" value="OK" /></td>
 						<td><input class="btn" type="button" value="戻る"
-							onclick="location.href='/manage_user/AddUserInput.do?type=back';" />
+							onclick="location.href='/manage_user/AddUserInput.do?type=back&keyAdd=${keyAdd}';" />
 						</td>
 					</tr>
 				</table> <!-- End vung button -->

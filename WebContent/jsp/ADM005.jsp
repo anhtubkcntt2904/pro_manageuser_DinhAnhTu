@@ -26,7 +26,7 @@
 	<!-- End vung header -->
 
 	<!-- Begin vung input-->
-	<form action="AddUserInput.do?typeget=edit" method="get"
+	<form action="AddUserInput.do" method="get"
 		name="inputform">
 		<table class="tbl_input" border="0" width="75%" cellpadding="0"
 			cellspacing="0">

@@ -19,7 +19,16 @@ public interface TblDetailUserJapanDao {
 	 * 
 	 * @param tblDetailUserJapan
 	 * @return true hoặc false
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public Boolean insertDetailUserJapan(TblDetailUserJapan tblDetailUserJapan) throws SQLException;
+
+	/**
+	 * phương thức update detail user japan
+	 * 
+	 * @param tblDetailUserJapan
+	 * @return true hoặc false
+	 *  @throws SQLException
+	 */
+	public Boolean updateDetailUserJpan(TblDetailUserJapan tblDetailUserJapan) throws SQLException;
 }

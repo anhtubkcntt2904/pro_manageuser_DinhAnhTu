@@ -27,7 +27,8 @@
 	<!-- End vung header -->
 
 	<!-- Begin vung input-->
-	<form action="AddUserInput.do?type=confirm" method="post" name="inputform">
+	<form action="AddUserInput.do?type=confirm" method="post"
+		name="inputform">
 		<table class="tbl_input" border="0" width="75%" cellpadding="0"
 			cellspacing="0">
 			<tr>
@@ -41,7 +42,7 @@
 						<td class="errMsg" colspan="2"><font color="red"><c:out
 									value="${errMess}" /></font></td>
 					</tr>
-				</c:forEach>			
+				</c:forEach>
 			</tr>
 			<tr>
 				<td align="left">
@@ -54,9 +55,9 @@
 							</tr>
 							<tr>
 								<td class="lbl_left"><font color="red">*</font> アカウント名:</td>
-								<td align="left"><input class="txBox" type="text" name="loginName"
-									value="${fn:escapeXml(userInfor.loginName)}" size="15"
-									onfocus="this.style.borderColor='#0066ff';"
+								<td align="left"><input class="txBox" type="text"
+									name="loginName" value="${fn:escapeXml(userInfor.loginName)}"
+									size="15" onfocus="this.style.borderColor='#0066ff';"
 									onblur="this.style.borderColor='#aaaaaa';" /></td>
 							</tr>
 							<tr>
@@ -72,33 +73,34 @@
 							<tr>
 								<td class="lbl_left"><font color="red">*</font> 氏名:</td>
 								<td align="left"><input class="txBox" type="text"
-									name="fullName" value="${fn:escapeXml(userInfor.fullName)}" size="30"
-									onfocus="this.style.borderColor='#0066ff';"
+									name="fullName" value="${fn:escapeXml(userInfor.fullName)}"
+									size="30" onfocus="this.style.borderColor='#0066ff';"
 									onblur="this.style.borderColor='#aaaaaa';" /></td>
 							</tr>
 							<tr>
 								<td class="lbl_left">カタカナ氏名:</td>
 								<td align="left"><input class="txBox" type="text"
-									name="fullNameKana" value="${fn:escapeXml(userInfor.fullNameKana)}" size="30"
+									name="fullNameKana"
+									value="${fn:escapeXml(userInfor.fullNameKana)}" size="30"
 									onfocus="this.style.borderColor='#0066ff';"
 									onblur="this.style.borderColor='#aaaaaa';" /></td>
 							</tr>
 							<tr>
 								<td class="lbl_left"><font color="red">*</font> 生年月日:</td>
 								<td align="left"><select name="yearbirthday">
-								<%-- <option value="${yearNow}">${yearNow}</option> --%>
+										<%-- <option value="${yearNow}">${yearNow}</option> --%>
 										<c:forEach var="year" items="${lstYear}">
 											<option value="${year}"
 												${year == userInfor.yearbirthday ? 'selected' : ''}>${year}</option>
 										</c:forEach>
 								</select>年 <select name="monthbirthday">
-								<%-- <option value="${monthnow}">${monthnow}</option> --%>
+										<%-- <option value="${monthnow}">${monthnow}</option> --%>
 										<c:forEach var="month" items="${lstMonth}">
 											<option value="${month}"
 												${month == userInfor.monthbirthday ? 'selected' : ''}>${month}</option>
 										</c:forEach>
 								</select>月 <select name="daybirthday">
-								<%-- <option value="${daynow}">${daynow}</option> --%>
+										<%-- <option value="${daynow}">${daynow}</option> --%>
 										<c:forEach var="day" items="${lstDay}">
 											<option value="${day}"
 												${day == userInfor.daybirthday ? 'selected' : ''}>${day}</option>
@@ -119,28 +121,28 @@
 									onfocus="this.style.borderColor='#0066ff';"
 									onblur="this.style.borderColor='#aaaaaa';" /></td>
 							</tr>
-							<c:if test ="${type != 'edit'}">
-							<tr>
-								<td class="lbl_left"><font color="red">*</font> パスワード:</td>
-								<td align="left"><input class="txBox" type="password"
-									name="password" value="" size="30"
-									onfocus="this.style.borderColor='#0066ff';"
-									onblur="this.style.borderColor='#aaaaaa';" /></td>
-							</tr>
-							<tr>
-								<td class="lbl_left">パスワード（確認）:</td>
-								<td align="left"><input class="txBox" type="password"
-									name="confirmpass" value="" size="30"
-									onfocus="this.style.borderColor='#0066ff';"
-									onblur="this.style.borderColor='#aaaaaa';" /></td>
-							</tr>
+							<c:if test="${userInfor.userId == 0}">
+								<tr>
+									<td class="lbl_left"><font color="red">*</font> パスワード:</td>
+									<td align="left"><input class="txBox" type="password"
+										name="password" value="" size="30"
+										onfocus="this.style.borderColor='#0066ff';"
+										onblur="this.style.borderColor='#aaaaaa';" /></td>
+								</tr>
+								<tr>
+									<td class="lbl_left">パスワード（確認）:</td>
+									<td align="left"><input class="txBox" type="password"
+										name="confirmpass" value="" size="30"
+										onfocus="this.style.borderColor='#0066ff';"
+										onblur="this.style.borderColor='#aaaaaa';" /></td>
+								</tr>
 							</c:if>
 							<tr>
 								<th align="left" colspan="2"><a
 									href="javascript:myFunction()">日本語能力</a></th>
 							</tr>
 							<tbody id="showHide" style="display: none">
-								<tr> 
+								<tr>
 									<td class="lbl_left">資格:</td>
 									<td align="left"><select name="code_level">
 											<option value="0">選択してください</option>
@@ -153,19 +155,19 @@
 								<tr>
 									<td class="lbl_left">資格交付日:</td>
 									<td align="left"><select name="yearvalidate">
-									<%-- <option value="${yearNow}">${yearNow}</option> --%>
+											<%-- <option value="${yearNow}">${yearNow}</option> --%>
 											<c:forEach var="year" items="${lstYear}">
 												<option value="${year}"
 													${year == userInfor.yearvalidate ? 'selected' : ''}>${year}</option>
 											</c:forEach>
 									</select>年<select name="monthvalidate">
-									<%-- <option value="${monthnow}">${monthnow}</option> --%>
+											<%-- <option value="${monthnow}">${monthnow}</option> --%>
 											<c:forEach var="month" items="${lstMonth}">
 												<option value="${month}"
 													${month == userInfor.monthvalidate ? 'selected' : ''}>${month}</option>
 											</c:forEach>
 									</select>月 <select name="dayvalidate">
-									<%-- <option value="${daynow}">${daynow}</option> --%>
+											<%-- <option value="${daynow}">${daynow}</option> --%>
 											<c:forEach var="day" items="${lstDay}">
 												<option value="${day}"
 													${day == userInfor.dayvalidate ? 'selected' : ''}>${day}</option>
@@ -175,7 +177,7 @@
 								<tr>
 									<td class="lbl_left">失効日:</td>
 									<td align="left"><select name="yearinvalidate">
-									<%-- <option value="${userInfor.yearinvalidate}">${userInfor.yearinvalidate}</option> --%>
+											<%-- <option value="${userInfor.yearinvalidate}">${userInfor.yearinvalidate}</option> --%>
 											<%-- <c:forEach var="year" items="${lstYear}">
 												<option value="${year}"
 													${year == userInfor.yearinvalidate ? 'selected' : ''}>${year}</option>
@@ -185,13 +187,13 @@
 													${year == userInfor.yearinvalidate ? 'selected' : ''}>${year}</option>
 											</c:forEach>
 									</select>年 <select name="monthinvalidate">
-									<%-- <option value="${monthnow}">${monthnow}</option> --%>
+											<%-- <option value="${monthnow}">${monthnow}</option> --%>
 											<c:forEach var="month" items="${lstMonth}">
 												<option value="${month}"
 													${month == userInfor.monthinvalidate ? 'selected' : ''}>${month}</option>
 											</c:forEach>
 									</select>月 <select name="dayinvalidate">
-									<%-- <option value="${daynow}">${daynow}</option> --%>
+											<%-- <option value="${daynow}">${daynow}</option> --%>
 											<c:forEach var="day" items="${lstDay}">
 												<option value="${day}"
 													${day == userInfor.dayinvalidate ? 'selected' : ''}>${day}</option>
@@ -231,7 +233,7 @@
 					<th width="200px" align="center">&nbsp;</th>
 					<td><input class="btn" type="submit" value="確認" /></td>
 					<td><input class="btn" type="button" value="戻る"
-					onclick="location.href='/manage_user/ListUser.do';" /></td>
+						onclick="location.href='/manage_user/ListUser.do';" /></td>
 				</tr>
 			</table>
 			<!-- End vung button -->

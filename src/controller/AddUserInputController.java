@@ -54,6 +54,7 @@ public class AddUserInputController extends HttpServlet {
 			System.out.println(type);
 			switch (type) {
 			case Constant.EDIT:
+				System.out.println("case edit in do get");
 				TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 				boolean existedUser = false;
 				int userid = Integer.parseInt(request.getParameter("user_id"));
@@ -67,7 +68,8 @@ public class AddUserInputController extends HttpServlet {
 					response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);
 				}
 				break;
-			case Constant.DEFAULT:
+			default:
+				System.out.println("come to default");
 				setDataLogic(request, response);
 				UserInfor userInfor = setDefaultValue(request, response);
 				request.setAttribute("userInfor", userInfor);
@@ -91,26 +93,26 @@ public class AddUserInputController extends HttpServlet {
 		UserInfor userInfor = new UserInfor();
 		// TODO Auto-generated method stub
 		try {
-			// trường hợp click confirm 03
+			// trường hợp click confirm 03 
+			System.out.println("click confirm 03 ");
 			Validate validate = new Validate();
 			userInfor = setDefaultValue(request, response);
 			lstError = validate.validateUserInfor(userInfor);
 
-			if (lstError.size() > 0) {
-				setDataLogic(request, response);
-				request.setAttribute("lstError", lstError);
-				request.setAttribute("userInfor", userInfor);
-				request.getRequestDispatcher(Constant.ADM003).forward(request, response);
-			} else {
+			/*
+			 * if (lstError.size() > 0) { setDataLogic(request, response);
+			 * request.setAttribute("lstError", lstError); request.setAttribute("userInfor",
+			 * userInfor); request.getRequestDispatcher(Constant.ADM003).forward(request,
+			 * response); } else {
+			 */
+			// tạo key để thêm vào userInfor session
+			long keyAdd = System.currentTimeMillis() % 1000;
+			HttpSession session = request.getSession();
+			session.setAttribute("userInfor" + keyAdd, userInfor);
+			response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?keyAdd=" + keyAdd);
+			// }
 
-				// tạo key để thêm vào userInfor session
-				long keyAdd = System.currentTimeMillis() % 1000;
-				HttpSession session = request.getSession();
-				session.setAttribute("userInfor" + keyAdd, userInfor);
-				response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?keyAdd=" + keyAdd);
-			}
-
-		} catch (Exception e) { 
+		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendRedirect(
 					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
@@ -170,6 +172,7 @@ public class AddUserInputController extends HttpServlet {
 
 		switch (type) {
 		case Constant.DEFAULT:
+			System.out.println("come to default setdefault");
 			userInfor = new UserInfor();
 			userInfor.setYearbirthday(yearnow);
 			userInfor.setMonthbirthday(monthnow);
@@ -186,6 +189,10 @@ public class AddUserInputController extends HttpServlet {
 		// 03 click confirm
 		case Constant.CONFIRM:
 			userInfor = new UserInfor();
+			int userId = 0;
+			if(request.getParameter("userid") != "") {
+				 userId = Integer.parseInt(request.getParameter("user_id"));
+			}
 			String loginName = request.getParameter("loginName");
 			int group_id = common.convertStringToInt(request.getParameter("group_id"));
 			String fullName = request.getParameter("fullName");
@@ -236,6 +243,7 @@ public class AddUserInputController extends HttpServlet {
 				total = "";
 			}
 
+			userInfor.setUserId(userId);
 			userInfor.setLoginName(loginName);
 			userInfor.setGroupId(group_id);
 			userInfor.setFullName(fullName);
@@ -262,15 +270,18 @@ public class AddUserInputController extends HttpServlet {
 			break;
 		// 04 click back
 		case Constant.BACK:
+			System.out.println("come to back");
 			String keyBack = request.getParameter("keyAdd");
+			System.out.println("Key Back : " + keyBack);
 			userInfor = (UserInfor) request.getSession().getAttribute("userInfor" + keyBack);
 			break;
 		// 04 click ok
 		case Constant.OK:
 			String keyOK = request.getParameter("keyAdd");
 			userInfor = (UserInfor) request.getSession().getAttribute("userInfor" + keyOK);
-		// 05 click edit
+			// 05 click edit
 		case Constant.EDIT:
+			System.out.println("come to edit");
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 			int userid = Integer.parseInt(request.getParameter("user_id"));
 			userInfor = tblUserLogic.getUserInforById(userid);

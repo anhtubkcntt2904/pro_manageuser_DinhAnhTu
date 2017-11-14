@@ -93,4 +93,12 @@ public interface TblUserDao {
 	 * @return thông tin user
 	 */
 	public UserInfor getUserInforById(int userId);
+
+	/**
+	 * Phương thức update thông tin của user
+	 * 
+	 * @param tblUser
+	 * @return true hoặc false
+	 */
+	public boolean updateUser(TblUser tblUser) throws SQLException;
 }

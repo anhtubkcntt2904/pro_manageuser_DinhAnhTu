@@ -392,4 +392,40 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		return userInfor;
 	}
 
+	@Override
+	public boolean updateUser(TblUser tblUser) throws SQLException {
+		boolean check = false;
+		connectDB();
+		StringBuffer sql = new StringBuffer();
+		sql.append("update tbl_user ");
+		sql.append("set group_id = ? , login_name = ?, full_name = ?, full_name_kana = ?, email = ?, tel = ?, birthday = ?,salt = ?");
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			ps = conn.prepareStatement(sql.toString());
+			int i = 0;
+			ps.setInt(++i, tblUser.getGroupId());
+			ps.setString(++i, tblUser.getLoginName());
+			ps.setString(++i, tblUser.getFullname());
+			ps.setString(++i, tblUser.getFullnamekana());
+			ps.setString(++i, tblUser.getEmail());
+			ps.setString(++i, tblUser.getTel());
+			ps.setDate(++i, java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
+			ps.setString(++i, tblUser.getSalt());
+			
+			int record = ps.executeUpdate();
+			
+			if(record > 0) {
+				check = true;
+			}
+
+			
+		} catch (SQLException e) {
+			throw e;
+			// e.printStackTrace();
+		}
+		return check;
+	}
+
 }

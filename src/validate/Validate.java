@@ -84,10 +84,11 @@ public class Validate {
 		String emailformat = "[a-zA-Z_.0-9]+@[a-zA-Z_.0-9]+";
 		boolean checkEmail = userInfor.getEmail().matches(emailformat);
 
-		// check password
-		boolean checkPass = common.checkByte(userInfor.getPassword());
-
-		
+		boolean checkPass = true;
+		if (userInfor.getPassword() != null) {
+			// check password
+			checkPass = common.checkByte(userInfor.getPassword());
+		}
 
 		// check existed login name
 		boolean existedLoginName = tblUserLogic.checkExistedLoginName(userInfor.getUserId(), userInfor.getLoginName());
@@ -99,10 +100,10 @@ public class Validate {
 		boolean checkGroupId = mstGroupLogic.existedGroupId(userInfor.getGroupId());
 
 		if (!"0".equals(userInfor.getCodeLevel())) {
-			
+
 			// check code level
 			boolean checkCodeLevel = mstJapanLogic.existedCodelevel(userInfor.getCodeLevel());
-			
+
 			// check start date
 			List<Integer> lstStartDate = common.toArrayInteger(userInfor.getStartDate());
 			String startDate = common.convertToString(lstStartDate.get(0), lstStartDate.get(1), lstStartDate.get(2));
@@ -112,11 +113,11 @@ public class Validate {
 			List<Integer> lstEndDate = common.toArrayInteger(userInfor.getEndDate());
 			String endDate = common.convertToString(lstEndDate.get(0), lstEndDate.get(1), lstEndDate.get(2));
 			boolean checkEndDate = common.isValidDate(endDate);
-			
+
 			// check total
 			String totalhalfsize = "[0-9]+";
 			boolean checkTotal = userInfor.getTotal().matches(totalhalfsize);
-			
+
 			// validate start date
 			if (!checkStartDate) {
 				// ngày không hợp lệ
@@ -133,7 +134,8 @@ public class Validate {
 			if (!checkEndDate) {
 				// ngày không hợp lệ
 				lstError.add(messProp.getMessageProperties("ER011_ENDDATE"));
-			} else if (userInfor.getEndDate().before(userInfor.getStartDate()) || userInfor.getEndDate().equals(userInfor.getStartDate())) {
+			} else if (userInfor.getEndDate().before(userInfor.getStartDate())
+					|| userInfor.getEndDate().equals(userInfor.getStartDate())) {
 				// ngày hết hạn nhỏ hơn ngày cấp chứng chỉ
 				lstError.add(messProp.getMessageProperties("ER012_ENDDATE"));
 			}
@@ -146,7 +148,6 @@ public class Validate {
 				lstError.add(messProp.getMessageProperties("ER0018_TOTAL"));
 			}
 		}
-		
 
 		// check tel
 		String telformat = "[0-9]{1,4}-[0-9]{1,4}-[0-9]{1,4}";
@@ -227,24 +228,26 @@ public class Validate {
 			lstError.add(messProp.getMessageProperties("ER006_TEL"));
 		}
 
-		// validate pass
-		if (userInfor.getPassword().trim().length() == 0) {
-			// không nhập
-			lstError.add(messProp.getMessageProperties("ER001_PASS"));
-		} else if (!checkPass) {
-			// nhập vào kí tự > 1byte
-			lstError.add(messProp.getMessageProperties("ER008_PASS"));
-		} else if (userInfor.getPassword().trim().length() < 5 || userInfor.getPassword().trim().length() > 15) {
-			lstError.add(messProp.getMessageProperties("ER007_PASS"));
+		if (userInfor.getPassword() != null) {
+			// validate pass
+			if (userInfor.getPassword().trim().length() == 0) {
+				// không nhập
+				lstError.add(messProp.getMessageProperties("ER001_PASS"));
+			} else if (!checkPass) {
+				// nhập vào kí tự > 1byte
+				lstError.add(messProp.getMessageProperties("ER008_PASS"));
+			} else if (userInfor.getPassword().trim().length() < 5 || userInfor.getPassword().trim().length() > 15) {
+				lstError.add(messProp.getMessageProperties("ER007_PASS"));
+			}
+
+			// validate confirm pass
+			if (!userInfor.getPassword().equals(userInfor.getConfirmpass())) {
+				// pass không trùng
+				lstError.add(messProp.getMessageProperties("ER017_CONFIRMPASS"));
+			}
+
 		}
 
-		// validate confirm pass
-		if (!userInfor.getPassword().equals(userInfor.getConfirmpass())) {
-			// pass không trùng
-			lstError.add(messProp.getMessageProperties("ER017_CONFIRMPASS"));
-		}
-		
-	
 		return lstError;
 	}
 }

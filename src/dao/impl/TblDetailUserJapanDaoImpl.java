@@ -22,7 +22,6 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 		StringBuffer sql = new StringBuffer();
 		Boolean isSuccess = false;
 		int total = 0;
-		System.out.println("come to dao insert detail");
 		sql.append("insert into tbl_detail_user_japan");
 		sql.append("(user_id,code_level,start_date,end_date,total) ");
 		sql.append("values(?,?,?,?,?) ");
@@ -41,13 +40,42 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 			}
 
 			isSuccess = ps.executeUpdate() > 0;
-			System.out.println("result :" + isSuccess);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 			throw e;
 		}
-		System.out.println("result :" + isSuccess);
+		return isSuccess;
+	}
+
+	@Override
+	public Boolean updateDetailUserJpan(TblDetailUserJapan tblDetailUserJapan) throws SQLException {
+		StringBuffer sql = new StringBuffer();
+		Boolean isSuccess = false;
+		int total = 0;
+		sql.append("update tbl_detail_user_japan");
+		sql.append(" set user_id = ?,code_level = ?,start_date = ?,end_date = ?,total = ?) ");
+		SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
+		PreparedStatement ps = null;
+		try {
+			ps = conn.prepareStatement(sql.toString());
+			int i = 0;
+			ps.setInt(++i, tblDetailUserJapan.getUserId());
+			ps.setString(++i, tblDetailUserJapan.getCodeLevel());
+			ps.setDate(++i, java.sql.Date.valueOf(dt1.format(tblDetailUserJapan.getStartDate())));
+			ps.setDate(++i, java.sql.Date.valueOf(dt1.format(tblDetailUserJapan.getEndDate())));
+			if(tblDetailUserJapan.getTotal() != "" || tblDetailUserJapan.getTotal() != null) {
+			ps.setInt(++i, Integer.parseInt(tblDetailUserJapan.getTotal()));
+			}else {
+				ps.setInt(++i, total);
+			}
+
+			isSuccess = ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			throw e;
+		}
 		return isSuccess;
 	}
 

@@ -34,7 +34,7 @@ public class AddUserConfirmController extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			// 03 -> 04 confirm
+			// 03 confirm sang 04
 			String keyAdd = request.getParameter("keyAdd");
 			request.setAttribute("keyAdd", keyAdd);
 			HttpSession session = request.getSession();
@@ -56,7 +56,7 @@ public class AddUserConfirmController extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			// 04-> submit create user
+			// 04 submit create user
 			String keyAdd = request.getParameter("keyAdd");
 			HttpSession session = request.getSession();
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
