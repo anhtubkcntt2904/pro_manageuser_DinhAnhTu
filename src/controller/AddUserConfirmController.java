@@ -1,3 +1,7 @@
+/**
+ * Copyright(C) 2017 Luvina
+ * AddUserConfirmController.java, 2/11/2017 Đinh Anh Tú
+ */
 package controller;
 
 import java.io.IOException;

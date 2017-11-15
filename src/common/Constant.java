@@ -19,6 +19,7 @@ public class Constant {
 	public static final String ADM002 = "/jsp/ADM002.jsp";
 	public static final String ADM003 = "/jsp/ADM003.jsp";
 	public static final String ADM004 = "/jsp/ADM004.jsp";
+	public static final String ADM007 = "/jsp/ADM007.jsp";
 	public static final String ERROR = "/jsp/System_Error.jsp";
 	public static final String SUCCESS = "/jsp/ADM006.jsp";
 	public static final String ADM005 = "/jsp/ADM005.jsp";
@@ -65,4 +66,6 @@ public class Constant {
 	
 	public static final String INSERT_SUCCESS = "insertsuccess";
 	public static final String SYSTEM_ERROR = "systemerror";
+	
+	public static final int SALT_LENGTH = 19;
 }

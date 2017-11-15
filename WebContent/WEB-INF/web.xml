@@ -13,6 +13,14 @@
     <url-pattern>/Login.do</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>ChangePassController</servlet-name>
+    <servlet-class>controller.ChangePassController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChangePassController</servlet-name>
+    <url-pattern>/ChangePass.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>AddUserConfirmController</servlet-name>
     <servlet-class>controller.AddUserConfirmController</servlet-class>
   </servlet>
@@ -28,7 +36,7 @@
     <servlet-name>AddUserOKController</servlet-name>
     <url-pattern>/AddUserOK.do</url-pattern>
   </servlet-mapping>
-   <servlet>
+  <servlet>
     <servlet-name>ViewDetailUserController</servlet-name>
     <servlet-class>controller.ViewDetailUserController</servlet-class>
   </servlet>

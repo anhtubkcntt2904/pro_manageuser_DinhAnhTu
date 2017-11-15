@@ -26,8 +26,7 @@
 	<!-- End vung header -->
 
 	<!-- Begin vung input-->
-	<form action="AddUserInput.do" method="get"
-		name="inputform">
+	<form action="AddUserInput.do" method="get" name="inputform">
 		<table class="tbl_input" border="0" width="75%" cellpadding="0"
 			cellspacing="0">
 			<tr>
@@ -147,6 +146,8 @@
 					<td><input class="btn" type="button" value="削除" /></td>
 					<td><input class="btn" type="button" value="戻る"
 						onclick="location.href='ListUser.do';" /></td>
+					<td><input class="btn" type="button" value="CHANGE PASS"
+						onclick="location.href='ChangePass.do';" /></td>
 				</tr>
 			</table>
 			<!-- End vung button -->

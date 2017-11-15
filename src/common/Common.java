@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -293,5 +294,41 @@ public class Common {
 
 		}
 		return checkByte;
+	}
+
+	/**
+	 * Mã hóa chuõi sử dụng Base64
+	 * 
+	 * @param str
+	 *            chuỗi cần mã hóa
+	 * @return chuỗi đã mã hóa
+	 */
+	public static String encrypt(String str) {
+		Base64.Encoder encoder = Base64.getEncoder();
+		return encoder.encodeToString(str.getBytes());
+	}
+
+	/**
+	 * Giả mã chuỗi sử dụng base 64
+	 * 
+	 * @param str
+	 *            chuỗi cần giải mã
+	 * @return chuỗi đã giải mã
+	 */
+	public static String decrypt(String str) {
+		Base64.Decoder decoder = Base64.getDecoder();
+		return new String(decoder.decode(str)).substring(Constant.SALT_LENGTH);
+	}
+
+	/**
+	 * Tạo salt bằng cách lấy thời gian hiện tại
+	 * 
+	 * @return chuỗi salt đã được tạo
+	 */
+	public static String createSalt() {
+		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
+		String strDate = sdfDate.format(now);
+		return strDate;
 	}
 }
