@@ -165,6 +165,7 @@ public class ListUserController extends HttpServlet {
 			// lấy danh sách user
 			lstUserInfo = tblUserLogic.getListUser(offSet, limit, groupid, name, sortType, sortByFullname,
 					sortByCodeLevel, sortByEndDate);
+			//nếu danh sách rỗng
 			if(lstUserInfo.size() < 1) {
 				String message = mess.getMessageProperties(Constant.MESS_ADM002_NORECORD);
 				request.setAttribute("message", message);

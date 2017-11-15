@@ -55,10 +55,18 @@
 							</tr>
 							<tr>
 								<td class="lbl_left"><font color="red">*</font> アカウント名:</td>
-								<td align="left"><input class="txBox" type="text"
-									name="loginName" value="${fn:escapeXml(userInfor.loginName)}"
-									size="15" onfocus="this.style.borderColor='#0066ff';"
-									onblur="this.style.borderColor='#aaaaaa';" /></td>
+								<c:if test="${userInfor.userId != 0}">
+									<td align="left"><input class="txBox" type="text"
+										name="loginName" value="${fn:escapeXml(userInfor.loginName)}"
+										size="15" onfocus="this.style.borderColor='#0066ff';"
+										onblur="this.style.borderColor='#aaaaaa';" readonly/></td>
+								</c:if>
+								<c:if test="${userInfor.userId == 0}">
+									<td align="left"><input class="txBox" type="text"
+										name="loginName" value="${fn:escapeXml(userInfor.loginName)}"
+										size="15" onfocus="this.style.borderColor='#0066ff';"
+										onblur="this.style.borderColor='#aaaaaa';" /></td>
+								</c:if>
 							</tr>
 							<tr>
 								<td class="lbl_left"><font color="red">*</font> グループ:</td>

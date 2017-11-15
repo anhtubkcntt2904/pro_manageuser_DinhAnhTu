@@ -122,7 +122,8 @@
 								</tr>
 								<tr>
 									<td class="lbl_left">点数:</td>
-									<c:if test="${userInfor05.codeLevel != '0'}">
+									<c:if
+										test="${userInfor05.codeLevel != '0' || userInfor05.codeLevel != null}">
 										<td align="left"><label for="total">${userInfor05.total}</label></td>
 									</c:if>
 									<c:if test="${userInfor05.codeLevel == '0'}">
@@ -143,11 +144,12 @@
 				<tr>
 					<th width="200px" align="center">&nbsp;</th>
 					<td><input class="btn" type="submit" value="編集" /></td>
-					<td><input class="btn" type="button" value="削除" /></td>
+					<td><input class="btn" type="button" value="削除"
+						onclick="location.href='DeleteUser.do?userid=${userInfor05.userId}';" /></td>
 					<td><input class="btn" type="button" value="戻る"
 						onclick="location.href='ListUser.do';" /></td>
 					<td><input class="btn" type="button" value="CHANGE PASS"
-						onclick="location.href='ChangePass.do';" /></td>
+						onclick="location.href='ChangePass.do?userid=${userInfor05.userId}';" /></td>
 				</tr>
 			</table>
 			<!-- End vung button -->

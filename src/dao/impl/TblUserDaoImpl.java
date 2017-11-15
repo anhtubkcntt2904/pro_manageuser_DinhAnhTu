@@ -44,13 +44,25 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		// danh sách các user với thông tin từng user
 		List<UserInfo> lstUserInfo = new ArrayList<>();
 		StringBuffer sql = new StringBuffer();
+		/*
+		 * sql.append(
+		 * "select u.user_id,u.full_name,u.birthday,g.group_name,u.email,u.tel,j.name_level,tdu.end_date,tdu.total "
+		 * ); sql.append("from tbl_user u ");
+		 * sql.append("inner join mst_group g on u.group_id = g.group_id ");
+		 * sql.append("left join tbl_detail_user_japan tdu on u.user_id = tdu.user_id "
+		 * ); sql.append("inner join mst_japan j on tdu.code_level = j.code_level ");
+		 * sql.append("where 1 = 1 ");
+		 */
+
 		sql.append(
-				"select u.user_id,u.full_name,u.birthday,g.group_name,u.email,u.tel,j.name_level,tdu.end_date,tdu.total ");
-		sql.append("from tbl_user u ");
-		sql.append("inner join mst_group g on u.group_id = g.group_id ");
-		sql.append("left join tbl_detail_user_japan tdu on u.user_id = tdu.user_id ");
-		sql.append("inner join mst_japan j on tdu.code_level = j.code_level ");
-		sql.append("where 1 = 1 ");
+				"SELECT u.USER_ID,u.full_name,u.birthday,g.group_name,u.email,u.tel,j.name_level,tdu.end_date,tdu.total ");
+		sql.append("FROM tbl_user AS u ");
+		sql.append("INNER JOIN mst_group AS g ");
+		sql.append("ON u.group_id = g.group_id ");
+		sql.append("LEFT JOIN ");
+		sql.append("( tbl_detail_user_japan tdu INNER JOIN mst_japan j ON tdu.code_level = j.code_level) ");
+		sql.append("ON u.user_id = tdu.user_id ");
+		sql.append("WHERE 1=1 ");
 
 		// nếu vào trường hợp tìm kiếm có full name
 		if (fullName != null) {
@@ -204,7 +216,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		sql.append("where u.email = ? ");
 		if (userId != null) {
 			if (userId != 0) {
-				sql.append(" and user_id = ?");
+				sql.append(" and user_id != ?");
 			}
 		}
 		PreparedStatement ps = null;
@@ -360,7 +372,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		sql.append(
 				"select u.login_name, u.group_id, u.full_name, u.full_name_kana, u.birthday, u.email, u.tel, duj.code_level, duj.start_date, duj.end_date, duj.total ");
 		sql.append("from tbl_user u ");
-		sql.append("inner join tbl_detail_user_japan duj on ");
+		sql.append("left join tbl_detail_user_japan duj on ");
 		sql.append("u.user_id = duj.user_id ");
 		sql.append("where u.user_id = ? ");
 		PreparedStatement ps = null;
@@ -427,6 +439,55 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			// e.printStackTrace();
 		}
 		return check;
+	}
+
+	@Override
+	public Boolean updatePass(String pass, int userId) {
+		connectDB();
+		boolean check = false;
+		StringBuffer sql = new StringBuffer();
+		sql.append("update tbl_user ");
+		sql.append("set passwords = ? ");
+		sql.append("where user_id = ?");
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(sql.toString());
+			int i = 0;
+			ps.setString(++i, pass);
+			if (userId != 0) {
+				ps.setInt(++i, userId);
+			}
+			check = ps.executeUpdate() > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeDB(conn);
+		}
+		return check;
+	}
+
+	@Override
+	public Boolean deleteUser(int userId) throws SQLException{
+		StringBuffer sql = new StringBuffer();
+		Boolean isSuccess = false;
+		sql.append("delete from tbl_user ");
+		sql.append("where user_id = ?");
+		PreparedStatement ps = null;
+		try {
+			//System.out.println(code_level);
+			System.out.println(userId);
+			ps = conn.prepareStatement(sql.toString());
+			int i = 0;
+			//ps.setString(++i, code_level);
+			if (userId != 0) {
+				ps.setInt(++i, userId);
+			}
+			isSuccess = ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			throw e;
+		}
+		return isSuccess;
 	}
 
 }

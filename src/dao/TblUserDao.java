@@ -101,4 +101,20 @@ public interface TblUserDao {
 	 * @return true hoặc false
 	 */
 	public boolean updateUser(TblUser tblUser) throws SQLException;
+
+	/**
+	 * Phương thức update password của người dùng
+	 * 
+	 * @param pass
+	 * @return true hoặc false
+	 */
+	public Boolean updatePass(String pass, int userId);
+
+	/**
+	 * Xóa thông tin user theo user id
+	 * 
+	 * @param userId
+	 * @return true hoặc false
+	 */
+	public Boolean deleteUser(int userId) throws SQLException;
 }

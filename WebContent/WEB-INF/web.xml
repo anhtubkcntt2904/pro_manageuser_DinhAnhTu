@@ -12,6 +12,14 @@
     <servlet-name>LoginServletController</servlet-name>
     <url-pattern>/Login.do</url-pattern>
   </servlet-mapping>
+   <servlet>
+    <servlet-name>DeleteUserController</servlet-name>
+    <servlet-class>controller.DeleteUserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteUserController</servlet-name>
+    <url-pattern>/DeleteUser.do</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>ChangePassController</servlet-name>
     <servlet-class>controller.ChangePassController</servlet-class>

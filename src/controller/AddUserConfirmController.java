@@ -61,19 +61,22 @@ public class AddUserConfirmController extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			// 04 submit create user
+			int userId = 0;
 			String keyAdd = request.getParameter("keyAdd");
 			HttpSession session = request.getSession();
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 			Boolean isSuccess = false;
 			Boolean isExistedUser = false;
-			int userId = Integer.parseInt(request.getParameter("user_id"));
+			userId = Integer.parseInt(request.getParameter("user_id"));
 			System.out.println("user id do post : " + userId);
-			isExistedUser = tblUserLogic.isExistedUser(userId);
+			if (userId != 0) {
+				isExistedUser = tblUserLogic.isExistedUser(userId);
+			}
 			System.out.println("true false do post :" + isExistedUser);
-			if (userInfor != null && !isExistedUser) {
+			if (userId == 0 && !isExistedUser) {
 				isSuccess = tblUserLogic.createUser(userInfor);
-			}else {
+			} else {
 				isSuccess = tblUserLogic.updateUserInfor(userInfor);
 			}
 			if (isSuccess) {

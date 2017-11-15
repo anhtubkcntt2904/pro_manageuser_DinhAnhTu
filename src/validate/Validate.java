@@ -153,19 +153,22 @@ public class Validate {
 		String telformat = "[0-9]{1,4}-[0-9]{1,4}-[0-9]{1,4}";
 		boolean checkTel = userInfor.getTel().matches(telformat);
 
-		// validate loginName
-		if (userInfor.getLoginName().trim().length() == 0) {
-			// thêm thông báo lỗi không nhập
-			lstError.add(messProp.getMessageProperties("ER001_LOGINNAME"));
-		} else if (userInfor.getLoginName().trim().length() < 4 || userInfor.getLoginName().trim().length() > 15) {
-			// thêm thông báo độ dài nhập không hợp lệ
-			lstError.add(messProp.getMessageProperties("ER007_LOGINNAME"));
-		} else if (checkLoginName != true) {
-			// format login name không hợp lệ
-			lstError.add(messProp.getMessageProperties("ER019_LOGINNAME"));
-		} else if (existedLoginName) {
-			// tên đăng nhập đã tồn tại
-			lstError.add(messProp.getMessageProperties("ER003_LOGINNAME"));
+		//trường hợp add thì validate login
+		if (userInfor.getUserId() == 0) {
+			// validate loginName
+			if (userInfor.getLoginName().trim().length() == 0) {
+				// thêm thông báo lỗi không nhập
+				lstError.add(messProp.getMessageProperties("ER001_LOGINNAME"));
+			} else if (userInfor.getLoginName().trim().length() < 4 || userInfor.getLoginName().trim().length() > 15) {
+				// thêm thông báo độ dài nhập không hợp lệ
+				lstError.add(messProp.getMessageProperties("ER007_LOGINNAME"));
+			} else if (checkLoginName != true) {
+				// format login name không hợp lệ
+				lstError.add(messProp.getMessageProperties("ER019_LOGINNAME"));
+			} else if (existedLoginName) {
+				// tên đăng nhập đã tồn tại
+				lstError.add(messProp.getMessageProperties("ER003_LOGINNAME"));
+			}
 		}
 
 		// validate group id
@@ -210,6 +213,7 @@ public class Validate {
 			lstError.add(messProp.getMessageProperties("ER005_EMAIL"));
 		} else if (existedEmail) {
 			// email đã tồn tại
+			System.out.println("1");
 			lstError.add(messProp.getMessageProperties("ER003_EMAIL"));
 		} else if (userInfor.getEmail().trim().length() > 255) {
 			// maxlength
@@ -220,12 +224,16 @@ public class Validate {
 		if (userInfor.getTel().trim().length() == 0) {
 			// không nhập
 			lstError.add(messProp.getMessageProperties("ER001_TEL"));
-		} else if (!checkTel) {
-			// không đúng định dạng
-			lstError.add(messProp.getMessageProperties("ER005_TEL"));
-		} else if (userInfor.getTel().trim().length() > 14) {
-			// maxlength
-			lstError.add(messProp.getMessageProperties("ER006_TEL"));
+		} else {
+			if (!checkTel)
+				// không đúng định dạng
+				lstError.add(messProp.getMessageProperties("ER005_TEL"));
+			else {
+				if (userInfor.getTel().trim().length() > 14) {
+					// maxlength
+					lstError.add(messProp.getMessageProperties("ER006_TEL"));
+				}
+			}
 		}
 
 		if (userInfor.getPassword() != null) {
@@ -242,6 +250,40 @@ public class Validate {
 
 			// validate confirm pass
 			if (!userInfor.getPassword().equals(userInfor.getConfirmpass())) {
+				// pass không trùng
+				lstError.add(messProp.getMessageProperties("ER017_CONFIRMPASS"));
+			}
+
+		}
+
+		return lstError;
+	}
+
+	public List<String> validatePass(String newpass, String confirmpass) {
+		List<String> lstError = new ArrayList<>();
+		MessageProperties messProp = new MessageProperties();
+		Common common = new Common();
+
+		boolean checkPass = true;
+		if (newpass != null) {
+			// check password
+			checkPass = common.checkByte(newpass);
+		}
+
+		if (newpass != null) {
+			// validate pass
+			if (newpass.length() == 0) {
+				// không nhập
+				lstError.add(messProp.getMessageProperties("ER001_PASS"));
+			} else if (!checkPass) {
+				// nhập vào kí tự > 1byte
+				lstError.add(messProp.getMessageProperties("ER008_PASS"));
+			} else if (newpass.length() < 5 || newpass.length() > 15) {
+				lstError.add(messProp.getMessageProperties("ER007_PASS"));
+			}
+
+			// validate confirm pass
+			if (!newpass.equals(confirmpass)) {
 				// pass không trùng
 				lstError.add(messProp.getMessageProperties("ER017_CONFIRMPASS"));
 			}

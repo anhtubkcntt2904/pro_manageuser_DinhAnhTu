@@ -45,6 +45,7 @@ public class ViewDetailUserController extends HttpServlet {
 		existedUser = tblUserLogic.isExistedUser(userid);
 		if (existedUser) {
 			userInfor = tblUserLogic.getUserInforById(userid);
+			System.out.println("user id do get view detail :" + userInfor.getUserId());
 			request.setAttribute("userInfor05", userInfor);
 			request.getRequestDispatcher(Constant.ADM005).forward(request, response);
 		}else {

@@ -108,4 +108,20 @@ public interface TblUserLogic {
 	 * @return true hoặc false
 	 */
 	public Boolean checkUserCodeLevel(int userId);
+
+	/**
+	 * update password của người dùng
+	 * 
+	 * @param pass
+	 * @return true hoặc false
+	 */
+	public Boolean updatePass(String pass, int userId);
+
+	/**
+	 * phương thức delete thông tin của một user dựa vào user id
+	 * 
+	 * @param userInfor
+	 * @return true hoặc false
+	 */
+	public Boolean deleteUser(UserInfor userInfor) throws SQLException;
 }

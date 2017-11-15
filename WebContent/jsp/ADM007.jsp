@@ -38,7 +38,7 @@
 				<tr>
 					<td class="lbl_left">New Pass:</td>
 					<td align="left"><input class="txBox" type="password"
-						maxlength="15" name="newpass" value="${loginName}" size="20"
+						maxlength="15" name="newpass" value="" size="20"
 						onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" /></td>
 				</tr>
@@ -53,6 +53,13 @@
 					<td></td>
 					<td align="left"><input class="btn btn_wider" type="submit"
 						value="ログイン" /></td>
+				</tr>
+			</table>
+			<table border="0">
+				<tr>
+					<td><input type="hidden" name="user_id"
+						value="${userid}" /></td>
+					<td><input type="hidden" name="type" value="edit" /></td>
 				</tr>
 			</table>
 		</center>

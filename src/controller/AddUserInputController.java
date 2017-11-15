@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -93,24 +92,25 @@ public class AddUserInputController extends HttpServlet {
 		UserInfor userInfor = new UserInfor();
 		// TODO Auto-generated method stub
 		try {
-			// trường hợp click confirm 03 
+			// trường hợp click confirm 03
 			System.out.println("click confirm 03 ");
 			Validate validate = new Validate();
 			userInfor = setDefaultValue(request, response);
 			lstError = validate.validateUserInfor(userInfor);
 
-			/*
-			 * if (lstError.size() > 0) { setDataLogic(request, response);
-			 * request.setAttribute("lstError", lstError); request.setAttribute("userInfor",
-			 * userInfor); request.getRequestDispatcher(Constant.ADM003).forward(request,
-			 * response); } else {
-			 */
-			// tạo key để thêm vào userInfor session
-			long keyAdd = System.currentTimeMillis() % 1000;
-			HttpSession session = request.getSession();
-			session.setAttribute("userInfor" + keyAdd, userInfor);
-			response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?keyAdd=" + keyAdd);
-			// }
+			if (lstError.size() > 0) {
+				setDataLogic(request, response);
+				request.setAttribute("lstError", lstError);
+				request.setAttribute("userInfor", userInfor);
+				request.getRequestDispatcher(Constant.ADM003).forward(request, response);
+			} else {
+
+				// tạo key để thêm vào userInfor session
+				long keyAdd = System.currentTimeMillis() % 1000;
+				HttpSession session = request.getSession();
+				session.setAttribute("userInfor" + keyAdd, userInfor);
+				response.sendRedirect(request.getContextPath() + Constant.ADM004_SERVLET + "?keyAdd=" + keyAdd);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -190,8 +190,8 @@ public class AddUserInputController extends HttpServlet {
 		case Constant.CONFIRM:
 			userInfor = new UserInfor();
 			int userId = 0;
-			if(request.getParameter("userid") != "") {
-				 userId = Integer.parseInt(request.getParameter("user_id"));
+			if (request.getParameter("userid") != "") {
+				userId = Integer.parseInt(request.getParameter("user_id"));
 			}
 			String loginName = request.getParameter("loginName");
 			int group_id = common.convertStringToInt(request.getParameter("group_id"));

@@ -125,9 +125,7 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 			if (userId != 0) {
 				ps.setInt(++i, userId);
 			}
-			int count  = ps.executeUpdate();
-			System.out.println("count :"  + count);
-//			isSuccess = ps.executeUpdate() > 0;
+			isSuccess = ps.executeUpdate() > 0;
 		} catch (SQLException e) {
 			throw e;
 		}
