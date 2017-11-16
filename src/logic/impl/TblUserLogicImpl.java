@@ -271,11 +271,10 @@ public class TblUserLogicImpl implements TblUserLogic {
 			}
 			BaseDaoImpl.conn.commit();
 		} catch (Exception e) {
-			System.out.println("come to exception");
 			e.printStackTrace();
 			BaseDaoImpl.conn.rollback();
-			System.out.println("roll back in exception");
 		} finally {
+			BaseDaoImpl.conn.setAutoCommit(true);
 			baseDaoImpl.closeDB(BaseDaoImpl.conn);
 		}
 		return check;
@@ -314,20 +313,23 @@ public class TblUserLogicImpl implements TblUserLogic {
 			// Kiểm tra user có trình độ tiếng nhật không
 			Boolean ExistedUserCodeLevel = false;
 			ExistedUserCodeLevel = checkUserCodeLevel(userId);
+			
+			System.out.println("user id in deo delete user :" + userId);
 
 			BaseDaoImpl.conn.setAutoCommit(false);
 
 			if (ExistedUserCodeLevel) {
-				tblDetailUserJapanDaoImpl.deleteDetailUserJapan(userId);
+				check = tblDetailUserJapanDaoImpl.deleteDetailUserJapan(userId);
 			}
 
-			tblUserDao.deleteUser(userId);
+			check = tblUserDao.deleteUser(userId);
 
 			BaseDaoImpl.conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			BaseDaoImpl.conn.rollback();
 		} finally {
+			BaseDaoImpl.conn.setAutoCommit(true);
 			baseDaoImpl.closeDB(BaseDaoImpl.conn);
 		}
 		return check;

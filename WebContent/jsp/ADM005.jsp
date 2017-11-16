@@ -7,18 +7,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../js/user.js"></script>
+<script type="text/javascript" src="./js/user.js"></script>
 <title>ユーザ管理</title>
-<script type="text/javascript" language="javascript">
-	function myFunction() {
-		var x = document.getElementById("showHide");
-		if (x.style.display === "none") {
-			x.style.display = "table-row-group";
-		} else {
-			x.style.display = "none";
-		}
-	}
-</script>
 </head>
 <body>
 	<!-- Begin vung header -->
@@ -142,7 +132,7 @@
 					<td><input class="btn" type="submit" value="編集" /></td>
 					<td><input class="btn" type="button" value="削除"
 						<%-- onclick="location.href='DeleteUser.do?userid=${userInfor05.userId}';" --%> 
-						onclick="if (confirm('削除しますが、よろしいでしょうか。?')) { location.href='DeleteUser.do?userid=${userInfor05.userId}'; } else { return false; }"/></td>
+						onclick="javascript:showDialog('DeleteUser.do?userid=${userInfor05.userId}')"/></td>
 					<td><input class="btn" type="button" value="戻る"
 						onclick="location.href='ListUser.do';" /></td>
 					<td><input class="btn" type="button" value="CHANGE PASS"

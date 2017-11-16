@@ -38,10 +38,15 @@ public class ChangePassController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		// response.sendRedirect(request.getContextPath() + Constant.ADM007);
-		String userid = request.getParameter("userid");
-		request.setAttribute("userid", userid);
-		request.getRequestDispatcher(Constant.ADM007).forward(request, response);
+		try {
+			String userid = request.getParameter("userid");
+			request.setAttribute("userid", userid);
+			request.getRequestDispatcher(Constant.ADM007).forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect(
+					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
+		}
 	}
 
 	/**
@@ -52,22 +57,28 @@ public class ChangePassController extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
+			// Lấy ra thông tin pass người dùng thay đổi
 			String newpass = request.getParameter("newpass");
 			String confirmpass = request.getParameter("confirmpass");
 			int userId = Integer.parseInt(request.getParameter("user_id"));
 			Validate validate = new Validate();
 			List<String> lstErr = new ArrayList<String>();
 			lstErr = validate.validatePass(newpass, confirmpass);
+			// nếu có lỗi thì hiển thị thông báo lỗi lên màn 07
 			if (lstErr.size() > 0) {
 				request.setAttribute("lstErr", lstErr);
+				request.setAttribute("userid", userId);
 				request.getRequestDispatcher(Constant.ADM007).forward(request, response);
+				// nếu không thì thực hiện update pass vào database
 			} else {
 				TblUserLogicImpl tblUserLogicImpl = new TblUserLogicImpl();
 				Boolean check = tblUserLogicImpl.updatePass(newpass, userId);
 				if (check) {
+					// nếu update thành công
 					response.sendRedirect(
-							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.INSERT_SUCCESS);
+							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_SUCCESS);
 				} else {
+					// nếu update không thành công
 					response.sendRedirect(
 							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 				}

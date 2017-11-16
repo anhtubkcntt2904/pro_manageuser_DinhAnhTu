@@ -7,18 +7,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
-<!-- <script type="text/javascript" src="../js/user.js"></script> -->
+<script type="text/javascript" src="./js/user.js"></script>
 <title>ユーザ管理</title>
-<script type="text/javascript" language="javascript">
-	function myFunction() {
-		var x = document.getElementById("showHide");
-		if (x.style.display === "none") {
-			x.style.display = "table-row-group";
-		} else {
-			x.style.display = "none";
-		}
-	}
-</script>
 </head>
 <body>
 	<!-- Begin vung header -->

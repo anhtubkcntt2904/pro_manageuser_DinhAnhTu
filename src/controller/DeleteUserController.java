@@ -38,6 +38,7 @@ public class DeleteUserController extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
+			System.out.println("come to delete");
 			int userid = Integer.parseInt(request.getParameter("userid"));
 			TblUserLogicImpl tblUserLogicImpl = new TblUserLogicImpl();
 			UserInfor userInfor = new UserInfor();
@@ -45,9 +46,11 @@ public class DeleteUserController extends HttpServlet {
 			Boolean check = false;
 			existedUser = tblUserLogicImpl.isExistedUser(userid);
 			if (existedUser) {
+				System.out.println("start delete");
 				userInfor = tblUserLogicImpl.getUserInforById(userid);
 				check = tblUserLogicImpl.deleteUser(userInfor);
 				if (check) {
+					System.out.println("delete success");
 					response.sendRedirect(
 							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.DELETE_SUCCESS);
 				} else {
@@ -65,17 +68,19 @@ public class DeleteUserController extends HttpServlet {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			response.sendRedirect(
+					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
-	 */
+	 *//*
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-	}
+	}*/
 
 }
