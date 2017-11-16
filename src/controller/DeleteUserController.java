@@ -49,7 +49,7 @@ public class DeleteUserController extends HttpServlet {
 				check = tblUserLogicImpl.deleteUser(userInfor);
 				if (check) {
 					response.sendRedirect(
-							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.INSERT_SUCCESS);
+							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.DELETE_SUCCESS);
 				} else {
 					response.sendRedirect(
 							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);

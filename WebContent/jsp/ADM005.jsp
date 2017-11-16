@@ -66,7 +66,6 @@
 							</tr>
 							<tr>
 								<td class="lbl_left">カタカナ氏名:</td>
-								<!-- <td align="left">名カナ</td> -->
 								<td align="left"><label for="fullNameKana">${userInfor05.fullNameKana}</label></td>
 							</tr>
 							<tr>
@@ -104,9 +103,7 @@
 									<c:if test="${userInfor05.codeLevel == '0'}">
 										<td align="left"><label for="startDate"></label></td>
 									</c:if>
-									<%-- <td align="left"><label for="startDate"><fmt:formatDate
-												pattern="yyyy/MM/dd" value="${userInfor.startDate}" /></label></td>
-		 --%>
+									
 								</tr>
 								<tr>
 									<td class="lbl_left">失効日:</td>
@@ -117,8 +114,7 @@
 									<c:if test="${userInfor05.codeLevel == '0'}">
 										<td align="left"><label for="endDate"></label></td>
 									</c:if>
-									<%-- <td align="left"><label for="endDate"><fmt:formatDate
-												pattern="yyyy/MM/dd" value="${userInfor.endDate}" /></label></td> --%>
+								
 								</tr>
 								<tr>
 									<td class="lbl_left">点数:</td>
@@ -129,7 +125,7 @@
 									<c:if test="${userInfor05.codeLevel == '0'}">
 										<td align="left"><label for="total"></label></td>
 									</c:if>
-									<%-- <td align="left"><label for="total">${userInfor.total}</label></td> --%>
+									
 								</tr>
 							</tbody>
 						</table>
@@ -145,7 +141,8 @@
 					<th width="200px" align="center">&nbsp;</th>
 					<td><input class="btn" type="submit" value="編集" /></td>
 					<td><input class="btn" type="button" value="削除"
-						onclick="location.href='DeleteUser.do?userid=${userInfor05.userId}';" /></td>
+						<%-- onclick="location.href='DeleteUser.do?userid=${userInfor05.userId}';" --%> 
+						onclick="if (confirm('削除しますが、よろしいでしょうか。?')) { location.href='DeleteUser.do?userid=${userInfor05.userId}'; } else { return false; }"/></td>
 					<td><input class="btn" type="button" value="戻る"
 						onclick="location.href='ListUser.do';" /></td>
 					<td><input class="btn" type="button" value="CHANGE PASS"

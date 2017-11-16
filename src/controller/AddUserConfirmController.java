@@ -77,11 +77,17 @@ public class AddUserConfirmController extends HttpServlet {
 			if (userId == 0 && !isExistedUser) {
 				isSuccess = tblUserLogic.createUser(userInfor);
 			} else {
+				System.out.println("come to update");
 				isSuccess = tblUserLogic.updateUserInfor(userInfor);
 			}
-			if (isSuccess) {
+			System.out.println("isSuccess  :" + isSuccess);
+			if (isSuccess && !isExistedUser) {
 				response.sendRedirect(
 						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.INSERT_SUCCESS);
+			} else if (isSuccess && isExistedUser) {
+				System.out.println("come to redirect update");
+				response.sendRedirect(
+						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_SUCCESS);
 			} else {
 				response.sendRedirect(
 						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);

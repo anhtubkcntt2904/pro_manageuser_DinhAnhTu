@@ -241,8 +241,8 @@ public class TblUserLogicImpl implements TblUserLogic {
 			ExistedUserCodeLevel = checkUserCodeLevel(userId);
 
 			BaseDaoImpl.conn.setAutoCommit(false);
-			// tblUserDao.updateUser(tblUser);
-			if (tblUserDao.updateUser(tblUser)) {
+			check = tblUserDao.updateUser(tblUser);
+			if (check) {
 				tblDetailUserJapan.setUserId(userId);
 			}
 			// nếu trong db, user có trình độ tiếng nhật

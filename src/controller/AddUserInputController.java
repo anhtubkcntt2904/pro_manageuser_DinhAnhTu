@@ -61,6 +61,7 @@ public class AddUserInputController extends HttpServlet {
 				if (existedUser) {
 					setDataLogic(request, response);
 					UserInfor userInfor = setDefaultValue(request, response);
+					System.out.println("birth day in do get : " + userInfor.getYearbirthday());
 					request.setAttribute("userInfor", userInfor);
 					request.getRequestDispatcher(Constant.ADM003).forward(request, response);
 				} else {
@@ -93,9 +94,9 @@ public class AddUserInputController extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			// trường hợp click confirm 03
-			System.out.println("click confirm 03 ");
 			Validate validate = new Validate();
 			userInfor = setDefaultValue(request, response);
+			System.out.println("come to do post add user in put, birthday = " + userInfor.getBirthday());
 			lstError = validate.validateUserInfor(userInfor);
 
 			if (lstError.size() > 0) {
@@ -188,6 +189,7 @@ public class AddUserInputController extends HttpServlet {
 			break;
 		// 03 click confirm
 		case Constant.CONFIRM:
+			System.out.println("come to confirm");
 			userInfor = new UserInfor();
 			int userId = 0;
 			if (request.getParameter("userid") != "") {
@@ -285,6 +287,23 @@ public class AddUserInputController extends HttpServlet {
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 			int userid = Integer.parseInt(request.getParameter("user_id"));
 			userInfor = tblUserLogic.getUserInforById(userid);
+			ArrayList<Integer> lstBirthday = common.toArrayInteger(userInfor.getBirthday());
+			userInfor.setDaybirthday(lstBirthday.get(2));
+			userInfor.setMonthbirthday(lstBirthday.get(1));
+			userInfor.setYearbirthday(lstBirthday.get(0));
+			System.out.println("case edit code level :" + userInfor.getCodeLevel());
+			if(userInfor.getCodeLevel() != null) {
+				ArrayList<Integer> lstStartDate = common.toArrayInteger(userInfor.getStartDate());
+				userInfor.setDayvalidate(lstStartDate.get(2));
+				userInfor.setMonthvalidate(lstStartDate.get(1));
+				userInfor.setYearvalidate(lstStartDate.get(0));
+				
+				ArrayList<Integer> lstEndDate = common.toArrayInteger(userInfor.getEndDate());
+				userInfor.setDayinvalidate(lstEndDate.get(2));
+				userInfor.setMonthinvalidate(lstEndDate.get(1));
+				userInfor.setYearinvalidate(lstEndDate.get(0));
+			}
+			
 			break;
 
 		default:

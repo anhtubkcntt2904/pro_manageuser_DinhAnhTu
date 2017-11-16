@@ -26,7 +26,7 @@
 			<tr>
 				<!-- <td align="center" colspan="2">ユーザの登録が完了しました。 or ユーザの更新が完了しました。
 					or ユーザの削除が完了しました。</td> -->
-				<td align="center" colspan="2">${insertsuccess}</td>
+				<td align="center" colspan="2">${mess}</td>
 			</tr>
 			<tr>
 				<td align="center" colspan="2">

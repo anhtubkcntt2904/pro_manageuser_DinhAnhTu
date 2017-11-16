@@ -43,15 +43,29 @@ public class SuccessController extends HttpServlet {
 			MessageProperties mess = new MessageProperties();
 			String error = mess.getMessageProperties("ER015");
 			request.setAttribute("error", error);
-			RequestDispatcher req1 = request.getRequestDispatcher(Constant.ERROR);
-			req1.forward(request, response);
+			RequestDispatcher reqError = request.getRequestDispatcher(Constant.ERROR);
+			reqError.forward(request, response);
 			break;
 		case Constant.INSERT_SUCCESS:
 			MessageProperties messinsert = new MessageProperties();
 			String insertsuccess = messinsert.getMessageProperties("MSG001");
-			request.setAttribute("insertsuccess", insertsuccess);
-			RequestDispatcher req2 = request.getRequestDispatcher(Constant.SUCCESS);
-			req2.forward(request, response);
+			request.setAttribute("mess", insertsuccess);
+			RequestDispatcher reqInsert = request.getRequestDispatcher(Constant.SUCCESS);
+			reqInsert.forward(request, response);
+			break;
+		case Constant.DELETE_SUCCESS:
+			MessageProperties messdelete = new MessageProperties();
+			String deletesuccess = messdelete.getMessageProperties("MSG003");
+			request.setAttribute("mess", deletesuccess);
+			RequestDispatcher reqDelete = request.getRequestDispatcher(Constant.SUCCESS);
+			reqDelete.forward(request, response);
+			break;
+		case Constant.UPDATE_SUCCESS:
+			MessageProperties messupdate = new MessageProperties();
+			String updatesuccess = messupdate.getMessageProperties("MSG002");
+			request.setAttribute("mess", updatesuccess);
+			RequestDispatcher reqUpdate = request.getRequestDispatcher(Constant.SUCCESS);
+			reqUpdate.forward(request, response);
 			break;
 		default:
 			MessageProperties messD = new MessageProperties();

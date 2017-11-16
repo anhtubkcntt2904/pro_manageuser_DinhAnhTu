@@ -29,7 +29,7 @@
 	<!-- End vung header -->
 
 	<!-- Begin vung input-->
-	<form action="doLogout" method="post" name="inputform">
+	<form action="ListUser.do" method="post" name="inputform">
 		<table class="tbl_input" border="0" width="80%" cellpadding="0"
 			cellspacing="0">
 			<tr>

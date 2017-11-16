@@ -2,3 +2,7 @@
 /logic/
 /dao/
 /controller/
+/common/
+/entity/
+/filter/
+/properties/
