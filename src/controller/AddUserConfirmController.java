@@ -39,11 +39,15 @@ public class AddUserConfirmController extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			// 03 confirm sang 04
+			//lấy key add vào user infor session và gửi sang màn 04
 			String keyAdd = request.getParameter("keyAdd");
 			request.setAttribute("keyAdd", keyAdd);
 			HttpSession session = request.getSession();
+			//lấy user infor trên session theo key adđ
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
+			//gửi user infor sang trang 04
 			request.setAttribute("userInfor", userInfor);
+			//sang trang 04
 			request.getRequestDispatcher(Constant.ADM004).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,32 +66,43 @@ public class AddUserConfirmController extends HttpServlet {
 		try {
 			// 04 submit create user
 			int userId = 0;
+			//lấy key add qua request từ 04
 			String keyAdd = request.getParameter("keyAdd");
 			HttpSession session = request.getSession();
+			//lấy user infor trên session bằng key add
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
+			//biến kiểm tra update hoặc create user có thành công không
 			Boolean isSuccess = false;
+			//biến kiểm tra user có tồn tại không
 			Boolean isExistedUser = false;
+			//lấy user id từ request của 04
 			userId = Integer.parseInt(request.getParameter("user_id"));
-			System.out.println("user id do post : " + userId);
+			//nếu user id không bằng 0
 			if (userId != 0) {
+				//kiểm tra user có tồn tại hay không
 				isExistedUser = tblUserLogic.isExistedUser(userId);
 			}
-			System.out.println("true false do post :" + isExistedUser);
+			//nếu trường hợp thêm mới
 			if (userId == 0 && !isExistedUser) {
+				//thêm mới user
 				isSuccess = tblUserLogic.createUser(userInfor);
+				//nếu trường hợp update
 			} else {
-				System.out.println("come to update");
+				//update user vào database
 				isSuccess = tblUserLogic.updateUserInfor(userInfor);
 			}
-			System.out.println("isSuccess  :" + isSuccess);
+			//nếu thao thêm mới thành công
 			if (isSuccess && !isExistedUser) {
+				//đến trang thông báo thành công
 				response.sendRedirect(
 						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.INSERT_SUCCESS);
+				//nếu update thành công
 			} else if (isSuccess && isExistedUser) {
-				System.out.println("come to redirect update");
+				//đến trang thông báo update thành công
 				response.sendRedirect(
 						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_SUCCESS);
+				//nếu lỗi thì gửi đến trang system error
 			} else {
 				response.sendRedirect(
 						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);

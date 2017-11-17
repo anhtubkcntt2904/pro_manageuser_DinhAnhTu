@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import common.Common;
 import dao.impl.BaseDaoImpl;
 import dao.impl.TblDetailUserJapanDaoImpl;
 import dao.impl.TblUserDaoImpl;
@@ -99,9 +100,11 @@ public class TblUserLogicImpl implements TblUserLogic {
 		Boolean check = true;
 		int userid;
 		try {
+			// thông tin để insert vào bảng user
 			TblUser tblUser = new TblUser();
-			TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
+			// thông tin để insert vào bảng detail user japan
 			TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
+			TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
 			TblDetailUserJapanDaoImpl tblDetailUserJapanDao = new TblDetailUserJapanDaoImpl();
 			baseDaoImpl.connectDB();
 
@@ -137,6 +140,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 
 			BaseDaoImpl.conn.setAutoCommit(false);
 
+			// thêm thông tin user và lấy ra user id
 			userid = tblUserDao.insertUser(tblUser);
 
 			// Nếu insert thông tin user thành công và lấy được user id
@@ -145,7 +149,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 				tblUser.setUserId(userid);
 
 				// set giá trị trình độ tiếng nhật cho user
-				/* tblDetailUserJapan.setUserId(userid); */
+				tblDetailUserJapan.setUserId(userid);
 				tblDetailUserJapan.setCodeLevel(codeLevel);
 				tblDetailUserJapan.setStartDate(startDate);
 				tblDetailUserJapan.setEndDate(endDate);
@@ -296,32 +300,38 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public Boolean updatePass(String pass, int userId) {
 		TblUserDaoImpl tblUserDaoImpl = new TblUserDaoImpl();
-		return tblUserDaoImpl.updatePass(pass, userId);
+		Common common = new Common();
+		// tạo chuỗi salt mã hóa mật khẩu
+		String salt = common.createSalt();
+		// tạo mật khẩu đã có chuỗi salt mã hóa
+		String password = common.encrypt(salt + pass);
+		// thay đổi pass người dùng
+		return tblUserDaoImpl.updatePass(password, salt, userId);
 	}
 
 	@Override
-	public Boolean deleteUser(UserInfor userInfor) throws SQLException {
+	public Boolean deleteUser(int userId) throws SQLException {
 		BaseDaoImpl baseDaoImpl = new BaseDaoImpl();
 		Boolean check = false;
 		try {
 			TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
 			TblDetailUserJapanDaoImpl tblDetailUserJapanDaoImpl = new TblDetailUserJapanDaoImpl();
 
-			int userId = userInfor.getUserId();
 			baseDaoImpl.connectDB();
 
-			// Kiểm tra user có trình độ tiếng nhật không
+			//Biến kiểm tra user có trình độ tiếng nhật không
 			Boolean ExistedUserCodeLevel = false;
+			//Kiểm tra user có TĐTN không
 			ExistedUserCodeLevel = checkUserCodeLevel(userId);
-			
-			System.out.println("user id in deo delete user :" + userId);
 
 			BaseDaoImpl.conn.setAutoCommit(false);
 
+			// nếu user có TĐTN thì xóa TĐTN của user
 			if (ExistedUserCodeLevel) {
 				check = tblDetailUserJapanDaoImpl.deleteDetailUserJapan(userId);
 			}
 
+			// xóa thông tin của user
 			check = tblUserDao.deleteUser(userId);
 
 			BaseDaoImpl.conn.commit();

@@ -197,7 +197,7 @@ public class Common {
 	 */
 	public static Date toDate(int year, int month, int day) {
 		String date = convertToString(year, month, day);
-		DateFormat sm = new SimpleDateFormat("yyyy/mm/dd");
+		DateFormat sm = new SimpleDateFormat("yyyy/MM/dd");
 		Date dateFmt = null;
 		try {
 			dateFmt = sm.parse(date);
@@ -231,7 +231,7 @@ public class Common {
 	public static ArrayList<Integer> toArrayInteger(Date date) {
 		ArrayList<Integer> lstDate = new ArrayList<>();
 		int year = Integer.parseInt(new SimpleDateFormat("yyyy").format(date));
-		int month = Integer.parseInt(new SimpleDateFormat("mm").format(date));
+		int month = Integer.parseInt(new SimpleDateFormat("MM").format(date));
 		int day = Integer.parseInt(new SimpleDateFormat("dd").format(date));
 		lstDate.add(year);
 		lstDate.add(month);

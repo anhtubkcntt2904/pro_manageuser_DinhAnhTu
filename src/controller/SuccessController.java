@@ -67,6 +67,13 @@ public class SuccessController extends HttpServlet {
 			RequestDispatcher reqUpdate = request.getRequestDispatcher(Constant.SUCCESS);
 			reqUpdate.forward(request, response);
 			break;
+		case Constant.UPDATE_NOUSER:
+			MessageProperties messnouser = new MessageProperties();
+			String nouser = messnouser.getMessageProperties("ER013");
+			request.setAttribute("error", nouser);
+			RequestDispatcher reqNoUser = request.getRequestDispatcher(Constant.ERROR);
+			reqNoUser.forward(request, response);
+			break;
 		default:
 			MessageProperties messD = new MessageProperties();
 			String errorD = messD.getMessageProperties("ER015");

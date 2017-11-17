@@ -315,15 +315,16 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			ps = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
-			ps.setInt(1, tblUser.getGroupId());
-			ps.setString(2, tblUser.getLoginName());
-			ps.setString(3, tblUser.getPassword());
-			ps.setString(4, tblUser.getFullname());
-			ps.setString(5, tblUser.getFullnamekana());
-			ps.setString(6, tblUser.getEmail());
-			ps.setString(7, tblUser.getTel());
-			ps.setDate(8, java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
-			ps.setString(9, tblUser.getSalt());
+			int i = 0;
+			ps.setInt(++i, tblUser.getGroupId());
+			ps.setString(++i, tblUser.getLoginName());
+			ps.setString(++i, tblUser.getPassword());
+			ps.setString(++i, tblUser.getFullname());
+			ps.setString(++i, tblUser.getFullnamekana());
+			ps.setString(++i, tblUser.getEmail());
+			ps.setString(++i, tblUser.getTel());
+			ps.setDate(++i, java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
+			ps.setString(++i, tblUser.getSalt());
 
 			ps.executeUpdate();
 
@@ -442,12 +443,12 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	}
 
 	@Override
-	public Boolean updatePass(String pass, int userId) {
+	public Boolean updatePass(String pass, String salt, int userId) {
 		connectDB();
 		boolean check = false;
 		StringBuffer sql = new StringBuffer();
 		sql.append("update tbl_user ");
-		sql.append("set passwords = ? ");
+		sql.append("set passwords = ?, salt = ?");
 		sql.append("where user_id = ?");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -455,6 +456,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps = conn.prepareStatement(sql.toString());
 			int i = 0;
 			ps.setString(++i, pass);
+			ps.setString(++i, salt);
 			if (userId != 0) {
 				ps.setInt(++i, userId);
 			}
@@ -468,18 +470,18 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	}
 
 	@Override
-	public Boolean deleteUser(int userId) throws SQLException{
+	public Boolean deleteUser(int userId) throws SQLException {
 		StringBuffer sql = new StringBuffer();
 		Boolean isSuccess = false;
 		sql.append("delete from tbl_user ");
 		sql.append("where user_id = ?");
 		PreparedStatement ps = null;
 		try {
-			//System.out.println(code_level);
+			// System.out.println(code_level);
 			System.out.println(userId);
 			ps = conn.prepareStatement(sql.toString());
 			int i = 0;
-			//ps.setString(++i, code_level);
+			// ps.setString(++i, code_level);
 			if (userId != 0) {
 				ps.setInt(++i, userId);
 			}

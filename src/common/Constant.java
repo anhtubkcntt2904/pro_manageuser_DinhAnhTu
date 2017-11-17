@@ -68,6 +68,7 @@ public class Constant {
 	public static final String DELETE_SUCCESS = "deletesuccess";
 	public static final String UPDATE_SUCCESS = "updatesuccess";
 	public static final String SYSTEM_ERROR = "systemerror";
+	public static final String UPDATE_NOUSER = "nouser";
 	
 	public static final int SALT_LENGTH = 19;
 }

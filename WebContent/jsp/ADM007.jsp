@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -38,14 +39,14 @@
 				<tr>
 					<td class="lbl_left">New Pass:</td>
 					<td align="left"><input class="txBox" type="password"
-						maxlength="15" name="newpass" value="" size="20"
+						maxlength="15" name="newpass" value="${fn:escapeXml(newpass)}" size="20"
 						onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" /></td>
 				</tr>
 				<tr>
 					<td class="lbl_left">Confirm Pass:</td>
 					<td align="left"><input class="txBox" type="password"
-						maxlength="15" name="confirmpass" value="" size="22"
+						maxlength="15" name="confirmpass" value="${fn:escapeXml(confirmpass)}" size="22"
 						onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" /></td>
 				</tr>

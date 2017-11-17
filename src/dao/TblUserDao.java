@@ -106,9 +106,11 @@ public interface TblUserDao {
 	 * Phương thức update password của người dùng
 	 * 
 	 * @param pass
+	 * @param salt
+	 * @param userId
 	 * @return true hoặc false
 	 */
-	public Boolean updatePass(String pass, int userId);
+	public Boolean updatePass(String pass, String salt, int userId);
 
 	/**
 	 * Xóa thông tin user theo user id

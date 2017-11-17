@@ -120,8 +120,8 @@ public interface TblUserLogic {
 	/**
 	 * phương thức delete thông tin của một user dựa vào user id
 	 * 
-	 * @param userInfor
+	 * @param userId
 	 * @return true hoặc false
 	 */
-	public Boolean deleteUser(UserInfor userInfor) throws SQLException;
+	public Boolean deleteUser(int userId) throws SQLException;
 }

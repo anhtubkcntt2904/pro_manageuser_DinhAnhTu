@@ -38,33 +38,34 @@ public class DeleteUserController extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			System.out.println("come to delete");
+			// từ màn 05,delete user theo user id
 			int userid = Integer.parseInt(request.getParameter("userid"));
 			TblUserLogicImpl tblUserLogicImpl = new TblUserLogicImpl();
-			UserInfor userInfor = new UserInfor();
+			// biến kiểm tra user có tồn tại không
 			boolean existedUser = false;
+			// biến kiểm tra delete user có thành công không
 			Boolean check = false;
+			// kiểm tra user có tồn tại hay không
 			existedUser = tblUserLogicImpl.isExistedUser(userid);
+			// nếu user tồn tại
 			if (existedUser) {
-				System.out.println("start delete");
-				userInfor = tblUserLogicImpl.getUserInforById(userid);
-				check = tblUserLogicImpl.deleteUser(userInfor);
+				// xóa thông tin user
+				check = tblUserLogicImpl.deleteUser(userid);
+				// nếu xóa thành công
 				if (check) {
-					System.out.println("delete success");
+					// thông báo thành công
 					response.sendRedirect(
 							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.DELETE_SUCCESS);
+					// nếu xóa không thành công
 				} else {
+					// thông báo error
 					response.sendRedirect(
 							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 				}
-				/*
-				 * request.setAttribute("userInfor05", userInfor);
-				 * request.getRequestDispatcher(Constant.ADM005).forward(request, response);
-				 */
 			} else {
-				MessageProperties mess = new MessageProperties();
-				String error = mess.getMessageProperties("ER013");
-				response.sendRedirect(request.getContextPath() + Constant.ERROR + "?error=" + error);
+				// nếu user không tồn tại thì gửi đến trang báo không có user
+				response.sendRedirect(
+						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_NOUSER);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,10 +78,9 @@ public class DeleteUserController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 *//*
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}*/
+		 * protected void doPost(HttpServletRequest request, HttpServletResponse
+		 * response) throws ServletException, IOException { // TODO Auto-generated
+		 * method stub doGet(request, response); }
+		 */
 
 }
