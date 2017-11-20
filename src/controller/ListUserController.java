@@ -155,6 +155,10 @@ public class ListUserController extends HttpServlet {
 			session.setAttribute("sortByCodeLevel", sortByCodeLevel);
 			session.setAttribute("sortByEndDate", sortByEndDate);
 			session.setAttribute("totalPage", totalPage);
+			System.out.println(currentPage);
+			System.out.println(lstPaging.get(lstPaging.size() - 1));
+			/*System.out.println("list paging :" + lstPaging.get(lstPaging.size() + 1));
+			System.out.println("total page :" + totalPage);*/
 
 			MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
 			// tạo danh sách lưu các đối tượng MstGroup

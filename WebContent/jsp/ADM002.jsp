@@ -132,10 +132,11 @@
 	<table>
 		<tr>
 			<td class="lbl_paging"><c:if test="${totalPage > 1}">
+			<%-- <td> <c:out value="${lstPaging.get(lstPaging.size() - 1)}"/></td> --%>
 					<%-- <c:if test= "${lstPaging.get(listPaging.size()) > 3}"> <a href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) - 3"> aaa </a></c:if> --%>
-					<c:if test="${lstPaging.get(listPaging.size()) > 3}">
+					<c:if test="${lstPaging.get(lstPaging.size() - 1) > 3}">
 						<a
-							href="ListUser.do?type=paging&currentPage=${lstPaging.get(listPaging.size()) - 3}">
+							href="ListUser.do?type=paging&currentPage=${lstPaging.get(lstPaging.size() - 3) - 3}">
 							<< </a>
 					</c:if>
 
@@ -151,9 +152,9 @@
 						</c:choose>
 					</c:forEach>
 					<c:if
-						test="${lstPaging.get(listPaging.size()) + 1 < totalPage && totalPage > 3}">
+						test="${lstPaging.get(lstPaging.size() - 1) + 1  <= totalPage && totalPage > 3}">
 						<a
-							href="ListUser.do?type=paging&currentPage=${lstPaging.get(listPaging.size()) + 3}">
+							href="ListUser.do?type=paging&currentPage=${lstPaging.get(lstPaging.size() - 1) + 1}">
 							>> </a>
 					</c:if>
 				</c:if></td>

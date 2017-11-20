@@ -11,6 +11,7 @@ package common;
 public class Constant {
 	public static final String LOGIN_REQUEST_URI = "/manage_user/Login.do";
 	public static final String CONTEXT_ROOT = "/manage_user/";
+	public static final String ADM004_REQUEST_URI = "/manage_user/jsp/ADM004.jsp";
 	public static final String ADM002_SERVLET = "/ListUser.do";
 	public static final String ADM001_SERVLET = "/Login.do";
 	public static final String SUCCESS_SERVLET = "/Success.do";
@@ -51,7 +52,7 @@ public class Constant {
 	public static final String ENDDATE_SORT = "end_date";
 	
 	
-	public static final int START_YEAR = 1900;
+	public static final int START_YEAR = 1980;
 	
 	public static final String DRIVER_CONST = "driver";
 	public static final String URL_CONST = "url";

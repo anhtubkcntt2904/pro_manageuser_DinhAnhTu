@@ -60,6 +60,7 @@ public class Validate {
 	 * @return danh sách lỗi
 	 */
 	public List<String> validateUserInfor(UserInfor userInfor) {
+		System.out.println("come to validate");
 		List<String> lstError = new ArrayList<>();
 		MessageProperties messProp = new MessageProperties();
 		Common common = new Common();
@@ -76,8 +77,8 @@ public class Validate {
 		boolean checkKana = userInfor.getFullNameKana().matches(kanaformat);
 
 		// check birthday
-		List<Integer> lstBirthday = common.toArrayInteger(userInfor.getBirthday());
-		String dateBirthday = common.convertToString(lstBirthday.get(0), lstBirthday.get(1), lstBirthday.get(2));
+		String dateBirthday = common.convertToString(userInfor.getYearbirthday(), userInfor.getMonthbirthday(),
+				userInfor.getDaybirthday());
 		boolean checkBirthday = common.isValidDate(dateBirthday);
 
 		// check email
@@ -105,13 +106,13 @@ public class Validate {
 			boolean checkCodeLevel = mstJapanLogic.existedCodelevel(userInfor.getCodeLevel());
 
 			// check start date
-			List<Integer> lstStartDate = common.toArrayInteger(userInfor.getStartDate());
-			String startDate = common.convertToString(lstStartDate.get(0), lstStartDate.get(1), lstStartDate.get(2));
+			String startDate = common.convertToString(userInfor.getYearvalidate(), userInfor.getMonthvalidate(),
+					userInfor.getDayvalidate());
 			boolean checkStartDate = common.isValidDate(startDate);
 
 			// check end date
-			List<Integer> lstEndDate = common.toArrayInteger(userInfor.getEndDate());
-			String endDate = common.convertToString(lstEndDate.get(0), lstEndDate.get(1), lstEndDate.get(2));
+			String endDate = common.convertToString(userInfor.getYearinvalidate(), userInfor.getMonthinvalidate(),
+					userInfor.getDayinvalidate());
 			boolean checkEndDate = common.isValidDate(endDate);
 
 			// check total
@@ -153,7 +154,7 @@ public class Validate {
 		String telformat = "[0-9]{1,4}-[0-9]{1,4}-[0-9]{1,4}";
 		boolean checkTel = userInfor.getTel().matches(telformat);
 
-		//trường hợp add thì validate login
+		// trường hợp add thì validate login
 		if (userInfor.getUserId() == 0) {
 			// validate loginName
 			if (userInfor.getLoginName().trim().length() == 0) {
@@ -193,11 +194,14 @@ public class Validate {
 		if (userInfor.getFullNameKana().trim().length() > 255) {
 			// thêm thông báo lỗi không nhập
 			lstError.add(messProp.getMessageProperties("ER006_FULLNAMEKANA"));
-		} else if (!checkKana) {
-			// full name không phải kí tự kana
+		} else if (!common.checkKana(userInfor.getFullNameKana())) {
 			lstError.add(messProp.getMessageProperties("ER009_FULLNAMEKANA"));
-		}
-
+		} /*
+			 * else if (!checkKana) { // full name không phải kí tự kana
+			 * lstError.add(messProp.getMessageProperties("ER009_FULLNAMEKANA")); }
+			 */
+		
+		
 		// validate ngày sinh
 		if (!checkBirthday) {
 			// ngày sinh không hợp lệ

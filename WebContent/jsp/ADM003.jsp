@@ -63,7 +63,7 @@
 										<option value="0">選択してください</option>
 										<c:forEach var="group" items="${lstMstGroup}">
 											<option value="${group.groupId}"
-												${group.groupId == userInfor.groupId ? 'selected' : ''}>Nhóm ${group.groupId}</option>
+												${group.groupId == userInfor.groupId ? 'selected' : ''}>${group.groupName}</option>
 										</c:forEach>
 								</select> <span>&nbsp;&nbsp;&nbsp;</span></td>
 							</tr>
@@ -142,7 +142,7 @@
 											<option value="0">選択してください</option>
 											<c:forEach var="mstjapan" items="${lstMstJapan}">
 												<option value="${mstjapan.code_level}"
-													${mstjapan.code_level == userInfor.codeLevel ? 'selected' : ''}>${mstjapan.code_level}</option>
+													${mstjapan.code_level == userInfor.codeLevel ? 'selected' : ''}>${mstjapan.name_level}</option>
 											</c:forEach>
 									</select></td>
 								</tr>

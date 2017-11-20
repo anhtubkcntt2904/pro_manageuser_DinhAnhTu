@@ -410,7 +410,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		StringBuffer sql = new StringBuffer();
 		sql.append("update tbl_user ");
 		sql.append(
-				"set group_id = ? , login_name = ?, full_name = ?, full_name_kana = ?, email = ?, tel = ?, birthday = ?,salt = ?");
+				"set group_id = ? , login_name = ?, full_name = ?, full_name_kana = ?, email = ?, tel = ?, birthday = ?");
 		sql.append("where user_id = ?");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -425,7 +425,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps.setString(++i, tblUser.getEmail());
 			ps.setString(++i, tblUser.getTel());
 			ps.setDate(++i, java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
-			ps.setString(++i, tblUser.getSalt());
+			/*ps.setString(++i, tblUser.getSalt());*/
 			if (tblUser.getUserId() != 0) {
 				ps.setInt(++i, tblUser.getUserId());
 			}

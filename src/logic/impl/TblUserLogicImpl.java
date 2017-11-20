@@ -96,6 +96,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public Boolean createUser(UserInfor userInfor) throws SQLException {
 		BaseDaoImpl baseDaoImpl = new BaseDaoImpl();
+		Common common = new Common();
 		// Biến kiểm tra insert có thành công không
 		Boolean check = true;
 		int userid;
@@ -112,13 +113,13 @@ public class TblUserLogicImpl implements TblUserLogic {
 			int userId = userInfor.getUserId();
 			int groupId = userInfor.getGroupId();
 			String loginName = userInfor.getLoginName();
-			String password = userInfor.getPassword();
 			String fullname = userInfor.getFullName();
 			String fullnamekana = userInfor.getFullNameKana();
 			String email = userInfor.getEmail();
 			String tel = userInfor.getTel();
 			Date birthday = userInfor.getBirthday();
-			String salt = "";
+			String salt = common.createSalt();
+			String password = common.encrypt(salt + userInfor.getPassword());
 
 			// Lấy thông tin TĐTN user nhập vào
 			String codeLevel = userInfor.getCodeLevel();
@@ -214,7 +215,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			String email = userInfor.getEmail();
 			String tel = userInfor.getTel();
 			Date birthday = userInfor.getBirthday();
-			String salt = "";
+			/*String salt = "";*/
 
 			// Lấy thông tin TĐTN người dùng nhập vào
 			String codeLevel = userInfor.getCodeLevel();
@@ -232,7 +233,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			tblUser.setEmail(email);
 			tblUser.setTel(tel);
 			tblUser.setBirthday(birthday);
-			tblUser.setSalt(salt);
+			/*tblUser.setSalt(salt);*/
 
 			// Lấy thông tin detail user japan
 			tblDetailUserJapan.setCodeLevel(codeLevel);
@@ -254,13 +255,10 @@ public class TblUserLogicImpl implements TblUserLogic {
 
 				// nếu người dùng xóa TĐTN
 				if ("0".equals(codeLevel)) {
-					System.out.println("come to delete");
-					System.out.println(tblDetailUserJapan.getUserId());
 					check = tblDetailUserJapanDaoImpl.deleteDetailUserJapan(tblDetailUserJapan.getUserId());
 
 					// nếu người dùng chỉnh sửa TĐTN hoặc không thay đổi
 				} else {
-					System.out.println("come to update");
 					check = tblDetailUserJapanDaoImpl.updateDetailUserJapan(tblDetailUserJapan);
 				}
 				// nếu trong db, user không có trình độ tiếng nhật
@@ -268,7 +266,6 @@ public class TblUserLogicImpl implements TblUserLogic {
 
 				// nếu người dùng thêm TĐTN
 				if (!"0".equals(codeLevel)) {
-					System.out.println("come to insert");
 					check = tblDetailUserJapanDaoImpl.insertDetailUserJapan(tblDetailUserJapan);
 				}
 				// Nếu người dùng không thay đổi thì không thực hiện gì cả

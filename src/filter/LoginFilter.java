@@ -52,24 +52,29 @@ public class LoginFilter implements Filter {
 		res.setDateHeader("Expires", 0); // Proxies.
 		String loginURI = req.getServletPath();
 		HttpSession session = req.getSession(); // lấy ra session hiện tại của user
-		//Lấy đường dẫn url
+		// Lấy đường dẫn url
 		String path = ((HttpServletRequest) request).getRequestURI();
-		//nếu đã đăng nhập
-		if (req.getSession().getAttribute("loginName") != null) { 
-			//xét xem đường dẫn có là url đến trang login không
-			if (path.startsWith(Constant.LOGIN_REQUEST_URI) || path.equals(Constant.CONTEXT_ROOT)) { 
-				//nếu có thì chuyển sang trang list user ADM002
+		// nếu đã đăng nhập
+		if (req.getSession().getAttribute("loginName") != null) {
+			// xét xem đường dẫn có là url đến trang login không
+			if (path.startsWith(Constant.LOGIN_REQUEST_URI) || path.equals(Constant.CONTEXT_ROOT)) {
+				// nếu có thì chuyển sang trang list user ADM002
 				res.sendRedirect("." + Constant.ADM002_SERVLET);
+			} else if (path.startsWith(Constant.ADM004_REQUEST_URI)) {
+				/*res.sendRedirect("." + Constant.ADM002_SERVLET);*/
+				res.sendRedirect(
+						req.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 			} else {
-				//nếu không thì cho request đi tiếp
+				// nếu không thì cho request đi tiếp
 				chain.doFilter(request, response); // Just continue chain.
 			}
-		//nếu chưa đăng nhập thì xét xem đường dẫn hiện tại có vào trang login servlet không
+			// nếu chưa đăng nhập thì xét xem đường dẫn hiện tại có vào trang login servlet
+			// không
 		} else if (path.startsWith(Constant.LOGIN_REQUEST_URI)) {
-			//nếu có thì cho request đi tiếp
+			// nếu có thì cho request đi tiếp
 			chain.doFilter(request, response);
 		} else {
-			//nếu không thì đến trang login servlet
+			// nếu không thì đến trang login servlet
 			res.sendRedirect("." + Constant.ADM001_SERVLET);
 		}
 	}

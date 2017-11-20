@@ -239,6 +239,7 @@ public class AddUserInputController extends HttpServlet {
 			int monthbirthday = common.convertStringToInt(request.getParameter("monthbirthday"));
 			int daybirthday = common.convertStringToInt(request.getParameter("daybirthday"));
 			Date dateBirthday = common.toDate(yearbirthday, monthbirthday, daybirthday);
+			System.out.println("confirm date birthday :" + dateBirthday);
 
 			String email = request.getParameter("email");
 			String tel = request.getParameter("tel");

@@ -331,4 +331,31 @@ public class Common {
 		String strDate = sdfDate.format(now);
 		return strDate;
 	}
+	
+	/**
+	 * ER009 Kiểm tra chuỗi có phải là chuỗi kana hay không
+	 * 
+	 * @param str
+	 *            chuỗi cần kiểm tra
+	 * @return true nếu tất cả các kí tự trong chuỗi đều là kí tự kana
+	 */
+	public static boolean checkKana(String str) {
+		for (int i = 0; i < str.length(); i++) {
+			if (!isKana(str.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Kiểm tra kí tự có phải là kí tự kana hay không
+	 * 
+	 * @param c
+	 *            kí tự cần kiểm tra
+	 * @return true nếu là kí tự kana
+	 */
+	public static boolean isKana(char c) {
+		return (Character.UnicodeBlock.of(c) == Character.UnicodeBlock.KATAKANA);
+	}
 }
