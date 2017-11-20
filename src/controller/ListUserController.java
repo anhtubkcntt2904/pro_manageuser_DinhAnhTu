@@ -91,6 +91,7 @@ public class ListUserController extends HttpServlet {
 				groupid = Integer.parseInt(group_id);
 				int totalUser = tblUserLogic.getTotalUser(groupid, name);
 				offSet = common.getOffset(currentPage, limit);
+				System.out.println("total user : " + totalUser);
 				totalPage = common.getTotalPage(totalUser, limit);
 				lstPaging = new ArrayList<>();
 				lstPaging = common.getListPaging(totalUser, limit, currentPage);
@@ -134,6 +135,7 @@ public class ListUserController extends HttpServlet {
 				groupid = Integer.parseInt((String) session.getAttribute("group_id"));
 				int totalUser = tblUserLogic.getTotalUser(groupid, name);
 				currentPage = Integer.parseInt(request.getParameter("currentPage"));
+				System.out.println("total user : " + totalUser);
 				offSet = common.getOffset(currentPage, limit);
 				totalPage = common.getTotalPage(totalUser, limit);
 				lstPaging = new ArrayList<>();
@@ -154,11 +156,6 @@ public class ListUserController extends HttpServlet {
 			session.setAttribute("sortByFullname", sortByFullname);
 			session.setAttribute("sortByCodeLevel", sortByCodeLevel);
 			session.setAttribute("sortByEndDate", sortByEndDate);
-			session.setAttribute("totalPage", totalPage);
-			System.out.println(currentPage);
-			System.out.println(lstPaging.get(lstPaging.size() - 1));
-			/*System.out.println("list paging :" + lstPaging.get(lstPaging.size() + 1));
-			System.out.println("total page :" + totalPage);*/
 
 			MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
 			// tạo danh sách lưu các đối tượng MstGroup
@@ -180,6 +177,8 @@ public class ListUserController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			//response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
+			response.sendRedirect(
+					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}
 	}
 
