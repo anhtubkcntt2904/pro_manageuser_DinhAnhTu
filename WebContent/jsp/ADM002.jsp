@@ -7,7 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<link href="./css/style.css" rel="stylesheet" type="text/css" />
 <!-- <script type="text/javascript" src="../js/user.js"></script> -->
 <script type="text/javascript" src="../jsp/ADM002.jsp"></script>
 <title>ユーザ管理</title>
@@ -102,7 +102,9 @@
 				<c:when test="${lstUserInfo.size() > 0}">
 					<c:forEach var="userInfo" items="${lstUserInfo}">
 						<tr>
-							<td align="right"><a href="DetailUser.do?userid=${userInfo.userId}"><c:out value="${userInfo.userId}" /></a></td>
+							<td align="right"><a
+								href="DetailUser.do?userid=${userInfo.userId}"><c:out
+										value="${userInfo.userId}" /></a></td>
 							<td><c:out value="${userInfo.fullName}" /></td>
 							<%-- <td align="center"><c:out value="${userInfo.birthDay}" /></td> --%>
 							<td align="center"><fmt:formatDate pattern="yyyy/MM/dd"
@@ -132,12 +134,22 @@
 	<table>
 		<tr>
 			<td class="lbl_paging"><c:if test="${totalPage > 1}">
-			<%-- <td> <c:out value="${lstPaging.get(lstPaging.size() - 1)}"/></td> --%>
-					<%-- <c:if test= "${lstPaging.get(listPaging.size()) > 3}"> <a href="doListUser?type=paging&currentPage=${lstPaging.get(listPaging.size()) - 3"> aaa </a></c:if> --%>
 					<c:if test="${lstPaging.get(lstPaging.size() - 1) > 3}">
-						<a
-							href="ListUser.do?type=paging&currentPage=${lstPaging.get(lstPaging.size() - 3) - 3}">
-							<< </a>
+						<c:if test="${lstPaging.size() == 3}">
+							<a
+								href="ListUser.do?type=paging&currentPage=${lstPaging.get(lstPaging.size() - 3) - 3}">
+								<< </a>
+						</c:if>
+						<c:if test="${lstPaging.size() == 2}">
+							<a
+								href="ListUser.do?type=paging&currentPage=${lstPaging.get(lstPaging.size() - 2) - 3}">
+								<< </a>
+						</c:if>
+						<c:if test="${lstPaging.size() == 1}">
+							<a
+								href="ListUser.do?type=paging&currentPage=${lstPaging.get(lstPaging.size() - 1) - 3}">
+								<< </a>
+						</c:if>
 					</c:if>
 
 					<c:forEach var="paging" items="${lstPaging}">
