@@ -190,18 +190,6 @@
 										name="total" value="${userInfor.total}" size="5"
 										onfocus="this.style.borderColor='#0066ff';"
 										onblur="this.style.borderColor='#aaaaaa';" /></td>
-									<%-- <c:when test="${userInfor.total == 0}">
-										<td align="left"><input class="txBox" type="text"
-											name="total" value="" size="5"
-											onfocus="this.style.borderColor='#0066ff';"
-											onblur="this.style.borderColor='#aaaaaa';" /></td>
-									</c:when>
-									<c:otherwise>
-										<td align="left"><input class="txBox" type="text"
-											name="total" value="${userInfor.total}" size="5"
-											onfocus="this.style.borderColor='#0066ff';"
-											onblur="this.style.borderColor='#aaaaaa';" /></td>
-									</c:otherwise> --%>
 								</tr>
 							</tbody>
 						</table>

@@ -53,7 +53,7 @@
 				<tr>
 					<td></td>
 					<td align="left"><input class="btn btn_wider" type="submit"
-						value="ログイン" /></td>
+						value="OK" /></td>
 				</tr>
 			</table>
 			<table border="0">

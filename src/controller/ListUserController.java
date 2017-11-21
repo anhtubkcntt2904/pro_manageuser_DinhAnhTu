@@ -91,7 +91,6 @@ public class ListUserController extends HttpServlet {
 				groupid = Integer.parseInt(group_id);
 				int totalUser = tblUserLogic.getTotalUser(groupid, name);
 				offSet = common.getOffset(currentPage, limit);
-				System.out.println("total user : " + totalUser);
 				totalPage = common.getTotalPage(totalUser, limit);
 				lstPaging = new ArrayList<>();
 				lstPaging = common.getListPaging(totalUser, limit, currentPage);
@@ -135,7 +134,6 @@ public class ListUserController extends HttpServlet {
 				groupid = Integer.parseInt((String) session.getAttribute("group_id"));
 				int totalUser = tblUserLogic.getTotalUser(groupid, name);
 				currentPage = Integer.parseInt(request.getParameter("currentPage"));
-				System.out.println("total user : " + totalUser);
 				offSet = common.getOffset(currentPage, limit);
 				totalPage = common.getTotalPage(totalUser, limit);
 				lstPaging = new ArrayList<>();
