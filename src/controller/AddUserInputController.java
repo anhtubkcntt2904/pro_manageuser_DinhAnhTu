@@ -239,7 +239,6 @@ public class AddUserInputController extends HttpServlet {
 			int monthbirthday = common.convertStringToInt(request.getParameter("monthbirthday"));
 			int daybirthday = common.convertStringToInt(request.getParameter("daybirthday"));
 			Date dateBirthday = common.toDate(yearbirthday, monthbirthday, daybirthday);
-			System.out.println("confirm date birthday :" + dateBirthday);
 
 			String email = request.getParameter("email");
 			String tel = request.getParameter("tel");
@@ -347,6 +346,16 @@ public class AddUserInputController extends HttpServlet {
 				userInfor.setDayinvalidate(lstEndDate.get(2));
 				userInfor.setMonthinvalidate(lstEndDate.get(1));
 				userInfor.setYearinvalidate(lstEndDate.get(0));
+			}else {
+				// lấy ngày tháng năm hiện tại cho start date select box
+				userInfor.setYearvalidate(yearnow);
+				userInfor.setMonthvalidate(monthnow);
+				userInfor.setDayvalidate(daynow);
+
+				// lấy ngày tháng năm hiện tại cho end date select box
+				userInfor.setYearinvalidate(yearnow + 1);
+				userInfor.setMonthinvalidate(monthnow);
+				userInfor.setDayinvalidate(daynow);
 			}
 
 			break;
