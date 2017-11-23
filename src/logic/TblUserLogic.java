@@ -7,7 +7,6 @@ package logic;
 import java.sql.SQLException;
 import java.util.List;
 
-import entity.UserInfo;
 import entity.UserInfor;
 
 /**
@@ -39,7 +38,7 @@ public interface TblUserLogic {
 	 * @param sortByEndDate
 	 * @return danh sách user
 	 */
-	public List<UserInfo> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
+	public List<UserInfor> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullname, String sortByCodeLevel, String sortByEndDate);
 
 	/**

@@ -108,7 +108,7 @@
 							<td><c:out value="${userInfo.fullName}" /></td>
 							<%-- <td align="center"><c:out value="${userInfo.birthDay}" /></td> --%>
 							<td align="center"><fmt:formatDate pattern="yyyy/MM/dd"
-									value="${userInfo.birthDay}" /></td>
+									value="${userInfo.birthday}" /></td>
 							<td><c:out value="${userInfo.groupName}" /></td>
 							<td><c:out value="${userInfo.email}" /></td>
 							<td><c:out value="${userInfo.tel}" /></td>

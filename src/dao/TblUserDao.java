@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import entity.TblUser;
-import entity.UserInfo;
 import entity.UserInfor;
 
 /**
@@ -39,7 +38,7 @@ public interface TblUserDao {
 	 *            loại sort của end date
 	 * @return List User
 	 */
-	public List<UserInfo> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
+	public List<UserInfor> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullname, String sortByCodeLevel, String sortByEndDate);
 
 	/**

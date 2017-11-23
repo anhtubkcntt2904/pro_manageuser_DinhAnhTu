@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import common.Common;
 import common.Constant;
 import entity.MstGroup;
-import entity.UserInfo;
+import entity.UserInfor;
 import logic.impl.MstGroupLogicImpl;
 import logic.impl.TblUserLogicImpl;
 import properties.MessageProperties;
@@ -60,7 +60,7 @@ public class ListUserController extends HttpServlet {
 			Common common = new Common();
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 			// Danh sách lưu thông tin user
-			List<UserInfo> lstUserInfo = new ArrayList<>();
+			List<UserInfor> lstUserInfor = new ArrayList<>();
 
 			List<Integer> lstPaging = new ArrayList<>();
 			//mặc định ban đầu trong list có một bản ghi
@@ -163,14 +163,14 @@ public class ListUserController extends HttpServlet {
 			lstGroup = mstGroupLogic.getAllGroup();
 
 			// lấy danh sách user
-			lstUserInfo = tblUserLogic.getListUser(offSet, limit, groupid, name, sortType, sortByFullname,
+			lstUserInfor = tblUserLogic.getListUser(offSet, limit, groupid, name, sortType, sortByFullname,
 					sortByCodeLevel, sortByEndDate);
 			//nếu danh sách rỗng
-			if(lstUserInfo.size() < 1) {
+			if(lstUserInfor.size() < 1) {
 				String message = mess.getMessageProperties(Constant.MESS_ADM002_NORECORD);
 				request.setAttribute("message", message);
 			}
-			request.setAttribute("lstUserInfo", lstUserInfo);
+			request.setAttribute("lstUserInfo", lstUserInfor);
 			request.setAttribute("lstGroup", lstGroup);
 			request.getRequestDispatcher(Constant.ADM002).forward(request, response);
 		} catch (Exception e) {

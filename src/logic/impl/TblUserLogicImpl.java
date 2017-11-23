@@ -15,7 +15,6 @@ import dao.impl.TblDetailUserJapanDaoImpl;
 import dao.impl.TblUserDaoImpl;
 import entity.TblDetailUserJapan;
 import entity.TblUser;
-import entity.UserInfo;
 import entity.UserInfor;
 import logic.TblUserLogic;
 import validate.Validate;
@@ -45,7 +44,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	}
 
 	@Override
-	public List<UserInfo> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
+	public List<UserInfor> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullname, String sortByCodeLevel, String sortByEndDate) {
 		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
 		// Nếu full name không null
@@ -119,7 +118,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			String tel = userInfor.getTel();
 			Date birthday = userInfor.getBirthday();
 			String salt = common.createSalt();
-			String password = common.encrypt(salt + userInfor.getPassword());
+			String password = common.encryptPassword((salt + userInfor.getPassword()));
 
 			// Lấy thông tin TĐTN user nhập vào
 			String codeLevel = userInfor.getCodeLevel();
@@ -301,7 +300,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		// tạo chuỗi salt mã hóa mật khẩu
 		String salt = common.createSalt();
 		// tạo mật khẩu đã có chuỗi salt mã hóa
-		String password = common.encrypt(salt + pass);
+		String password = common.encryptPassword((salt + pass));
 		// thay đổi pass người dùng
 		return tblUserDaoImpl.updatePass(password, salt, userId);
 	}

@@ -28,6 +28,38 @@ public class UserInfor {
 	private Date endDate;
 	private int yearinvalidate, monthinvalidate, dayinvalidate;
 	private String total;
+	private String nameLevel;
+	private String groupName;
+
+	/**
+	 * @return the groupName
+	 */
+	public String getGroupName() {
+		return groupName;
+	}
+
+	/**
+	 * @param groupName
+	 *            the groupName to set
+	 */
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	/**
+	 * @return the nameLevel
+	 */
+	public String getNameLevel() {
+		return nameLevel;
+	}
+
+	/**
+	 * @param nameLevel
+	 *            the nameLevel to set
+	 */
+	public void setNameLevel(String nameLevel) {
+		this.nameLevel = nameLevel;
+	}
 
 	/**
 	 * 
