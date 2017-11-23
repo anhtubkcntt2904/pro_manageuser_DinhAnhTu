@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -52,7 +53,7 @@
 							</tr>
 							<tr>
 								<td class="lbl_left">氏名:</td>
-								<td align="left"><label for="fullName">${userInfor05.fullName}</label></td>
+								<td align="left"><label for="fullName">${fn:escapeXml(userInfor05.fullName)}</label></td>
 							</tr>
 							<tr>
 								<td class="lbl_left">カタカナ氏名:</td>
@@ -93,7 +94,7 @@
 									<c:if test="${userInfor05.codeLevel == '0'}">
 										<td align="left"><label for="startDate"></label></td>
 									</c:if>
-									
+
 								</tr>
 								<tr>
 									<td class="lbl_left">失効日:</td>
@@ -104,7 +105,7 @@
 									<c:if test="${userInfor05.codeLevel == '0'}">
 										<td align="left"><label for="endDate"></label></td>
 									</c:if>
-								
+
 								</tr>
 								<tr>
 									<td class="lbl_left">点数:</td>
@@ -115,7 +116,7 @@
 									<c:if test="${userInfor05.codeLevel == '0'}">
 										<td align="left"><label for="total"></label></td>
 									</c:if>
-									
+
 								</tr>
 							</tbody>
 						</table>
@@ -126,16 +127,16 @@
 		<div style="padding-left: 100px;">&nbsp;</div>
 		<!-- Begin vung button -->
 		<div style="padding-left: 100px;">
-			<table border="0" cellpadding="4" cellspacing="0" width="300px">
+			<table border="0" cellpadding="4" cellspacing="0" width="350px">
 				<tr>
 					<th width="200px" align="center">&nbsp;</th>
 					<td><input class="btn" type="submit" value="編集" /></td>
 					<td><input class="btn" type="button" value="削除"
 						<%-- onclick="location.href='DeleteUser.do?userid=${userInfor05.userId}';" --%> 
-						onclick="javascript:showDialog('DeleteUser.do?userid=${userInfor05.userId}')"/></td>
+						onclick="javascript:showDialog('DeleteUser.do?userid=${userInfor05.userId}')" /></td>
 					<td><input class="btn" type="button" value="戻る"
 						onclick="location.href='ListUser.do';" /></td>
-					<td><input class="btn" type="button" value="CHANGE PASS"
+					<td><input class="btn" type="button" value="REPASS"
 						onclick="location.href='ChangePass.do?userid=${userInfor05.userId}';" /></td>
 				</tr>
 			</table>

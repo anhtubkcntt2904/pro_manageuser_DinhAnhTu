@@ -28,12 +28,16 @@ public class MstJapanLogicImpl implements MstJapanLogic {
 	@Override
 	public boolean existedCodelevel(String codelevel) {
 		MstJapanDaoImpl mstJapanDao = new MstJapanDaoImpl();
+		//Lấy thông tin từ bảng mst japan
 		List<MstJapan> lstJapan = mstJapanDao.getAllMstJapan();
 		for (int i = 0; i < lstJapan.size(); i++) {
+			//nếu tồn tại mst japan với code level truyền vào
 			if (codelevel.equals(lstJapan.get(i).getCode_level())) {
+				//trả về true
 				return true;
 			}
 		}
+		//trả về false
 		return false;
 	}
 

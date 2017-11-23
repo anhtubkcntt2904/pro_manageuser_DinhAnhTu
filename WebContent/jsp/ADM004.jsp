@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -38,7 +39,7 @@
 							</tr>
 						</table>
 						<table border="1" width="70%" class="tbl_input" cellpadding="4"
-							cellspacing="0">
+							cellspacing="0" style = "table-layout: auto;">
 							<tr>
 								<td class="lbl_left">アカウント名:</td>
 								<td align="left"><label for="loginName">${userInfor.loginName}</label></td>
@@ -54,7 +55,7 @@
 							</tr>
 							<tr>
 								<td class="lbl_left">氏名:</td>
-								<td align="left"><label for="fullName">${userInfor.fullName}</label></td>
+								<td align="left"><label for="fullName">${fn:escapeXml(userInfor.fullName)}</label></td>
 							</tr>
 							<tr>
 								<td class="lbl_left">カタカナ氏名:</td>

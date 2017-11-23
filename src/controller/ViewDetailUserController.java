@@ -37,40 +37,36 @@ public class ViewDetailUserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		// click id user ADM002
-		// lấy user id khi click user id từ màn 02
-		int userid = Integer.parseInt(request.getParameter("userid"));
-		TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
-		// đối tượng lưu thông tin của user để truyền sang màn 05
-		UserInfor userInfor = new UserInfor();
-		// biến kiểm tra user có tồn tại không dựa vào user id
-		boolean existedUser = false;
-		// kiểm tra tồn tại của user
-		existedUser = tblUserLogic.isExistedUser(userid);
-		// nếu user tồn tại
-		if (existedUser) {
-			// lấy thông tin của user theo user id truyền vào
-			userInfor = tblUserLogic.getUserInforById(userid);
-			// hiển thị màn hình view ADM005
-			request.setAttribute("userInfor05", userInfor);
-			request.getRequestDispatcher(Constant.ADM005).forward(request, response);
-		} else {
-			// nếu user không tồn tại
-			MessageProperties mess = new MessageProperties();
-			// lấy ra mã lỗi
-			String error = mess.getMessageProperties("ER013");
-			// gửi đến màn hình lỗi
-			response.sendRedirect(request.getContextPath() + Constant.ERROR + "?error=" + error);
+		try {
+			// click id user ADM002
+			// lấy user id khi click user id từ màn 02
+			int userid = Integer.parseInt(request.getParameter("userid"));
+			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
+			// đối tượng lưu thông tin của user để truyền sang màn 05
+			UserInfor userInfor = new UserInfor();
+			// biến kiểm tra user có tồn tại không dựa vào user id
+			boolean existedUser = false;
+			// kiểm tra tồn tại của user
+			existedUser = tblUserLogic.isExistedUser(userid);
+			// nếu user tồn tại
+			if (existedUser) {
+				// lấy thông tin của user theo user id truyền vào
+				userInfor = tblUserLogic.getUserInforById(userid);
+				// hiển thị màn hình view ADM005
+				request.setAttribute("userInfor05", userInfor);
+				request.getRequestDispatcher(Constant.ADM005).forward(request, response);
+			} else {
+				// nếu user không tồn tại
+				MessageProperties mess = new MessageProperties();
+				// lấy ra mã lỗi
+				String error = mess.getMessageProperties("ER013");
+				// gửi đến màn hình lỗi
+				response.sendRedirect(request.getContextPath() + Constant.ERROR + "?error=" + error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect(
+					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 *//*
-		 * protected void doPost(HttpServletRequest request, HttpServletResponse
-		 * response) throws ServletException, IOException { // TODO Auto-generated
-		 * method stub doGet(request, response); }
-		 */
-
 }

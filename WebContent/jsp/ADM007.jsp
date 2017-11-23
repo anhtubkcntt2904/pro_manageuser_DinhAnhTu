@@ -39,27 +39,31 @@
 				<tr>
 					<td class="lbl_left">New Pass:</td>
 					<td align="left"><input class="txBox" type="password"
-						maxlength="15" name="newpass" value="${fn:escapeXml(newpass)}" size="20"
-						onfocus="this.style.borderColor='#0066ff';"
+						maxlength="15" name="newpass" value="${fn:escapeXml(newpass)}"
+						size="20" onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" /></td>
 				</tr>
 				<tr>
 					<td class="lbl_left">Confirm Pass:</td>
 					<td align="left"><input class="txBox" type="password"
-						maxlength="15" name="confirmpass" value="${fn:escapeXml(confirmpass)}" size="22"
+						maxlength="15" name="confirmpass"
+						value="${fn:escapeXml(confirmpass)}" size="22"
 						onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" /></td>
 				</tr>
-				<tr>
-					<td></td>
-					<td align="left"><input class="btn btn_wider" type="submit"
-						value="ログイン" /></td>
-				</tr>
+				<table>
+					<tr>
+
+						<td align="left"><input class="btn btn_wider" type="submit"
+							value="OK" /></td>
+						<td><input class="btn" type="button" value="戻る"
+							onclick="location.href='DetailUser.do?userid=${userid}';" /></td>
+					</tr>
+				</table>
 			</table>
 			<table border="0">
 				<tr>
-					<td><input type="hidden" name="user_id"
-						value="${userid}" /></td>
+					<td><input type="hidden" name="user_id" value="${userid}" /></td>
 					<td><input type="hidden" name="type" value="edit" /></td>
 				</tr>
 			</table>

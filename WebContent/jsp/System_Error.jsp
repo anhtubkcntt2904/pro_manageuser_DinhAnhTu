@@ -11,20 +11,7 @@
 </head>
 <body>
 	<!-- Begin vung header -->
-	<div>
-		<div>
-			<table>
-				<tr>
-					<td width="80%"><img src="./images/logo-manager-user.gif"
-						alt="Luvina" />
-						<td>
-							<td align="left"><a href="Logout.do">ログアウト</a> &nbsp; <a
-								href="ListUser.do">トップ</a>
-								<td>
-				</tr>
-			</table>
-		</div>
-	</div>
+	<%@include file="header.jsp"%>
 
 	<!-- End vung header -->
 
@@ -47,17 +34,14 @@
 			</tr>
 			<tr>
 				<td align="center" colspan="2"><input class="btn" type="submit"
-					value="OK" onclick="" /></td>
+					value="OK" onclick="location.href='/manage_user/ListUser.do';" /></td>
 			</tr>
 		</table>
 	</form>
 	<!-- End vung input -->
 
 	<!-- Begin vung footer -->
-	<div class="lbl_footer">
-		<br> <br> <br> <br> Copyright © 2010
-						ルビナソフトウエア株式会社. All rights reserved. 
-	</div>
+		<%@include file="footer.jsp"%>
 	<!-- End vung footer -->
 </body>
 

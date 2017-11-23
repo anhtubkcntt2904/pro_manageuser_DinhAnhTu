@@ -48,7 +48,7 @@
 									<td align="left"><input class="txBox" type="text"
 										name="loginName" value="${fn:escapeXml(userInfor.loginName)}"
 										size="15" onfocus="this.style.borderColor='#0066ff';"
-										onblur="this.style.borderColor='#aaaaaa';" readonly/></td>
+										onblur="this.style.borderColor='#aaaaaa';" readonly /></td>
 								</c:if>
 								<c:if test="${userInfor.userId == 0}">
 									<td align="left"><input class="txBox" type="text"
@@ -84,12 +84,12 @@
 							</tr>
 							<tr>
 								<td class="lbl_left"><font color="red">*</font> 生年月日:</td>
-								<td align="left"><select name="yearbirthday">										
+								<td align="left"><select name="yearbirthday">
 										<c:forEach var="year" items="${lstYear}">
 											<option value="${year}"
 												${year == userInfor.yearbirthday ? 'selected' : ''}>${year}</option>
 										</c:forEach>
-								</select>年 <select name="monthbirthday">										
+								</select>年 <select name="monthbirthday">
 										<c:forEach var="month" items="${lstMonth}">
 											<option value="${month}"
 												${month == userInfor.monthbirthday ? 'selected' : ''}>${month}</option>
@@ -148,17 +148,17 @@
 								</tr>
 								<tr>
 									<td class="lbl_left">資格交付日:</td>
-									<td align="left"><select name="yearvalidate">											
+									<td align="left"><select name="yearvalidate">
 											<c:forEach var="year" items="${lstYear}">
 												<option value="${year}"
 													${year == userInfor.yearvalidate ? 'selected' : ''}>${year}</option>
 											</c:forEach>
-									</select>年<select name="monthvalidate">										
+									</select>年<select name="monthvalidate">
 											<c:forEach var="month" items="${lstMonth}">
 												<option value="${month}"
 													${month == userInfor.monthvalidate ? 'selected' : ''}>${month}</option>
 											</c:forEach>
-									</select>月 <select name="dayvalidate">										
+									</select>月 <select name="dayvalidate">
 											<c:forEach var="day" items="${lstDay}">
 												<option value="${day}"
 													${day == userInfor.dayvalidate ? 'selected' : ''}>${day}</option>
@@ -177,7 +177,7 @@
 												<option value="${month}"
 													${month == userInfor.monthinvalidate ? 'selected' : ''}>${month}</option>
 											</c:forEach>
-									</select>月 <select name="dayinvalidate">											
+									</select>月 <select name="dayinvalidate">
 											<c:forEach var="day" items="${lstDay}">
 												<option value="${day}"
 													${day == userInfor.dayinvalidate ? 'selected' : ''}>${day}</option>
@@ -190,18 +190,6 @@
 										name="total" value="${userInfor.total}" size="5"
 										onfocus="this.style.borderColor='#0066ff';"
 										onblur="this.style.borderColor='#aaaaaa';" /></td>
-									<%-- <c:when test="${userInfor.total == 0}">
-										<td align="left"><input class="txBox" type="text"
-											name="total" value="" size="5"
-											onfocus="this.style.borderColor='#0066ff';"
-											onblur="this.style.borderColor='#aaaaaa';" /></td>
-									</c:when>
-									<c:otherwise>
-										<td align="left"><input class="txBox" type="text"
-											name="total" value="${userInfor.total}" size="5"
-											onfocus="this.style.borderColor='#0066ff';"
-											onblur="this.style.borderColor='#aaaaaa';" /></td>
-									</c:otherwise> --%>
 								</tr>
 							</tbody>
 						</table>
@@ -216,8 +204,14 @@
 				<tr>
 					<th width="200px" align="center">&nbsp;</th>
 					<td><input class="btn" type="submit" value="確認" /></td>
-					<td><input class="btn" type="button" value="戻る"
-						onclick="location.href='/manage_user/ListUser.do';" /></td>
+					<c:if test="${userInfor.userId == 0}">
+						<td><input class="btn" type="button" value="戻る"
+							onclick="location.href='/manage_user/ListUser.do';" /></td>
+					</c:if>
+					<c:if test="${userInfor.userId != 0}">
+						<td><input class="btn" type="button" value="戻る"
+							onclick="location.href='/manage_user/DetailUser.do?userid=${userInfor.userId}';" /></td>
+					</c:if>
 				</tr>
 			</table>
 			<!-- End vung button -->

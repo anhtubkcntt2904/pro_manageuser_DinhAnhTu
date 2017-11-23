@@ -107,6 +107,7 @@ public class AddUserConfirmController extends HttpServlet {
 				response.sendRedirect(
 						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 			}
+			//xóa thông tin user infor trên session
 			session.removeAttribute("userInfor" + keyAdd);
 		} catch (Exception e) {
 			e.printStackTrace();
