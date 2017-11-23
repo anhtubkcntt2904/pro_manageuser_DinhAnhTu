@@ -229,6 +229,7 @@ public class AddUserInputController extends HttpServlet {
 			if (request.getParameter("userid") != "") {
 				userId = Integer.parseInt(request.getParameter("user_id"));
 			}
+			//Lấy ra thông tin của user
 			String loginName = request.getParameter("loginName");
 			int group_id = common.convertStringToInt(request.getParameter("group_id"));
 			String fullName = request.getParameter("fullName");
@@ -240,6 +241,7 @@ public class AddUserInputController extends HttpServlet {
 			int daybirthday = common.convertStringToInt(request.getParameter("daybirthday"));
 			Date dateBirthday = common.toDate(yearbirthday, monthbirthday, daybirthday);
 
+			//Lấy ra thông tin của user
 			String email = request.getParameter("email");
 			String tel = request.getParameter("tel");
 			String password = request.getParameter("password");
@@ -266,8 +268,9 @@ public class AddUserInputController extends HttpServlet {
 				dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
 
 				total = request.getParameter("total");
-				// nếu không có TĐTN thì lấy các giá trị mặc định
+				// nếu không có TĐTN 
 			} else {
+				//thì lấy các giá trị mặc định
 				yearvalidate = yearnow;
 				monthvalidate = monthnow;
 				dayvalidate = daynow;

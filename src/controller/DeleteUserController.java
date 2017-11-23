@@ -62,8 +62,9 @@ public class DeleteUserController extends HttpServlet {
 					response.sendRedirect(
 							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 				}
+				// nếu user không tồn tại
 			} else {
-				// nếu user không tồn tại thì gửi đến trang báo không có user
+				// thì gửi đến trang báo không có user
 				response.sendRedirect(
 						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_NOUSER);
 			}
@@ -73,14 +74,4 @@ public class DeleteUserController extends HttpServlet {
 					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 *//*
-		 * protected void doPost(HttpServletRequest request, HttpServletResponse
-		 * response) throws ServletException, IOException { // TODO Auto-generated
-		 * method stub doGet(request, response); }
-		 */
-
 }

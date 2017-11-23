@@ -38,7 +38,9 @@ public class LogoutController extends HttpServlet {
 		// Lấy session hiện tại và xóa session
 		try {
 			HttpSession session = request.getSession();
+			//hủy session
 			session.invalidate();
+			//chuyển về trang login
 			response.sendRedirect(request.getContextPath() + "/" + Constant.INDEX);
 		} catch (Exception e) {
 			response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET);

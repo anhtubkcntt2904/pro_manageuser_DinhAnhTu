@@ -63,7 +63,8 @@ public class ListUserController extends HttpServlet {
 			List<UserInfo> lstUserInfo = new ArrayList<>();
 
 			List<Integer> lstPaging = new ArrayList<>();
-			lstPaging.add(1);
+			//mặc định ban đầu trong list có một bản ghi
+			/*lstPaging.add(1);*/
 			
 			MessageProperties mess = new MessageProperties();
 

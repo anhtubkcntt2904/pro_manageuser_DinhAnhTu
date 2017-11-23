@@ -44,19 +44,23 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		// place your code here
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
+		
+		//Xóa cache trên trình duyệt
 		res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
 		res.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 		res.setDateHeader("Expires", 0); // Proxies.
-		String loginURI = req.getServletPath();
-		HttpSession session = req.getSession(); // lấy ra session hiện tại của user
+		
+		 // lấy ra session hiện tại của user
+		HttpSession session = req.getSession();
+		
 		// Lấy đường dẫn url
-		String path = ((HttpServletRequest) request).getRequestURI();
+		String path = req.getRequestURI();
+
 		// nếu đã đăng nhập
 		if (req.getSession().getAttribute("loginName") != null) {
-			// xét xem đường dẫn có là url đến trang login không
+			// xét xem đường dẫn có đến trang login không
 			if (path.startsWith(Constant.LOGIN_REQUEST_URI) || path.equals(Constant.CONTEXT_ROOT)) {
 				// nếu có thì chuyển sang trang list user ADM002
 				res.sendRedirect("." + Constant.ADM002_SERVLET);

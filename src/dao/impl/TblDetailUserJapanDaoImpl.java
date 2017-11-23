@@ -13,7 +13,8 @@ import dao.TblDetailUserJapanDao;
 import entity.TblDetailUserJapan;
 
 /**
- * @author LA-AM
+ * class implements các phương thức cảu class TblDetailUserJapanDao
+ * @author Anh Tu
  *
  */
 public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailUserJapanDao {

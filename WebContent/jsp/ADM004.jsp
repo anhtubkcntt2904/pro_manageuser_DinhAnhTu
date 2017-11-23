@@ -39,7 +39,7 @@
 							</tr>
 						</table>
 						<table border="1" width="70%" class="tbl_input" cellpadding="4"
-							cellspacing="0">
+							cellspacing="0" style = "table-layout: auto;">
 							<tr>
 								<td class="lbl_left">アカウント名:</td>
 								<td align="left"><label for="loginName">${userInfor.loginName}</label></td>

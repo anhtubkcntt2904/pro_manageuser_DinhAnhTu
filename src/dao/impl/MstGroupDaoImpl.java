@@ -15,7 +15,7 @@ import dao.MstGroupDao;
 import entity.MstGroup;
 
 /**
- * 
+ * class thao tác với bảng mst group trong database
  * @author AnhTu
  *
  */

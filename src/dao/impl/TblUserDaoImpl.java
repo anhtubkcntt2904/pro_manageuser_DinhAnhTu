@@ -44,15 +44,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		// danh sách các user với thông tin từng user
 		List<UserInfo> lstUserInfo = new ArrayList<>();
 		StringBuffer sql = new StringBuffer();
-		/*
-		 * sql.append(
-		 * "select u.user_id,u.full_name,u.birthday,g.group_name,u.email,u.tel,j.name_level,tdu.end_date,tdu.total "
-		 * ); sql.append("from tbl_user u ");
-		 * sql.append("inner join mst_group g on u.group_id = g.group_id ");
-		 * sql.append("left join tbl_detail_user_japan tdu on u.user_id = tdu.user_id "
-		 * ); sql.append("inner join mst_japan j on tdu.code_level = j.code_level ");
-		 * sql.append("where 1 = 1 ");
-		 */
 
 		sql.append(
 				"SELECT u.USER_ID,u.full_name,u.birthday,g.group_name,u.email,u.tel,j.name_level,tdu.end_date,tdu.total ");
@@ -100,7 +91,8 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			sql.append(",tdu.code_level ");
 			sql.append(sortByCodeLevel);
 		}
-
+		
+		//giới hạn số bản ghi lấy ra
 		sql.append(" limit ");
 		sql.append(offset + ",");
 		sql.append(limit);
@@ -190,6 +182,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			count2 = 0;
 			rs = ps.executeQuery();
 			while (rs.next()) {
+				//đếm tổng số user
 				countTotal++;
 			}
 		} catch (SQLException e) {
@@ -214,6 +207,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		sql.append("select u.user_id ");
 		sql.append("from tbl_user u ");
 		sql.append("where u.email = ? ");
+		//nếu user id không bằng null thì thêm điều kiện user id vào tìm kiếm
 		if (userId != null) {
 			if (userId != 0) {
 				sql.append(" and user_id != ?");
@@ -225,6 +219,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps = conn.prepareStatement(sql.toString());
 			int i = 0;
 			ps.setString(++i, email);
+			//nếu user id không bằng null thì thêm điều kiện user id vào tìm kiếm
 			if (userId != null) {
 				if (userId != 0) {
 					ps.setInt(++i, userId);
@@ -232,16 +227,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			}
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				/*
-				 * Integer userID = rs.getInt("u.user_id"); Integer groupID =
-				 * rs.getInt("u.group_id"); String loginName = rs.getString("u.login_name");
-				 * String password = rs.getString("u.passwords"); String fullName =
-				 * rs.getString("u.full_name"); String fullNameKana =
-				 * rs.getString("u.full_name_kana"); String emailUser = rs.getString("u.email");
-				 * String tel = rs.getString("u.tel"); Date birthday = rs.getDate("u.birthday");
-				 * String salt = rs.getString("u.salt"); tblUser = new TblUser(userID, groupID,
-				 * loginName, password, fullName, fullNameKana, emailUser, tel, birthday, salt);
-				 */
+				//Lấy ra user có email trùng với email truyền vào và khác user id 
 				tblUser.setUserId(rs.getInt("u.user_id"));
 			}
 		} catch (SQLException e) {
@@ -263,10 +249,12 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	public TblUser checkExistedLoginName(Integer userId, String loginName) {
 		connectDB();
 		StringBuffer sql = new StringBuffer();
+		//thông tin user cần lấy
 		TblUser tblUser = new TblUser();
 		sql.append("select u.user_id ");
 		sql.append("from tbl_user u ");
 		sql.append("where u.login_name = ? ");
+		//nếu user id không bằng null thì thêm điều kiện user id vào tìm kiếm
 		if (userId != null) {
 			if (userId != 0) {
 				sql.append(" and u.user_id = ?");
@@ -279,6 +267,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps = conn.prepareStatement(sql.toString());
 			int i = 0;
 			ps.setString(++i, loginName);
+			//nếu user id không bằng null thì thêm điều kiện user id vào tìm kiếm
 			if (userId != null) {
 				if (userId != 0) {
 					ps.setInt(++i, userId);
@@ -286,6 +275,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			}
 			rs = ps.executeQuery();
 			if (rs.next()) {
+				//lấy ra user với user id và login name trùng với param đầu vào
 				tblUser.setUserId(rs.getInt("user_id"));
 			}
 		} catch (SQLException e) {
@@ -304,7 +294,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 
 	@Override
 	public int insertUser(TblUser tblUser) throws SQLException {
-		// Connection conn = BaseDaoImpl.conn;
 		StringBuffer sql = new StringBuffer();
 		int userid = 0;
 		sql.append(
@@ -330,12 +319,10 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 
 			rs = ps.getGeneratedKeys();
 			while (rs.next()) {
-				// tblUser.setUserId(rs.getInt(1));
 				userid = rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			throw e;
-			// e.printStackTrace();
 		}
 		return userid;
 	}
@@ -355,6 +342,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps.setInt(1, userId);
 			rs = ps.executeQuery();
 			while (rs.next()) {
+				//Lấy thông tin user theo user id
 				tblUser.setUserId(rs.getInt("user_id"));
 			}
 		} catch (SQLException e) {
@@ -383,6 +371,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps.setInt(1, userId);
 			rs = ps.executeQuery();
 			while (rs.next()) {
+				//set các thông tin lấy được cho user infor
 				userInfor.setUserId(userId);
 				userInfor.setLoginName(rs.getString("u.login_name"));
 				userInfor.setGroupId(rs.getInt("u.group_id"));
@@ -425,19 +414,18 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			ps.setString(++i, tblUser.getEmail());
 			ps.setString(++i, tblUser.getTel());
 			ps.setDate(++i, java.sql.Date.valueOf(dt1.format(tblUser.getBirthday())));
-			/*ps.setString(++i, tblUser.getSalt());*/
 			if (tblUser.getUserId() != 0) {
 				ps.setInt(++i, tblUser.getUserId());
 			}
 			int record = ps.executeUpdate();
-
+			//nếu update thành công
 			if (record > 0) {
+				//trả về true
 				check = true;
 			}
 
 		} catch (SQLException e) {
 			throw e;
-			// e.printStackTrace();
 		}
 		return check;
 	}
@@ -457,6 +445,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			int i = 0;
 			ps.setString(++i, pass);
 			ps.setString(++i, salt);
+			//nếu user id không bằng null thì thêm điều kiện user id vào tìm kiếm
 			if (userId != 0) {
 				ps.setInt(++i, userId);
 			}
@@ -477,11 +466,10 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		sql.append("where user_id = ?");
 		PreparedStatement ps = null;
 		try {
-			// System.out.println(code_level);
 			System.out.println(userId);
 			ps = conn.prepareStatement(sql.toString());
 			int i = 0;
-			// ps.setString(++i, code_level);
+			//nếu user id không bằng null thì thêm điều kiện user id vào tìm kiếm
 			if (userId != 0) {
 				ps.setInt(++i, userId);
 			}

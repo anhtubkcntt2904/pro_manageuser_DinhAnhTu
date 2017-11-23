@@ -27,12 +27,16 @@ public class MstGroupLogicImpl implements MstGroupLogic{
 	@Override
 	public boolean existedGroupId(int groupid) {
 		MstGroupDaoImpl mstGroupDao = new MstGroupDaoImpl();
+		//Lấy danh sách các group
 		List<MstGroup> lstGroup = mstGroupDao.getAllMstGroup();
 		for(int i = 0; i< lstGroup.size(); i++) {
+			//nếu tồn tại group với group id truyền vào
 			if(groupid == lstGroup.get(i).getGroupId()) {
+				//trả về true
 				return true;
 			}
 		}
+		//trả về false
 		return false;
 	}
 

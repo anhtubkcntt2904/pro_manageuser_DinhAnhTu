@@ -39,6 +39,7 @@ public class SuccessController extends HttpServlet {
 		// TODO Auto-generated method stub
 		String type = request.getParameter("type");
 		switch (type) {
+		// trường hợp vào màn hình error
 		case Constant.SYSTEM_ERROR:
 			MessageProperties mess = new MessageProperties();
 			String error = mess.getMessageProperties("ER015");
@@ -46,6 +47,7 @@ public class SuccessController extends HttpServlet {
 			RequestDispatcher reqError = request.getRequestDispatcher(Constant.ERROR);
 			reqError.forward(request, response);
 			break;
+		// trường hợp vào màn hình insert thành công
 		case Constant.INSERT_SUCCESS:
 			MessageProperties messinsert = new MessageProperties();
 			String insertsuccess = messinsert.getMessageProperties("MSG001");
@@ -53,6 +55,7 @@ public class SuccessController extends HttpServlet {
 			RequestDispatcher reqInsert = request.getRequestDispatcher(Constant.SUCCESS);
 			reqInsert.forward(request, response);
 			break;
+		// trường hợp vào màn hình delete thành công
 		case Constant.DELETE_SUCCESS:
 			MessageProperties messdelete = new MessageProperties();
 			String deletesuccess = messdelete.getMessageProperties("MSG003");
@@ -60,6 +63,7 @@ public class SuccessController extends HttpServlet {
 			RequestDispatcher reqDelete = request.getRequestDispatcher(Constant.SUCCESS);
 			reqDelete.forward(request, response);
 			break;
+		// trường hợp vào màn hình update thành công
 		case Constant.UPDATE_SUCCESS:
 			MessageProperties messupdate = new MessageProperties();
 			String updatesuccess = messupdate.getMessageProperties("MSG002");
@@ -67,6 +71,7 @@ public class SuccessController extends HttpServlet {
 			RequestDispatcher reqUpdate = request.getRequestDispatcher(Constant.SUCCESS);
 			reqUpdate.forward(request, response);
 			break;
+		// trường hợp vào màn hình không có user nào
 		case Constant.UPDATE_NOUSER:
 			MessageProperties messnouser = new MessageProperties();
 			String nouser = messnouser.getMessageProperties("ER013");
@@ -74,6 +79,7 @@ public class SuccessController extends HttpServlet {
 			RequestDispatcher reqNoUser = request.getRequestDispatcher(Constant.ERROR);
 			reqNoUser.forward(request, response);
 			break;
+		// trường hợp vào màn hình error
 		default:
 			MessageProperties messD = new MessageProperties();
 			String errorD = messD.getMessageProperties("ER015");

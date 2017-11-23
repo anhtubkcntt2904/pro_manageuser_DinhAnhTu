@@ -99,7 +99,8 @@ public class Validate {
 
 		// check group id
 		boolean checkGroupId = mstGroupLogic.existedGroupId(userInfor.getGroupId());
-
+		
+		//Nếu user đang xét có trình độ tiếng nhật
 		if (!"0".equals(userInfor.getCodeLevel())) {
 
 			// check code level
