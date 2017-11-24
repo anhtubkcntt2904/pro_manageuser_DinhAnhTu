@@ -14,19 +14,23 @@ import properties.DatabaseProperties;
 
 /**
  * class implements các phương thức của interface BaseDao
+ * 
  * @author AnhTu
  *
  */
-public class BaseDaoImpl implements BaseDao{
-	public static Connection conn = null;
+public class BaseDaoImpl implements BaseDao {
+	protected Connection conn = null;
+
 	@Override
-	public void connectDB() {
+	public Connection connectDB() {
 		DatabaseProperties dbProp = new DatabaseProperties();
+		//thông tin kết nối database
 		String driver = dbProp.getDBProperties(Constant.DRIVER_CONST);
 		String url = dbProp.getDBProperties(Constant.URL_CONST);
 		String user = dbProp.getDBProperties(Constant.USER_CONST);
 		String pass = dbProp.getDBProperties(Constant.PASS_CONST);
 		try {
+			//kết nối database
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, user, pass);
 		} catch (ClassNotFoundException e) {
@@ -34,12 +38,19 @@ public class BaseDaoImpl implements BaseDao{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return conn;
 	}
 
 	@Override
 	public void closeDB(Connection connection) {
 		try {
-			connection.close();
+			//kiểm tra connection truyền vào có null không
+			if (connection != null) {
+				//nếu ko null thì đóng connection
+				connection.close();
+			} else {
+				return;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

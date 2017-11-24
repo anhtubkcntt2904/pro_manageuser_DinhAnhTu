@@ -42,11 +42,13 @@ public class ListUserController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		/*
-		 * response.getWriter().append("Served at: ").append(request.getContextPath());
-		 */
-		doPost(request, response);
+		try {
+			doPost(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect(
+					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
+		}
 	}
 
 	/**
@@ -63,9 +65,9 @@ public class ListUserController extends HttpServlet {
 			List<UserInfor> lstUserInfor = new ArrayList<>();
 
 			List<Integer> lstPaging = new ArrayList<>();
-			//mặc định ban đầu trong list có một bản ghi
-			/*lstPaging.add(1);*/
-			
+			// mặc định ban đầu trong list có một bản ghi
+			/* lstPaging.add(1); */
+
 			MessageProperties mess = new MessageProperties();
 
 			// tạo giá trị default để gửi đến trang ADM002
@@ -106,7 +108,6 @@ public class ListUserController extends HttpServlet {
 				totalPage = (int) session.getAttribute("totalPage");
 				currentPage = (int) session.getAttribute("currentPage");
 				offSet = common.getOffset(currentPage, limit);
-	
 
 				groupid = Integer.parseInt(group_id);
 				sortType = request.getParameter("sortType");
@@ -127,8 +128,7 @@ public class ListUserController extends HttpServlet {
 					sortByFullname = Constant.SORTBYFULLNAME_DEFAULT;
 					sortByCodeLevel = Constant.SORTBYCODELEVEL_DEFAULT;
 				}
-				
-				
+
 				// nếu type là null thì đến trang ADM002 mặc định
 			} else if (Constant.PAGING_TYPE.equals(type)) {
 				name = (String) session.getAttribute("name");
@@ -162,11 +162,11 @@ public class ListUserController extends HttpServlet {
 			// lấy danh dách các group có trong database
 			lstGroup = mstGroupLogic.getAllGroup();
 
-			// lấy danh sách user
+			// lấy danh sách user1
 			lstUserInfor = tblUserLogic.getListUser(offSet, limit, groupid, name, sortType, sortByFullname,
 					sortByCodeLevel, sortByEndDate);
-			//nếu danh sách rỗng
-			if(lstUserInfor.size() < 1) {
+			// nếu danh sách rỗng
+			if (lstUserInfor.size() < 1) {
 				String message = mess.getMessageProperties(Constant.MESS_ADM002_NORECORD);
 				request.setAttribute("message", message);
 			}
@@ -175,7 +175,6 @@ public class ListUserController extends HttpServlet {
 			request.getRequestDispatcher(Constant.ADM002).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			//response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
 			response.sendRedirect(
 					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}

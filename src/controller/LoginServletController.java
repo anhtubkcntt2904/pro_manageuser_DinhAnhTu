@@ -36,9 +36,13 @@ public class LoginServletController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// response.getWriter().append("Served at: ").append(request.getContextPath());
-		request.getRequestDispatcher(Constant.INDEX).forward(request, response);
+		try {
+			request.getRequestDispatcher(Constant.INDEX).forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect(
+					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
+		}
 	}
 
 	/**
@@ -69,7 +73,8 @@ public class LoginServletController extends HttpServlet {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			//response.sendRedirect(request.getContextPath() + Constant.ERROR_SERVLET);
+			response.sendRedirect(
+					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}
 	}
 

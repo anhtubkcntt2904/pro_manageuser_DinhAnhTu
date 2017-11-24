@@ -47,11 +47,6 @@ public class LoginFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		
-		//Xóa cache trên trình duyệt
-		res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
-		res.setHeader("Pragma", "no-cache"); // HTTP 1.0.
-		res.setDateHeader("Expires", 0); // Proxies.
-		
 		 // lấy ra session hiện tại của user
 		HttpSession session = req.getSession();
 		
@@ -65,7 +60,6 @@ public class LoginFilter implements Filter {
 				// nếu có thì chuyển sang trang list user ADM002
 				res.sendRedirect("." + Constant.ADM002_SERVLET);
 			} else if (path.startsWith(Constant.ADM004_REQUEST_URI)) {
-				/*res.sendRedirect("." + Constant.ADM002_SERVLET);*/
 				res.sendRedirect(
 						req.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 			} else {

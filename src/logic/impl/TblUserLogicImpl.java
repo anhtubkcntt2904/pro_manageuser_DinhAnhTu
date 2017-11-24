@@ -4,6 +4,7 @@
  */
 package logic.impl;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,13 +48,16 @@ public class TblUserLogicImpl implements TblUserLogic {
 	public List<UserInfor> getListUser(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullname, String sortByCodeLevel, String sortByEndDate) {
 		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
+		List<UserInfor> lstUser = new ArrayList<>();
 		// Nếu full name không null
 		if (fullName != null) {
 			fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
 		}
-		// trả về danh sách user
-		return tblUserDao.getListUser(offset, limit, groupId, fullName, sortType, sortByFullname, sortByCodeLevel,
+		//Lấy ra danh sách user
+		lstUser = tblUserDao.getListUser(offset, limit, groupId, fullName, sortType, sortByFullname, sortByCodeLevel,
 				sortByEndDate);
+		// trả về danh sách user
+		return lstUser;
 	}
 
 	@Override
@@ -99,6 +103,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		// Biến kiểm tra insert có thành công không
 		Boolean check = true;
 		int userid;
+		Connection conn = null;
 		try {
 			// thông tin để insert vào bảng user
 			TblUser tblUser = new TblUser();
@@ -106,7 +111,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
 			TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
 			TblDetailUserJapanDaoImpl tblDetailUserJapanDao = new TblDetailUserJapanDaoImpl();
-			baseDaoImpl.connectDB();
+			conn = baseDaoImpl.connectDB();
 
 			// Lấy thông tin nhập vào
 			int userId = userInfor.getUserId();
@@ -138,7 +143,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			tblUser.setBirthday(birthday);
 			tblUser.setSalt(salt);
 
-			BaseDaoImpl.conn.setAutoCommit(false);
+			conn.setAutoCommit(false);
 
 			// thêm thông tin user và lấy ra user id
 			userid = tblUserDao.insertUser(tblUser);
@@ -159,13 +164,12 @@ public class TblUserLogicImpl implements TblUserLogic {
 				check = tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan);
 			}
 
-			BaseDaoImpl.conn.commit();
+			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			BaseDaoImpl.conn.rollback();
-			System.out.println("roll back in exception");
+			conn.rollback();
 		} finally {
-			baseDaoImpl.closeDB(BaseDaoImpl.conn);
+			baseDaoImpl.closeDB(conn);
 		}
 		return check;
 	}
@@ -197,12 +201,13 @@ public class TblUserLogicImpl implements TblUserLogic {
 	public Boolean updateUserInfor(UserInfor userInfor) throws SQLException {
 		BaseDaoImpl baseDaoImpl = new BaseDaoImpl();
 		Boolean check = false;
+		Connection conn = null;
 		try {
 			TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
 			TblUser tblUser = new TblUser();
 			TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
 			TblDetailUserJapanDaoImpl tblDetailUserJapanDaoImpl = new TblDetailUserJapanDaoImpl();
-			baseDaoImpl.connectDB();
+			conn = baseDaoImpl.connectDB();
 
 			// Lấy thông tin người dùng nhập vào
 			int userId = userInfor.getUserId();
@@ -214,7 +219,6 @@ public class TblUserLogicImpl implements TblUserLogic {
 			String email = userInfor.getEmail();
 			String tel = userInfor.getTel();
 			Date birthday = userInfor.getBirthday();
-			/*String salt = "";*/
 
 			// Lấy thông tin TĐTN người dùng nhập vào
 			String codeLevel = userInfor.getCodeLevel();
@@ -232,7 +236,6 @@ public class TblUserLogicImpl implements TblUserLogic {
 			tblUser.setEmail(email);
 			tblUser.setTel(tel);
 			tblUser.setBirthday(birthday);
-			/*tblUser.setSalt(salt);*/
 
 			// Lấy thông tin detail user japan
 			tblDetailUserJapan.setCodeLevel(codeLevel);
@@ -244,7 +247,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			Boolean ExistedUserCodeLevel = false;
 			ExistedUserCodeLevel = checkUserCodeLevel(userId);
 
-			BaseDaoImpl.conn.setAutoCommit(false);
+			conn.setAutoCommit(false);
 			check = tblUserDao.updateUser(tblUser);
 			if (check) {
 				tblDetailUserJapan.setUserId(userId);
@@ -269,13 +272,13 @@ public class TblUserLogicImpl implements TblUserLogic {
 				}
 				// Nếu người dùng không thay đổi thì không thực hiện gì cả
 			}
-			BaseDaoImpl.conn.commit();
+			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			BaseDaoImpl.conn.rollback();
+			conn.rollback();
 		} finally {
-			BaseDaoImpl.conn.setAutoCommit(true);
-			baseDaoImpl.closeDB(BaseDaoImpl.conn);
+			conn.setAutoCommit(true);
+			baseDaoImpl.closeDB(conn);
 		}
 		return check;
 	}
@@ -309,18 +312,19 @@ public class TblUserLogicImpl implements TblUserLogic {
 	public Boolean deleteUser(int userId) throws SQLException {
 		BaseDaoImpl baseDaoImpl = new BaseDaoImpl();
 		Boolean check = false;
+		Connection conn = null;
 		try {
 			TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
 			TblDetailUserJapanDaoImpl tblDetailUserJapanDaoImpl = new TblDetailUserJapanDaoImpl();
 
-			baseDaoImpl.connectDB();
+			conn = baseDaoImpl.connectDB();
 
 			//Biến kiểm tra user có trình độ tiếng nhật không
 			Boolean ExistedUserCodeLevel = false;
 			//Kiểm tra user có TĐTN không
 			ExistedUserCodeLevel = checkUserCodeLevel(userId);
 
-			BaseDaoImpl.conn.setAutoCommit(false);
+			conn.setAutoCommit(false);
 
 			// nếu user có TĐTN thì xóa TĐTN của user
 			if (ExistedUserCodeLevel) {
@@ -330,13 +334,13 @@ public class TblUserLogicImpl implements TblUserLogic {
 			// xóa thông tin của user
 			check = tblUserDao.deleteUser(userId);
 
-			BaseDaoImpl.conn.commit();
+			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			BaseDaoImpl.conn.rollback();
+			conn.rollback();
 		} finally {
-			BaseDaoImpl.conn.setAutoCommit(true);
-			baseDaoImpl.closeDB(BaseDaoImpl.conn);
+			conn.setAutoCommit(true);
+			baseDaoImpl.closeDB(conn);
 		}
 		return check;
 	}

@@ -47,7 +47,6 @@ public class AddUserInputController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		// trường hợp 02 thêm mới và 05 sửa
 		try {
 			// lấy ra kiểu truyền vào

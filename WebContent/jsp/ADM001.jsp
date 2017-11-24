@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -31,7 +32,7 @@
 				<tr>
 					<td class="lbl_left">アカウント名:</td>
 					<td align="left"><input class="txBox" type="text" maxlength="15"
-						name="loginName" value="${loginName}" size="20"
+						name="loginName" value="${fn:escapeXml(loginName)}" size="20"
 						onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" /></td>
 				</tr>

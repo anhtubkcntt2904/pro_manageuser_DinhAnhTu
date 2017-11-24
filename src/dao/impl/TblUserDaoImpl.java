@@ -137,22 +137,18 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				} else {
 					userInfor.setTotal(total + "");
 				}
-				/*
-				 * userInfo = new UserInfo(userId, fullname, birthday, groupname, email, tel,
-				 * nameLevel, endDate, total); lstUserInfo.add(userInfo);
-				 */
 				lstUserInfor.add(userInfor);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			closeDB(conn);
+		} finally {	
 			try {
 				rs.close();
 				ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			closeDB(conn);
 		}
 		return lstUserInfor;
 	}
