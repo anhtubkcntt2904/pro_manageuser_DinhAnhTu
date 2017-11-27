@@ -29,6 +29,7 @@ import validate.Validate;
 public class TblUserLogicImpl implements TblUserLogic {
 	// Danh sách các lỗi khi dăng nhập
 	public static List<String> lstErr = new ArrayList<>();
+	Common common = new Common();
 
 	@Override
 	public boolean ExistLogin(String loginName, String password) {
@@ -49,9 +50,10 @@ public class TblUserLogicImpl implements TblUserLogic {
 			String sortByFullname, String sortByCodeLevel, String sortByEndDate) {
 		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
 		List<UserInfor> lstUser = new ArrayList<>();
+		
 		// Nếu full name không null
 		if (fullName != null) {
-			fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
+			fullName = common.replaceWildCard(fullName);
 		}
 		// Lấy ra danh sách user
 		lstUser = tblUserDao.getListUser(offset, limit, groupId, fullName, sortType, sortByFullname, sortByCodeLevel,
@@ -66,7 +68,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		int totalUser = 0;
 		// Nếu full name không null
 		if (fullName != null) {
-			fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
+			fullName = common.replaceWildCard(fullName);
 		}
 		totalUser = tblUserDao.getTotalUser(groupId, fullName);
 		// trả về tổng số user
@@ -184,7 +186,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		// Lấy user theo user id
 		tblUser = tblUserDao.getUserById(userId);
 		// nếu tồn tại user thì trả về true
-		if (tblUser != null) {
+		if (tblUser.getUserId() != 0) {
 			existedUser = true;
 		}
 		return existedUser;
@@ -198,7 +200,10 @@ public class TblUserLogicImpl implements TblUserLogic {
 		userInfor = tblUserDao.getUserInforById(userId);
 		return userInfor;
 	}
-
+	
+	/**
+	 * @see logic.TblUserLogic#updateUserInfor(UserInfor)
+	 */
 	@Override
 	public Boolean updateUserInfor(UserInfor userInfor) throws SQLException {
 		BaseDaoImpl baseDaoImpl = new BaseDaoImpl();
@@ -277,6 +282,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+			//roll back nếu gặp lỗi
 			conn.rollback();
 		} finally {
 			conn.setAutoCommit(true);
@@ -295,6 +301,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		if (tblDetailUserJapan.getCodeLevel() != null) {
 			return true;
 		}
+		//nếu không có trả về false
 		return false;
 	}
 

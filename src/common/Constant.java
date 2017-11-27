@@ -26,8 +26,8 @@ public class Constant {
 	public static final String ADM005 = "/jsp/ADM005.jsp";
 	
 	
-	public static final String GROUP_ID_DEFAULT = "0";
-	public static final String NAME_DEFAULT = null;
+	public static final int GROUP_ID_DEFAULT = 0;
+	public static final String NAME_DEFAULT = "";
 	
 	
 	public static final String SORTTYPE_DEFAULT = "full_name";
@@ -38,6 +38,7 @@ public class Constant {
 	public static final int CURRENTPAGE_DEFAULT = 1;
 	public static final int OFFSET_DEFAULT = 1;
 	public static final int TOTALPAGE_DEFAULT = 1;
+	public static final int TOTALUSER_DEFAULT = 1;
 	
 	public static final String MESS_ADM002_NORECORD = "MSG005_ADM002";
 	
@@ -45,6 +46,7 @@ public class Constant {
 	public static final String SEARCH_TYPE = "search";
 	public static final String SORT_TYPE = "sort";
 	public static final String PAGING_TYPE = "paging";
+	public static final String BACK_TYPE = "back";
 	
 	
 	public static final String FULLNAME_SORT = "full_name";

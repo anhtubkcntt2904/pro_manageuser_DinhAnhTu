@@ -408,4 +408,16 @@ public class Common {
 		long key = System.currentTimeMillis() % 1000;
 		return key;
 	}
+
+	/**
+	 * Phương thức replace các kí tự wildcard tránh lỗi tìm kiếm
+	 * 
+	 * @param string
+	 *            chuỗi cần replace kí tự wildcard
+	 * @return chuổi đã replace kí tự wildcard
+	 */
+	public String replaceWildCard(String string) {
+		String stringReplace = string.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
+		return stringReplace;
+	}
 }

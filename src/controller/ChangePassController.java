@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import common.Common;
 import common.Constant;
 import logic.impl.TblUserLogicImpl;
 import validate.Validate;
@@ -38,10 +39,9 @@ public class ChangePassController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		try {
 			// Lấy user id ở màn 05
-			//String userid = request.getParameter("userid");
+			// String userid = request.getParameter("userid");
 			int userid = Integer.parseInt(request.getParameter("userid"));
 			// biến kiểm tra user có tồn tại hay không
 			boolean existedUser = false;
@@ -69,16 +69,18 @@ public class ChangePassController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		try {
+			Common common = new Common();
 			// Lấy ra thông tin pass người dùng thay đổi và user id
 			String newpass = request.getParameter("newpass");
 			String confirmpass = request.getParameter("confirmpass");
-			int userId = Integer.parseInt(request.getParameter("user_id"));
+			int userId = common.parseInt(request.getParameter("user_id"), 0);
 			// biến kiểm tra user có tồn tại hay không
 			boolean existedUser = false;
 			// kiểm tra user có tồn tại không
 			existedUser = tblUserLogic.isExistedUser(userId);
+			// String lưu đường dẫn cần truyền đi
+			String url = "";
 			// nếu user tồn tại
 			if (existedUser) {
 				Validate validate = new Validate();
@@ -99,19 +101,18 @@ public class ChangePassController extends HttpServlet {
 					Boolean check = tblUserLogic.updatePass(newpass, userId);
 					if (check) {
 						// nếu update thành công
-						response.sendRedirect(request.getContextPath() + Constant.SUCCESS_SERVLET + "?type="
-								+ Constant.UPDATE_SUCCESS);
+						url = Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_SUCCESS;
 					} else {
 						// nếu update không thành công
-						response.sendRedirect(
-								request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
+						url = Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR;
 					}
 				}
 			} else {
 				// nếu user không tồn tại thì gửi đến trang báo lỗi
-				response.sendRedirect(
-						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_NOUSER);
+				url = Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_NOUSER;
 			}
+			response.sendRedirect(
+					request.getContextPath() + url);
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendRedirect(

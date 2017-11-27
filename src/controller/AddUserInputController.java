@@ -32,6 +32,7 @@ import validate.Validate;
 public class AddUserInputController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
+	Common common = new Common();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -49,6 +50,7 @@ public class AddUserInputController extends HttpServlet {
 			throws ServletException, IOException {
 		// trường hợp 02 thêm mới và 05 sửa
 		try {
+			System.out.println("do get add input");
 			// lấy ra kiểu truyền vào
 			String type = request.getParameter("type");
 			switch (type) {
@@ -57,7 +59,7 @@ public class AddUserInputController extends HttpServlet {
 				// biến kiểm tra user có tồn tại hay không
 				boolean existedUser = false;
 				// lấy user id từ màn 05
-				int userid = Integer.parseInt(request.getParameter("user_id"));
+				int userid = common.parseInt(request.getParameter("user_id"),0);
 				// kiểm tra user có tồn tại không
 				existedUser = tblUserLogic.isExistedUser(userid);
 				// nếu user có tồn tại

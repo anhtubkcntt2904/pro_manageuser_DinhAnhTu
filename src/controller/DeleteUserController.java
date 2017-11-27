@@ -36,7 +36,6 @@ public class DeleteUserController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		try {
 			// từ màn 05,delete user theo user id
 			int userid = Integer.parseInt(request.getParameter("userid"));
@@ -47,6 +46,8 @@ public class DeleteUserController extends HttpServlet {
 			Boolean check = false;
 			// kiểm tra user có tồn tại hay không
 			existedUser = tblUserLogicImpl.isExistedUser(userid);
+			// String lưu đường dẫn cần truyền đi
+			String url;
 			// nếu user tồn tại
 			if (existedUser) {
 				// xóa thông tin user
@@ -54,20 +55,19 @@ public class DeleteUserController extends HttpServlet {
 				// nếu xóa thành công
 				if (check) {
 					// thông báo thành công
-					response.sendRedirect(
-							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.DELETE_SUCCESS);
+					url = Constant.SUCCESS_SERVLET + "?type=" + Constant.DELETE_SUCCESS;
 					// nếu xóa không thành công
 				} else {
 					// thông báo error
-					response.sendRedirect(
-							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
+					url = Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR;
 				}
 				// nếu user không tồn tại
 			} else {
 				// thì gửi đến trang báo không có user
-				response.sendRedirect(
-						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_NOUSER);
+				url = Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_NOUSER;
 			}
+			response.sendRedirect(
+					request.getContextPath() + url);
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendRedirect(

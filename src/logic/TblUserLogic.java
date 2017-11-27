@@ -69,7 +69,9 @@ public interface TblUserLogic {
 	public boolean checkExistedLoginName(Integer userId, String loginName);
 
 	/**
-	 * Insert data user vào bảng tbl_user và tbl_detail_user_japan
+	 * Insert data user vào bảng tbl_user và tbl_detail_user_japan Hàm này có dùng
+	 * transaction,nếu insert thông tin user vào tbl_user hoặc bảng
+	 * detail_user_japan có lỗi thì sẽ rollback
 	 * 
 	 * @param userInfor
 	 * @return true hoặc false
@@ -93,7 +95,8 @@ public interface TblUserLogic {
 	public UserInfor getUserInforById(int userId);
 
 	/**
-	 * Phương thức update thông tin user infor
+	 * Phương thức update thông tin user infor Hàm này có dùng transaction,nếu
+	 * update user vào tbl_user hoặc detail_user_japan mà gặp lỗi thì sẽ rollback
 	 * 
 	 * @param userInfor
 	 * @return true hoặc false
@@ -117,7 +120,9 @@ public interface TblUserLogic {
 	public Boolean updatePass(String pass, int userId);
 
 	/**
-	 * phương thức delete thông tin của một user dựa vào user id
+	 * phương thức delete thông tin của một user dựa vào user id Hàm này có dùng
+	 * transaction,nếu delete user trong tbl_user hoặc detail_user_japan mà gặp lỗi
+	 * thì sẽ rollback
 	 * 
 	 * @param userId
 	 * @return true hoặc false

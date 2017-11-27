@@ -22,7 +22,7 @@ public class BaseDaoImpl implements BaseDao {
 	protected Connection conn = null;
 
 	@Override
-	public Connection connectDB() {
+	public void connectDB() {
 		DatabaseProperties dbProp = new DatabaseProperties();
 		//thông tin kết nối database
 		String driver = dbProp.getDBProperties(Constant.DRIVER_CONST);
@@ -38,7 +38,7 @@ public class BaseDaoImpl implements BaseDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return conn;
+		//return conn;
 	}
 
 	@Override
@@ -48,6 +48,7 @@ public class BaseDaoImpl implements BaseDao {
 			if (connection != null) {
 				//nếu ko null thì đóng connection
 				connection.close();
+				//nếu null thì không thực hiện gì cả
 			} else {
 				return;
 			}

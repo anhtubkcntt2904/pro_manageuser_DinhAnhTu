@@ -206,7 +206,7 @@
 					<td><input class="btn" type="submit" value="確認" /></td>
 					<c:if test="${userInfor.userId == 0}">
 						<td><input class="btn" type="button" value="戻る"
-							onclick="location.href='/manage_user/ListUser.do';" /></td>
+							onclick="location.href='/manage_user/ListUser.do?type=back';" /></td>
 					</c:if>
 					<c:if test="${userInfor.userId != 0}">
 						<td><input class="btn" type="button" value="戻る"

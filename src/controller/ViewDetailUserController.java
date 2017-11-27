@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import common.Common;
 import common.Constant;
 import entity.UserInfor;
 import logic.impl.TblUserLogicImpl;
@@ -38,16 +39,17 @@ public class ViewDetailUserController extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
+			Common common = new Common();
 			// click id user ADM002
 			// lấy user id khi click user id từ màn 02
-			int userid = Integer.parseInt(request.getParameter("userid"));
+			int userid = common.parseInt(request.getParameter("userid"), 0);
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 			// đối tượng lưu thông tin của user để truyền sang màn 05
 			UserInfor userInfor = new UserInfor();
 			// biến kiểm tra user có tồn tại không dựa vào user id
 			boolean existedUser = false;
 			// kiểm tra tồn tại của user
-			existedUser = tblUserLogic.isExistedUser(userid);
+			existedUser = tblUserLogic.isExistedUser(0);
 			// nếu user tồn tại
 			if (existedUser) {
 				// lấy thông tin của user theo user id truyền vào

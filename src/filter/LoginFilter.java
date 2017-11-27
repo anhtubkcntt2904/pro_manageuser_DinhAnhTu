@@ -43,13 +43,12 @@ public class LoginFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		// TODO Auto-generated method stub
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-		
-		 // lấy ra session hiện tại của user
+
+		// lấy ra session hiện tại của user
 		HttpSession session = req.getSession();
-		
+
 		// Lấy đường dẫn url
 		String path = req.getRequestURI();
 
@@ -59,13 +58,11 @@ public class LoginFilter implements Filter {
 			if (path.startsWith(Constant.LOGIN_REQUEST_URI) || path.equals(Constant.CONTEXT_ROOT)) {
 				// nếu có thì chuyển sang trang list user ADM002
 				res.sendRedirect("." + Constant.ADM002_SERVLET);
-			} else if (path.startsWith(Constant.ADM004_REQUEST_URI)) {
-				res.sendRedirect(
-						req.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 			} else {
 				// nếu không thì cho request đi tiếp
 				chain.doFilter(request, response); // Just continue chain.
 			}
+
 			// nếu chưa đăng nhập thì xét xem đường dẫn hiện tại có vào trang login servlet
 			// không
 		} else if (path.startsWith(Constant.LOGIN_REQUEST_URI)) {
@@ -81,7 +78,6 @@ public class LoginFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
 	}
 
 }

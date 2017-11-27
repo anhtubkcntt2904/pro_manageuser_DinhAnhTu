@@ -132,10 +132,9 @@
 					<th width="200px" align="center">&nbsp;</th>
 					<td><input class="btn" type="submit" value="編集" /></td>
 					<td><input class="btn" type="button" value="削除"
-						<%-- onclick="location.href='DeleteUser.do?userid=${userInfor05.userId}';" --%> 
 						onclick="javascript:showDialog('DeleteUser.do?userid=${userInfor05.userId}')" /></td>
 					<td><input class="btn" type="button" value="戻る"
-						onclick="location.href='ListUser.do';" /></td>
+						onclick="location.href='ListUser.do?type=back';" /></td>
 					<td><input class="btn" type="button" value="REPASS"
 						onclick="location.href='ChangePass.do?userid=${userInfor05.userId}';" /></td>
 				</tr>

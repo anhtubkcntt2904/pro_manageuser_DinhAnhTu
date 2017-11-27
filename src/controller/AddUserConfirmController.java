@@ -37,7 +37,6 @@ public class AddUserConfirmController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		try {
 			// 03 confirm sang 04
 			// lấy key add vào user infor session và gửi sang màn 04
@@ -63,7 +62,6 @@ public class AddUserConfirmController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		try {
 			// 04 submit create user
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
@@ -79,6 +77,7 @@ public class AddUserConfirmController extends HttpServlet {
 			Boolean isExistedUser = false;
 			// lấy user id từ request của 04
 			int userId = common.parseInt(request.getParameter("user_id"), 0);
+			// String lưu đường dẫn cần truyền đi
 			String url;
 
 			// nếu user id không bằng 0
@@ -112,6 +111,7 @@ public class AddUserConfirmController extends HttpServlet {
 
 			// xóa thông tin user infor trên session
 			session.removeAttribute("userInfor" + keyAdd);
+			//chuyển trang
 			response.sendRedirect(request.getContextPath() + url);
 		} catch (Exception e) {
 			e.printStackTrace();
