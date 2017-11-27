@@ -8,7 +8,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="./css/style.css" rel="stylesheet" type="text/css" />
-<!-- <script type="text/javascript" src="../js/user.js"></script> -->
 <script type="text/javascript" src="../jsp/ADM002.jsp"></script>
 <title>ユーザ管理</title>
 </head>
@@ -106,7 +105,6 @@
 								href="DetailUser.do?userid=${userInfo.userId}"><c:out
 										value="${userInfo.userId}" /></a></td>
 							<td><c:out value="${userInfo.fullName}" /></td>
-							<%-- <td align="center"><c:out value="${userInfo.birthDay}" /></td> --%>
 							<td align="center"><fmt:formatDate pattern="yyyy/MM/dd"
 									value="${userInfo.birthday}" /></td>
 							<td><c:out value="${userInfo.groupName}" /></td>

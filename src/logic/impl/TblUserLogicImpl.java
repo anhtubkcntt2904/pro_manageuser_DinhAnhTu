@@ -53,7 +53,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		if (fullName != null) {
 			fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
 		}
-		//Lấy ra danh sách user
+		// Lấy ra danh sách user
 		lstUser = tblUserDao.getListUser(offset, limit, groupId, fullName, sortType, sortByFullname, sortByCodeLevel,
 				sortByEndDate);
 		// trả về danh sách user
@@ -63,12 +63,14 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public int getTotalUser(int groupId, String fullName) {
 		TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
+		int totalUser = 0;
 		// Nếu full name không null
 		if (fullName != null) {
 			fullName = fullName.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
 		}
+		totalUser = tblUserDao.getTotalUser(groupId, fullName);
 		// trả về tổng số user
-		return tblUserDao.getTotalUser(groupId, fullName);
+		return totalUser;
 	}
 
 	@Override
@@ -298,30 +300,35 @@ public class TblUserLogicImpl implements TblUserLogic {
 
 	@Override
 	public Boolean updatePass(String pass, int userId) {
-		TblUserDaoImpl tblUserDaoImpl = new TblUserDaoImpl();
 		Common common = new Common();
+		TblUserDaoImpl tblUserDaoImpl = new TblUserDaoImpl();
+		//Biến kiểm tra việc update pass có thành công không
+		Boolean check = false;
 		// tạo chuỗi salt mã hóa mật khẩu
 		String salt = common.createSalt();
 		// tạo mật khẩu đã có chuỗi salt mã hóa
 		String password = common.encryptPassword((salt + pass));
 		// thay đổi pass người dùng
-		return tblUserDaoImpl.updatePass(password, salt, userId);
+		check = tblUserDaoImpl.updatePass(password, salt, userId);
+		return check;
 	}
 
 	@Override
 	public Boolean deleteUser(int userId) throws SQLException {
 		BaseDaoImpl baseDaoImpl = new BaseDaoImpl();
+		//Biến kiểm tra việc delete user có thành công hay không
 		Boolean check = false;
 		Connection conn = null;
 		try {
 			TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
 			TblDetailUserJapanDaoImpl tblDetailUserJapanDaoImpl = new TblDetailUserJapanDaoImpl();
-
+			
+			//Mở kết nối đến database
 			conn = baseDaoImpl.connectDB();
 
-			//Biến kiểm tra user có trình độ tiếng nhật không
+			// Biến kiểm tra user có trình độ tiếng nhật không
 			Boolean ExistedUserCodeLevel = false;
-			//Kiểm tra user có TĐTN không
+			// Kiểm tra user có TĐTN không
 			ExistedUserCodeLevel = checkUserCodeLevel(userId);
 
 			conn.setAutoCommit(false);

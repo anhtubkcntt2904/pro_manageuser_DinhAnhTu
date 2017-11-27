@@ -102,6 +102,7 @@ public class AddUserInputController extends HttpServlet {
 			throws ServletException, IOException {
 		List<String> lstError = new ArrayList<>();
 		UserInfor userInfor = new UserInfor();
+		Common common = new Common();
 		// TODO Auto-generated method stub
 		try {
 			// trường hợp click confirm 03
@@ -129,7 +130,7 @@ public class AddUserInputController extends HttpServlet {
 					request.getRequestDispatcher(Constant.ADM003).forward(request, response);
 				} else {
 					// tạo key để thêm vào userInfor session,tạo userinfor riêng
-					long keyAdd = System.currentTimeMillis() % 1000;
+					long keyAdd = common.createKey();
 					HttpSession session = request.getSession();
 					// thêm user infor vào session
 					session.setAttribute("userInfor" + keyAdd, userInfor);

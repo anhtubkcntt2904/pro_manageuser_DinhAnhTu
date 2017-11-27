@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.Common;
 import common.Constant;
 import entity.UserInfor;
 import logic.impl.TblUserLogicImpl;
@@ -39,15 +40,15 @@ public class AddUserConfirmController extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			// 03 confirm sang 04
-			//lấy key add vào user infor session và gửi sang màn 04
+			// lấy key add vào user infor session và gửi sang màn 04
 			String keyAdd = request.getParameter("keyAdd");
 			request.setAttribute("keyAdd", keyAdd);
 			HttpSession session = request.getSession();
-			//lấy user infor trên session theo key adđ
+			// lấy user infor trên session theo key adđ
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
-			//gửi user infor sang trang 04
+			// gửi user infor sang trang 04
 			request.setAttribute("userInfor", userInfor);
-			//sang trang 04
+			// sang trang 04
 			request.getRequestDispatcher(Constant.ADM004).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,50 +66,53 @@ public class AddUserConfirmController extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			// 04 submit create user
-			int userId = 0;
-			//lấy key add qua request từ 04
+			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
+			Common common = new Common();
+			// lấy key add qua request từ 04
 			String keyAdd = request.getParameter("keyAdd");
 			HttpSession session = request.getSession();
-			//lấy user infor trên session bằng key add
+			// lấy user infor trên session bằng key add
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
-			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
-			//biến kiểm tra update hoặc create user có thành công không
+			// biến kiểm tra update hoặc create user có thành công không
 			Boolean isSuccess = false;
-			//biến kiểm tra user có tồn tại không
+			// biến kiểm tra user có tồn tại không
 			Boolean isExistedUser = false;
-			//lấy user id từ request của 04
-			userId = Integer.parseInt(request.getParameter("user_id"));
-			//nếu user id không bằng 0
+			// lấy user id từ request của 04
+			int userId = common.parseInt(request.getParameter("user_id"), 0);
+			String url;
+
+			// nếu user id không bằng 0
 			if (userId != 0) {
-				//kiểm tra user có tồn tại hay không
+				// kiểm tra user có tồn tại hay không
 				isExistedUser = tblUserLogic.isExistedUser(userId);
 			}
-			//nếu trường hợp thêm mới
+
+			// nếu trường hợp thêm mới
 			if (userId == 0 && !isExistedUser) {
-				//thêm mới user
+				// thêm mới user
 				isSuccess = tblUserLogic.createUser(userInfor);
-				//nếu trường hợp update
+				// nếu trường hợp update
 			} else {
-				//update user vào database
+				// update user vào database
 				isSuccess = tblUserLogic.updateUserInfor(userInfor);
 			}
-			//nếu thao thêm mới thành công
+
+			// nếu thao thêm mới thành công
 			if (isSuccess && !isExistedUser) {
-				//đến trang thông báo thành công
-				response.sendRedirect(
-						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.INSERT_SUCCESS);
-				//nếu update thành công
+				// Link đến trang thông báo thêm mới thành công
+				url = Constant.SUCCESS_SERVLET + "?type=" + Constant.INSERT_SUCCESS;
+				// nếu update thành công
 			} else if (isSuccess && isExistedUser) {
-				//đến trang thông báo update thành công
-				response.sendRedirect(
-						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_SUCCESS);
-				//nếu lỗi thì gửi đến trang system error
+				// Link đến trang thông báo update thành công
+				url = Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_SUCCESS;
+				// nếu lỗi thì gửi đến trang system error
 			} else {
-				response.sendRedirect(
-						request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
+				url = Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR;
 			}
-			//xóa thông tin user infor trên session
+
+			// xóa thông tin user infor trên session
 			session.removeAttribute("userInfor" + keyAdd);
+			response.sendRedirect(request.getContextPath() + url);
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendRedirect(

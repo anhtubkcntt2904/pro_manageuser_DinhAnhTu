@@ -64,6 +64,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		}
 
 		// Trường hợp ưu tiên sắp xếp ưu tiên theo full name
+		//Mặc định ban đầu vào trường hợp này
 		if ("full_name".equals(sortType)) {
 			sql.append("order by u.full_name ");
 			sql.append(sortByFullname);
@@ -90,7 +91,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			sql.append(",tdu.code_level ");
 			sql.append(sortByCodeLevel);
 		}
-
+		
 		// giới hạn số bản ghi lấy ra
 		sql.append(" limit ");
 		sql.append(offset + ",");
@@ -115,6 +116,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			count1 = 0;
 			rs = ps.executeQuery();
 			while (rs.next()) {
+				userInfor = new UserInfor();
 				int userId = rs.getInt("u.user_id");
 				String fullname = rs.getString("u.full_name");
 				Date birthday = rs.getDate("u.birthday");

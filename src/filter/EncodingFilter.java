@@ -40,7 +40,7 @@ public class EncodingFilter implements Filter {
 		// TODO Auto-generated method stub
 		// place your code here
 
-		// pass the request along the filter chain
+		// pass the request and response along the filter chain
 		request.setCharacterEncoding(encoding);
 		response.setCharacterEncoding(encoding);
 		response.setContentType("text/html; charset=UTF-8");

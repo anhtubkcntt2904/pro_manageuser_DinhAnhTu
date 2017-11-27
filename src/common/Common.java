@@ -343,6 +343,7 @@ public class Common {
 	 * hàm mã hóa password
 	 * 
 	 * @param password
+	 *            string password cần mã hóa
 	 * @return chuỗi đã được mã hóa
 	 */
 	public static String encryptPassword(String password) {
@@ -364,6 +365,7 @@ public class Common {
 	 * Hãm format từ byte sang string
 	 * 
 	 * @param hash
+	 *            mảng byte cần format sang string để lưu vào cơ sở vào dữ liệu
 	 * @return string đã theo format
 	 */
 	public static String byteToHex(final byte[] hash) {
@@ -374,5 +376,36 @@ public class Common {
 		String result = formatter.toString();
 		formatter.close();
 		return result;
+	}
+
+	/**
+	 * Phương thức parse một chuỗi String và trả về một số nguyên int
+	 * 
+	 * @param string
+	 *            chuỗi cần parse
+	 * @param defaultValue
+	 *            giá trị mặc định trong trường hợp không parse được
+	 * @return int giá trị sau khi parse
+	 */
+	public static int parseInt(String string, int defaultValue) {
+		try {
+			// chuyển string sang int
+			int result = Integer.parseInt(string);
+			// nếu chuyển thành công thì trả về kết quả
+			return result;
+			// nếu chuyển string sang int không
+		} catch (NumberFormatException e) {
+			return defaultValue;
+		}
+	}
+
+	/**
+	 * Phương thức tạo key để phân biệt các user infor khác nhau trên session
+	 * 
+	 * @return giá trị sinh ngẫu nhiên cho key
+	 */
+	public long createKey() {
+		long key = System.currentTimeMillis() % 1000;
+		return key;
 	}
 }
