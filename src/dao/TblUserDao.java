@@ -76,7 +76,7 @@ public interface TblUserDao {
 	 * @return user id của user vừa insert
 	 * @throws SQLException
 	 */
-	public int insertUser(TblUser tblUser) throws SQLException;
+	public int insertUser(TblUser tblUser,Connection connection) throws SQLException;
 
 	/**
 	 * phương thức lấy thông tin user bằng user id

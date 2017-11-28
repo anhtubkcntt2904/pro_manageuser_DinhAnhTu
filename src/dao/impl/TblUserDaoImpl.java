@@ -309,7 +309,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	 * @see dao.TblUserDao#insertUser(TblUser)
 	 */
 	@Override
-	public int insertUser(TblUser tblUser) throws SQLException {
+	public int insertUser(TblUser tblUser,Connection connection) throws SQLException {
 		StringBuffer sql = new StringBuffer();
 		int userid = 0;
 		sql.append(
@@ -319,7 +319,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		ResultSet rs = null;
 		SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-			ps = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+			ps = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			int i = 0;
 			ps.setInt(++i, tblUser.getGroupId());
 			ps.setString(++i, tblUser.getLoginName());

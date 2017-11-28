@@ -41,8 +41,10 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 			ps = connection.prepareStatement(sql.toString());
 			ps.setInt(++i, tblDetailUserJapan.getUserId());
 			ps.setString(++i, tblDetailUserJapan.getCodeLevel());
-			ps.setDate(++i, (Date) tblDetailUserJapan.getStartDate());
-			ps.setDate(++i, (Date) tblDetailUserJapan.getEndDate());
+			//ps.setDate(++i, (Date) tblDetailUserJapan.getStartDate());
+			ps.setDate(++i, java.sql.Date.valueOf(dt1.format(tblDetailUserJapan.getStartDate())));
+			//ps.setDate(++i, (Date) tblDetailUserJapan.getEndDate());
+			ps.setDate(++i, java.sql.Date.valueOf(dt1.format(tblDetailUserJapan.getEndDate())));
 			if (!"".equals(tblDetailUserJapan.getTotal()) || tblDetailUserJapan.getTotal() != null) {
 				ps.setInt(++i, Integer.parseInt(tblDetailUserJapan.getTotal()));
 			} else {

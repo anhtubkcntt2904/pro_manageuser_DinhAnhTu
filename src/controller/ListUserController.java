@@ -153,6 +153,18 @@ public class ListUserController extends HttpServlet {
 				// nếu type là null thì đến trang ADM002 mặc định
 			} 
 			
+			
+			totalUser = tblUserLogic.getTotalUser(groupid, name);
+			// Lấy vị trí cần lấy data
+			offSet = common.getOffset(currentPage, limit);
+			// Tổng số page lấy được theo trường hợp search
+			totalPage = common.getTotalPage(totalUser, limit);
+			// Lấy ra danh sách paging
+			lstPaging = new ArrayList<>();
+			lstPaging = common.getListPaging(totalUser, limit, currentPage);
+			// lấy danh dách các group có trong database
+			lstGroup = mstGroupLogic.getAllGroup();
+			
 			// xét giá trị tìm kiếm lên session
 			session.setAttribute("name", name);
 			session.setAttribute("group_id", groupid);
@@ -165,16 +177,6 @@ public class ListUserController extends HttpServlet {
 			request.setAttribute("lstPaging", lstPaging);
 			request.setAttribute("totalPage", totalPage);
 			
-			totalUser = tblUserLogic.getTotalUser(groupid, name);
-			// Lấy vị trí cần lấy data
-			offSet = common.getOffset(currentPage, limit);
-			// Tổng số page lấy được theo trường hợp search
-			totalPage = common.getTotalPage(totalUser, limit);
-			// Lấy ra danh sách paging
-			lstPaging = new ArrayList<>();
-			lstPaging = common.getListPaging(totalUser, limit, currentPage);
-			// lấy danh dách các group có trong database
-			lstGroup = mstGroupLogic.getAllGroup();
 
 			// Nếu tổng số user lấy ra > 0
 			if (totalUser > 0) {
