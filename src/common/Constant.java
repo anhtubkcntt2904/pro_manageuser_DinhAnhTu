@@ -74,4 +74,6 @@ public class Constant {
 	public static final String UPDATE_NOUSER = "nouser";
 	
 	public static final int SALT_LENGTH = 19;
+	
+	public static final String LOGIN_NAME = "loginName";
 }

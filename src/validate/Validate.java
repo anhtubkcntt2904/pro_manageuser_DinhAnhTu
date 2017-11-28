@@ -41,7 +41,7 @@ public class Validate {
 			lstErr.add(messProp.getMessageProperties("ER001_LOGIN"));
 		}
 		// nếu nhập đầy đủ
-		if (loginName.trim().length() != 0 && password.trim().length() != 0) {
+		else if (loginName.trim().length() != 0 && password.trim().length() != 0) {
 			// xét xem thông tin nhập vào có đúng không
 			if (!adminProp.getAdminProperties("loginName").equals(loginName)
 					|| !adminProp.getAdminProperties("password").equals(password)) {
@@ -60,7 +60,6 @@ public class Validate {
 	 * @return danh sách lỗi
 	 */
 	public List<String> validateUserInfor(UserInfor userInfor) {
-		System.out.println("come to validate");
 		List<String> lstError = new ArrayList<>();
 		MessageProperties messProp = new MessageProperties();
 		Common common = new Common();
@@ -99,8 +98,8 @@ public class Validate {
 
 		// check group id
 		boolean checkGroupId = mstGroupLogic.existedGroupId(userInfor.getGroupId());
-		
-		//Nếu user đang xét có trình độ tiếng nhật
+
+		// Nếu user đang xét có trình độ tiếng nhật
 		if (!"0".equals(userInfor.getCodeLevel())) {
 
 			// check code level
@@ -201,8 +200,7 @@ public class Validate {
 			 * else if (!checkKana) { // full name không phải kí tự kana
 			 * lstError.add(messProp.getMessageProperties("ER009_FULLNAMEKANA")); }
 			 */
-		
-		
+
 		// validate ngày sinh
 		if (!checkBirthday) {
 			// ngày sinh không hợp lệ

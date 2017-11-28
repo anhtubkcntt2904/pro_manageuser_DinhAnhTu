@@ -89,6 +89,14 @@ public class TblDetailUserJapan {
 	public void setTotal(String total) {
 		this.total = total;
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "TblDetailUserJapan [detailUserJapanId=" + detailUserJapanId + ", userId=" + userId + ", codeLevel="
+				+ codeLevel + ", startDate=" + startDate + ", endDate=" + endDate + ", total=" + total + "]";
+	}
 	
 	
 }

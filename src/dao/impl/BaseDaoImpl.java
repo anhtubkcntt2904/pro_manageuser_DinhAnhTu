@@ -21,16 +21,20 @@ import properties.DatabaseProperties;
 public class BaseDaoImpl implements BaseDao {
 	protected Connection conn = null;
 
+
+	/**
+	 * @see dao.BaseDao#connectDB()
+	 */
 	@Override
-	public void connectDB() {
+	public Connection connectDB() {
 		DatabaseProperties dbProp = new DatabaseProperties();
-		//thông tin kết nối database
+		// thông tin kết nối database
 		String driver = dbProp.getDBProperties(Constant.DRIVER_CONST);
 		String url = dbProp.getDBProperties(Constant.URL_CONST);
 		String user = dbProp.getDBProperties(Constant.USER_CONST);
 		String pass = dbProp.getDBProperties(Constant.PASS_CONST);
 		try {
-			//kết nối database
+			// kết nối database
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, user, pass);
 		} catch (ClassNotFoundException e) {
@@ -38,17 +42,21 @@ public class BaseDaoImpl implements BaseDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		//return conn;
+		return conn;
 	}
 
+
+	/**
+	 * @see dao.BaseDao#closeDB()
+	 */
 	@Override
 	public void closeDB(Connection connection) {
 		try {
-			//kiểm tra connection truyền vào có null không
+			// kiểm tra connection truyền vào có null không
 			if (connection != null) {
-				//nếu ko null thì đóng connection
+				// nếu ko null thì đóng connection
 				connection.close();
-				//nếu null thì không thực hiện gì cả
+				// nếu null thì không thực hiện gì cả
 			} else {
 				return;
 			}
@@ -56,4 +64,5 @@ public class BaseDaoImpl implements BaseDao {
 			e.printStackTrace();
 		}
 	}
+	
 }

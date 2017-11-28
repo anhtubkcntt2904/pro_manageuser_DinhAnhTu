@@ -21,36 +21,34 @@ import entity.MstJapan;
  * @author AnhTu
  *
  */
-public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao{
+public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 
+	/**
+	 * @see dao.MstJapanDao#getAllMstJapan()
+	 */
 	@Override
 	public List<MstJapan> getAllMstJapan() {
-		// TODO Auto-generated method stub
 		MstJapan mstJapan = new MstJapan();
 		List<MstJapan> lstMstJapan = new ArrayList<>();
-		String sql = "select j.code_level, j.name_level from mst_japan j order by j.code_level desc";
-		PreparedStatement ps = null;
-		ResultSet rs = null;
 		try {
+			String sql = "select j.code_level, j.name_level from mst_japan j order by j.code_level desc";
+			PreparedStatement ps = null;
+			ResultSet rs = null;
 			connectDB();
-			ps = conn.prepareStatement(sql);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				String codeLevel = rs.getString("j.code_level");
-				String nameLevel = rs.getString("j.name_level");
-				mstJapan = new MstJapan(codeLevel, nameLevel);
-				lstMstJapan.add(mstJapan);
+			if (conn != null) {
+				ps = conn.prepareStatement(sql);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					String codeLevel = rs.getString("j.code_level");
+					String nameLevel = rs.getString("j.name_level");
+					mstJapan = new MstJapan(codeLevel, nameLevel);
+					lstMstJapan.add(mstJapan);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			closeDB(conn);
-			try {
-				rs.close();
-				ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return lstMstJapan;
 	}

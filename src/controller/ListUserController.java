@@ -36,13 +36,13 @@ public class ListUserController extends HttpServlet {
 	}
 
 	/**
+	 * Trường hợp paging và sort vào do get
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			// Trường hợp paging và sort vào do get
 			doPost(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,11 +60,16 @@ public class ListUserController extends HttpServlet {
 		try {
 			MessageProperties mess = new MessageProperties();
 			Common common = new Common();
+			HttpSession session = request.getSession();
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
+			MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
+			// tạo danh sách lưu các đối tượng MstGroup
+			List<MstGroup> lstGroup = new ArrayList<>();
 			// Danh sách lưu thông tin user
 			List<UserInfor> lstUserInfor = new ArrayList<>();
 			// danh sách lưu các page cần hiển thị
 			List<Integer> lstPaging = new ArrayList<>();
+			
 
 			// tạo giá trị default để gửi đến trang ADM002
 			String name = Constant.NAME_DEFAULT;
@@ -80,11 +85,9 @@ public class ListUserController extends HttpServlet {
 			int offSet = Constant.OFFSET_DEFAULT;
 			int totalPage = Constant.TOTALPAGE_DEFAULT;
 			int totalUser = Constant.TOTALUSER_DEFAULT;
-
 			// xét type gửi đến
 			String type = request.getParameter("type");
-			HttpSession session = request.getSession();
-
+			
 			// Trường hợp type là search
 			if (Constant.SEARCH_TYPE.equals(type)) {
 				// Lấy name và group id từ request gửi đến
@@ -148,17 +151,7 @@ public class ListUserController extends HttpServlet {
 				sortByEndDate = (String) session.getAttribute("sortByEndDate");
 				currentPage = (int) session.getAttribute("currentPage");
 				// nếu type là null thì đến trang ADM002 mặc định
-			} else {
-				//default
-			}
-			totalUser = tblUserLogic.getTotalUser(groupid, name);
-			// Lấy vị trí cần lấy data
-			offSet = common.getOffset(currentPage, limit);
-			// Tổng số page lấy được theo trường hợp search
-			totalPage = common.getTotalPage(totalUser, limit);
-			// Lấy ra danh sách paging
-			lstPaging = new ArrayList<>();
-			lstPaging = common.getListPaging(totalUser, limit, currentPage);
+			} 
 			
 			// xét giá trị tìm kiếm lên session
 			session.setAttribute("name", name);
@@ -172,10 +165,14 @@ public class ListUserController extends HttpServlet {
 			request.setAttribute("lstPaging", lstPaging);
 			request.setAttribute("totalPage", totalPage);
 			
-
-			MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
-			// tạo danh sách lưu các đối tượng MstGroup
-			List<MstGroup> lstGroup = new ArrayList<>();
+			totalUser = tblUserLogic.getTotalUser(groupid, name);
+			// Lấy vị trí cần lấy data
+			offSet = common.getOffset(currentPage, limit);
+			// Tổng số page lấy được theo trường hợp search
+			totalPage = common.getTotalPage(totalUser, limit);
+			// Lấy ra danh sách paging
+			lstPaging = new ArrayList<>();
+			lstPaging = common.getListPaging(totalUser, limit, currentPage);
 			// lấy danh dách các group có trong database
 			lstGroup = mstGroupLogic.getAllGroup();
 

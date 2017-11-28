@@ -17,6 +17,9 @@ import logic.MstGroupLogic;
  */
 public class MstGroupLogicImpl implements MstGroupLogic{
 
+	/**
+	 * @see logic.MstGroupLogic#getAllGroup()
+	 */
 	@Override
 	public List<MstGroup> getAllGroup() {
 		// TODO Auto-generated method stub
@@ -24,6 +27,9 @@ public class MstGroupLogicImpl implements MstGroupLogic{
 		return mstGroupDaoImpl.getAllMstGroup();
 	}
 
+	/**
+	 * @see logic.MstGroupLogic#existedGroupId(int)
+	 */
 	@Override
 	public boolean existedGroupId(int groupid) {
 		MstGroupDaoImpl mstGroupDao = new MstGroupDaoImpl();

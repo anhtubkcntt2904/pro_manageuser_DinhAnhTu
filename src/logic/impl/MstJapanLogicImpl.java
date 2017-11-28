@@ -18,6 +18,9 @@ import logic.MstJapanLogic;
  */
 public class MstJapanLogicImpl implements MstJapanLogic {
 
+	/**
+	 * @see logic.MstJapanLogic#getAllMstJapan(int)
+	 */
 	@Override
 	public List<MstJapan> getAllMstJapan() {
 		// TODO Auto-generated method stub
@@ -25,6 +28,10 @@ public class MstJapanLogicImpl implements MstJapanLogic {
 		return mstJapanDao.getAllMstJapan();
 	}
 
+
+	/**
+	 * @see logic.MstJapanLogic#existedCodelevel(String)
+	 */
 	@Override
 	public boolean existedCodelevel(String codelevel) {
 		MstJapanDaoImpl mstJapanDao = new MstJapanDaoImpl();

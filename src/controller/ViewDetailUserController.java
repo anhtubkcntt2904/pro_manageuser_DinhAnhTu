@@ -28,7 +28,6 @@ public class ViewDetailUserController extends HttpServlet {
 	 */
 	public ViewDetailUserController() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -37,19 +36,20 @@ public class ViewDetailUserController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		try {
 			Common common = new Common();
-			// click id user ADM002
-			// lấy user id khi click user id từ màn 02
-			int userid = common.parseInt(request.getParameter("userid"), 0);
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 			// đối tượng lưu thông tin của user để truyền sang màn 05
 			UserInfor userInfor = new UserInfor();
+
+			// click id user ADM002
+			// lấy user id khi click user id từ màn 02
+			int userid = common.parseInt(request.getParameter("userid"), 0);
 			// biến kiểm tra user có tồn tại không dựa vào user id
 			boolean existedUser = false;
 			// kiểm tra tồn tại của user
-			existedUser = tblUserLogic.isExistedUser(0);
+			
+			existedUser = tblUserLogic.isExistedUser(userid);
 			// nếu user tồn tại
 			if (existedUser) {
 				// lấy thông tin của user theo user id truyền vào

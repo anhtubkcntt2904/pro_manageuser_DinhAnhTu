@@ -27,7 +27,6 @@ public class SuccessController extends HttpServlet {
 	 */
 	public SuccessController() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -36,58 +35,61 @@ public class SuccessController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		MessageProperties mess = new MessageProperties();
+
+		// đương dẫn đến trang thông báo
+		String url;
+		// câu thông báo
+		String noti;
+		// xét type gửi đến
 		String type = request.getParameter("type");
+
 		switch (type) {
 		// trường hợp vào màn hình error
 		case Constant.SYSTEM_ERROR:
-			MessageProperties mess = new MessageProperties();
-			String error = mess.getMessageProperties("ER015");
-			request.setAttribute("error", error);
-			RequestDispatcher reqError = request.getRequestDispatcher(Constant.ERROR);
-			reqError.forward(request, response);
+			noti = mess.getMessageProperties("ER015");
+			request.setAttribute("error", noti);
+			url = Constant.ERROR;
 			break;
 		// trường hợp vào màn hình insert thành công
 		case Constant.INSERT_SUCCESS:
-			MessageProperties messinsert = new MessageProperties();
-			String insertsuccess = messinsert.getMessageProperties("MSG001");
-			request.setAttribute("mess", insertsuccess);
-			RequestDispatcher reqInsert = request.getRequestDispatcher(Constant.SUCCESS);
-			reqInsert.forward(request, response);
+			mess = new MessageProperties();
+			noti = mess.getMessageProperties("MSG001");
+			request.setAttribute("mess", noti);
+			url = Constant.SUCCESS;
 			break;
 		// trường hợp vào màn hình delete thành công
 		case Constant.DELETE_SUCCESS:
-			MessageProperties messdelete = new MessageProperties();
-			String deletesuccess = messdelete.getMessageProperties("MSG003");
-			request.setAttribute("mess", deletesuccess);
-			RequestDispatcher reqDelete = request.getRequestDispatcher(Constant.SUCCESS);
-			reqDelete.forward(request, response);
+			mess = new MessageProperties();
+			noti = mess.getMessageProperties("MSG003");
+			request.setAttribute("mess", noti);
+			url = Constant.SUCCESS;
 			break;
 		// trường hợp vào màn hình update thành công
 		case Constant.UPDATE_SUCCESS:
-			MessageProperties messupdate = new MessageProperties();
-			String updatesuccess = messupdate.getMessageProperties("MSG002");
-			request.setAttribute("mess", updatesuccess);
-			RequestDispatcher reqUpdate = request.getRequestDispatcher(Constant.SUCCESS);
-			reqUpdate.forward(request, response);
+			mess = new MessageProperties();
+			noti = mess.getMessageProperties("MSG002");
+			request.setAttribute("mess", noti);
+			url = Constant.SUCCESS;
 			break;
 		// trường hợp vào màn hình không có user nào
 		case Constant.UPDATE_NOUSER:
-			MessageProperties messnouser = new MessageProperties();
-			String nouser = messnouser.getMessageProperties("ER013");
-			request.setAttribute("error", nouser);
-			RequestDispatcher reqNoUser = request.getRequestDispatcher(Constant.ERROR);
-			reqNoUser.forward(request, response);
+			mess = new MessageProperties();
+			noti = mess.getMessageProperties("ER013");
+			request.setAttribute("error", noti);
+			url = Constant.ERROR;
 			break;
 		// trường hợp vào màn hình error
 		default:
-			MessageProperties messD = new MessageProperties();
-			String errorD = messD.getMessageProperties("ER015");
-			request.setAttribute("error", errorD);
-			RequestDispatcher reqD = request.getRequestDispatcher(Constant.ERROR);
-			reqD.forward(request, response);
+			mess = new MessageProperties();
+			noti = mess.getMessageProperties("ER015");
+			request.setAttribute("error", noti);
+			url = Constant.ERROR;
 			break;
 		}
+		request.setAttribute("error", noti);
+		RequestDispatcher req = request.getRequestDispatcher(url);
+		req.forward(request, response);
 	}
 
 }

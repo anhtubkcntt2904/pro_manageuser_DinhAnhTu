@@ -28,14 +28,12 @@ public class LoginFilter implements Filter {
 	 * Default constructor.
 	 */
 	public LoginFilter() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @see Filter#destroy()
 	 */
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -53,7 +51,7 @@ public class LoginFilter implements Filter {
 		String path = req.getRequestURI();
 
 		// nếu đã đăng nhập
-		if (req.getSession().getAttribute("loginName") != null) {
+		if (req.getSession().getAttribute(Constant.LOGIN_NAME) != null) {
 			// xét xem đường dẫn có đến trang login không
 			if (path.startsWith(Constant.LOGIN_REQUEST_URI) || path.equals(Constant.CONTEXT_ROOT)) {
 				// nếu có thì chuyển sang trang list user ADM002

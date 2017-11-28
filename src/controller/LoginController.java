@@ -20,14 +20,13 @@ import logic.impl.TblUserLogicImpl;
 /**
  * Servlet implementation class LoginServletController
  */
-public class LoginServletController extends HttpServlet {
+public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Default constructor.
 	 */
-	public LoginServletController() {
-		// TODO Auto-generated constructor stub
+	public LoginController() {
 	}
 
 	/**
@@ -51,14 +50,13 @@ public class LoginServletController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		try {
 			String loginName = request.getParameter("loginName");
 			String password = request.getParameter("password");
 			TblUserLogicImpl userLogic = new TblUserLogicImpl();
 			userLogic.lstErr = new ArrayList<>();
 			// Kiểm tra tài khoản đăng nhập có hợp lệ không
-			if (!userLogic.ExistLogin(loginName, password)) {
+			if (!userLogic.existLogin(loginName, password)) {
 				// nếu không thì quay về trang login và gửi các thông báo lỗi tương ứng cùng với
 				// thông tin loginName
 				request.setAttribute("lstErr", userLogic.lstErr);

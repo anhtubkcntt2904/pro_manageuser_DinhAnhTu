@@ -16,40 +16,38 @@ import entity.MstGroup;
 
 /**
  * class thao tác với bảng mst group trong database
+ * 
  * @author AnhTu
  *
  */
 public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 
+	/**
+	 * @see dao.MstGroupDao#getAllMstGroup()
+	 */
 	@Override
 	public List<MstGroup> getAllMstGroup() {
-		// TODO Auto-generated method stub
-
 		MstGroup mstGroup = new MstGroup();
 		List<MstGroup> lstMstGroup = new ArrayList<>();
-		String sql = "select g.group_id, g.group_name from mst_group g";
-		PreparedStatement ps = null;
-		ResultSet rs = null;
 		try {
+			String sql = "select g.group_id, g.group_name from mst_group g";
+			PreparedStatement ps = null;
+			ResultSet rs = null;
 			connectDB();
-			ps = conn.prepareStatement(sql);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				int groupId = rs.getInt("g.group_id");
-				String groupName = rs.getString("g.group_name");
-				mstGroup = new MstGroup(groupId, groupName);
-				lstMstGroup.add(mstGroup);
+			if (conn != null) {
+				ps = conn.prepareStatement(sql);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					int groupId = rs.getInt("g.group_id");
+					String groupName = rs.getString("g.group_name");
+					mstGroup = new MstGroup(groupId, groupName);
+					lstMstGroup.add(mstGroup);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			closeDB(conn);
-			try {
-				rs.close();
-				ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return lstMstGroup;
 	}

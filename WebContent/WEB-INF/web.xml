@@ -5,11 +5,11 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
-    <servlet-name>LoginServletController</servlet-name>
-    <servlet-class>controller.LoginServletController</servlet-class>
+    <servlet-name>LoginController</servlet-name>
+    <servlet-class>controller.LoginController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LoginServletController</servlet-name>
+    <servlet-name>LoginController</servlet-name>
     <url-pattern>/Login.do</url-pattern>
   </servlet-mapping>
    <servlet>

@@ -23,7 +23,7 @@ public interface TblUserLogic {
 	 * @param password
 	 * @return true or false
 	 */
-	public boolean ExistLogin(String loginName, String password);
+	public boolean existLogin(String loginName, String password);
 
 	/**
 	 * phương thức lấy danh sách user

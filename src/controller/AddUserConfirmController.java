@@ -28,7 +28,6 @@ public class AddUserConfirmController extends HttpServlet {
 	 */
 	public AddUserConfirmController() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -38,11 +37,11 @@ public class AddUserConfirmController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+			HttpSession session = request.getSession();
 			// 03 confirm sang 04
 			// lấy key add vào user infor session và gửi sang màn 04
 			String keyAdd = request.getParameter("keyAdd");
 			request.setAttribute("keyAdd", keyAdd);
-			HttpSession session = request.getSession();
 			// lấy user infor trên session theo key adđ
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
 			// gửi user infor sang trang 04
@@ -63,23 +62,26 @@ public class AddUserConfirmController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			// 04 submit create user
+			//khởi tạo
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
-			Common common = new Common();
-			// lấy key add qua request từ 04
-			String keyAdd = request.getParameter("keyAdd");
 			HttpSession session = request.getSession();
-			// lấy user infor trên session bằng key add
-			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
+			Common common = new Common();
+			
+			// String lưu đường dẫn cần truyền đi
+			String url;
 			// biến kiểm tra update hoặc create user có thành công không
 			Boolean isSuccess = false;
 			// biến kiểm tra user có tồn tại không
 			Boolean isExistedUser = false;
+			
+			// 04 submit create user
+			// lấy key add qua request từ 04
+			String keyAdd = request.getParameter("keyAdd");	
+			// lấy user infor trên session bằng key add
+			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
 			// lấy user id từ request của 04
 			int userId = common.parseInt(request.getParameter("user_id"), 0);
-			// String lưu đường dẫn cần truyền đi
-			String url;
-
+			
 			// nếu user id không bằng 0
 			if (userId != 0) {
 				// kiểm tra user có tồn tại hay không

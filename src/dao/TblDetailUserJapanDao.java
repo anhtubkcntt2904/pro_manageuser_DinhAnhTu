@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import entity.TblDetailUserJapan;
@@ -18,18 +19,22 @@ public interface TblDetailUserJapanDao {
 	 * phương thức insert detail user japan
 	 * 
 	 * @param tblDetailUserJapan
+	 * @param connection
 	 * @return true hoặc false
 	 * @throws SQLException
 	 */
-	public Boolean insertDetailUserJapan(TblDetailUserJapan tblDetailUserJapan) throws SQLException;
+	public Boolean insertDetailUserJapan(TblDetailUserJapan tblDetailUserJapan, Connection connection)
+			throws SQLException;
 
 	/**
 	 * phương thức update detail user japan
 	 * 
 	 * @param tblDetailUserJapan
+	 * @param connection 
 	 * @return true hoặc false
 	 */
-	public Boolean updateDetailUserJapan(TblDetailUserJapan tblDetailUserJapan) throws SQLException;
+	public Boolean updateDetailUserJapan(TblDetailUserJapan tblDetailUserJapan, Connection connection)
+			throws SQLException;
 
 	/**
 	 * Lấy thông tin detail user japan bằng user id
@@ -43,8 +48,9 @@ public interface TblDetailUserJapanDao {
 	 * xóa detail user japan theo code level
 	 * 
 	 * @param code_level
+	 * @param connection
 	 * @return true hoặc false
 	 */
-	public Boolean deleteDetailUserJapan(int userId) throws SQLException;
+	public Boolean deleteDetailUserJapan(int userId, Connection connection) throws SQLException;
 
 }

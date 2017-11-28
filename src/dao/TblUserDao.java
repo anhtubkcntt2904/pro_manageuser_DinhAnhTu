@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -99,7 +100,7 @@ public interface TblUserDao {
 	 * @param tblUser
 	 * @return true hoặc false
 	 */
-	public boolean updateUser(TblUser tblUser) throws SQLException;
+	public boolean updateUser(TblUser tblUser,Connection connection) throws SQLException;
 
 	/**
 	 * Phương thức update password của người dùng
@@ -117,5 +118,5 @@ public interface TblUserDao {
 	 * @param userId
 	 * @return true hoặc false
 	 */
-	public Boolean deleteUser(int userId) throws SQLException;
+	public Boolean deleteUser(int userId, Connection connection) throws SQLException;
 }

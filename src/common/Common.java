@@ -11,12 +11,14 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Formatter;
 import java.util.List;
 
+import dao.impl.TblUserDaoImpl;
+import entity.TblDetailUserJapan;
+import entity.TblUser;
 import entity.UserInfor;
 import properties.ConfigProperties;
 
@@ -419,5 +421,44 @@ public class Common {
 	public String replaceWildCard(String string) {
 		String stringReplace = string.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
 		return stringReplace;
+	}
+
+	public TblUser setTblUser(UserInfor userInfor) {
+		TblUser tblUser = new TblUser();
+		// Lấy thông tin người dùng nhập vào
+		int userId = userInfor.getUserId();
+		int groupId = userInfor.getGroupId();
+		String loginName = userInfor.getLoginName();	
+		String fullname = userInfor.getFullName();
+		String fullnamekana = userInfor.getFullNameKana();
+		String email = userInfor.getEmail();
+		String tel = userInfor.getTel();
+		Date birthday = userInfor.getBirthday();
+
+		// Lấy thông tin user
+		tblUser.setUserId(userId);
+		tblUser.setGroupId(groupId);
+		tblUser.setLoginName(loginName);
+		tblUser.setFullname(fullname);
+		tblUser.setFullnamekana(fullnamekana);
+		tblUser.setEmail(email);
+		tblUser.setTel(tel);
+		tblUser.setBirthday(birthday);
+		return tblUser;
+	}
+
+	public TblDetailUserJapan setTblDetailUserJapan(UserInfor userInfor) {
+		TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
+		// Lấy thông tin TĐTN người dùng nhập vào
+		String codeLevel = userInfor.getCodeLevel();
+		Date startDate = userInfor.getStartDate();
+		Date endDate = userInfor.getEndDate();
+		String total = userInfor.getTotal();
+		// Lấy thông tin detail user japan
+		tblDetailUserJapan.setCodeLevel(codeLevel);
+		tblDetailUserJapan.setStartDate(startDate);
+		tblDetailUserJapan.setEndDate(endDate);
+		tblDetailUserJapan.setTotal(total);
+		return tblDetailUserJapan;
 	}
 }
