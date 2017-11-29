@@ -39,9 +39,11 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 				ps = conn.prepareStatement(sql);
 				rs = ps.executeQuery();
 				while (rs.next()) {
+					mstJapan = new MstJapan();
 					String codeLevel = rs.getString("j.code_level");
 					String nameLevel = rs.getString("j.name_level");
-					mstJapan = new MstJapan(codeLevel, nameLevel);
+					mstJapan.setCode_level(codeLevel);
+					mstJapan.setName_level(nameLevel);
 					lstMstJapan.add(mstJapan);
 				}
 			}

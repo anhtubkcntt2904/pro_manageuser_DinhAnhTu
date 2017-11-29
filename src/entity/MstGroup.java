@@ -15,21 +15,10 @@ public class MstGroup {
 	private String groupName;
 
 	/**
-	 * @param groupId
-	 * @param groupName
-	 */
-	public MstGroup(int groupId, String groupName) {
-		super();
-		this.groupId = groupId;
-		this.groupName = groupName;
-	}
-
-	/**
 	 * 
 	 */
 	public MstGroup() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

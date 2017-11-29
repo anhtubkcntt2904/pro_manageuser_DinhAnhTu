@@ -423,12 +423,18 @@ public class Common {
 		return stringReplace;
 	}
 
+	/**
+	 * Phương thức set giá trị cho đối tượng TblUser theo giá trị của userInfor
+	 * 
+	 * @param userInfor
+	 * @return đối tượng TblUser đã xét giá trị
+	 */
 	public TblUser setTblUser(UserInfor userInfor) {
 		TblUser tblUser = new TblUser();
 		// Lấy thông tin người dùng nhập vào
 		int userId = userInfor.getUserId();
 		int groupId = userInfor.getGroupId();
-		String loginName = userInfor.getLoginName();	
+		String loginName = userInfor.getLoginName();
 		String fullname = userInfor.getFullName();
 		String fullnamekana = userInfor.getFullNameKana();
 		String email = userInfor.getEmail();
@@ -447,6 +453,13 @@ public class Common {
 		return tblUser;
 	}
 
+	/**
+	 * Phương thức set giá trị cho đối tượng TblDetailUserJapan theo giá trị của
+	 * userInfor
+	 * 
+	 * @param userInfor
+	 * @return đối tượng TblDetailUserJapan đã xét giá trị
+	 */
 	public TblDetailUserJapan setTblDetailUserJapan(UserInfor userInfor) {
 		TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
 		// Lấy thông tin TĐTN người dùng nhập vào

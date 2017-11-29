@@ -99,6 +99,10 @@ public class Validate {
 		// check group id
 		boolean checkGroupId = mstGroupLogic.existedGroupId(userInfor.getGroupId());
 
+		// check tel
+		String telformat = "[0-9]{1,4}-[0-9]{1,4}-[0-9]{1,4}";
+		boolean checkTel = userInfor.getTel().matches(telformat);
+
 		// Nếu user đang xét có trình độ tiếng nhật
 		if (!"0".equals(userInfor.getCodeLevel())) {
 
@@ -150,10 +154,6 @@ public class Validate {
 			}
 		}
 
-		// check tel
-		String telformat = "[0-9]{1,4}-[0-9]{1,4}-[0-9]{1,4}";
-		boolean checkTel = userInfor.getTel().matches(telformat);
-
 		// trường hợp add thì validate login
 		if (userInfor.getUserId() == 0) {
 			// validate loginName
@@ -196,10 +196,7 @@ public class Validate {
 			lstError.add(messProp.getMessageProperties("ER006_FULLNAMEKANA"));
 		} else if (!common.checkKana(userInfor.getFullNameKana())) {
 			lstError.add(messProp.getMessageProperties("ER009_FULLNAMEKANA"));
-		} /*
-			 * else if (!checkKana) { // full name không phải kí tự kana
-			 * lstError.add(messProp.getMessageProperties("ER009_FULLNAMEKANA")); }
-			 */
+		}
 
 		// validate ngày sinh
 		if (!checkBirthday) {
@@ -216,7 +213,6 @@ public class Validate {
 			lstError.add(messProp.getMessageProperties("ER005_EMAIL"));
 		} else if (existedEmail) {
 			// email đã tồn tại
-			System.out.println("1");
 			lstError.add(messProp.getMessageProperties("ER003_EMAIL"));
 		} else if (userInfor.getEmail().trim().length() > 255) {
 			// maxlength
@@ -239,6 +235,7 @@ public class Validate {
 			}
 		}
 
+		// xét trường hợp có validate password
 		if (userInfor.getPassword() != null) {
 			// validate pass
 			if (userInfor.getPassword().trim().length() == 0) {

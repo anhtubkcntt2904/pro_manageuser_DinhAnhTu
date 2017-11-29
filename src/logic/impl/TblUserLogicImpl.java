@@ -130,66 +130,48 @@ public class TblUserLogicImpl implements TblUserLogic {
 		int userid;
 		Connection conn = null;
 		try {
-			// thông tin để insert vào bảng user
-			TblUser tblUser = new TblUser();
-			// thông tin để insert vào bảng detail user japan
-			TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
-			TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
-			TblDetailUserJapanDaoImpl tblDetailUserJapanDao = new TblDetailUserJapanDaoImpl();
 			conn = baseDaoImpl.connectDB();
+			// nếu connect đến db thành công
+			if (conn != null) {
+				// thông tin để insert vào bảng user
+				TblUser tblUser = new TblUser();
+				// thông tin để insert vào bảng detail user japan
+				TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
+				TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
+				TblDetailUserJapanDaoImpl tblDetailUserJapanDao = new TblDetailUserJapanDaoImpl();
 
-			// Lấy thông tin nhập vào
-			int userId = userInfor.getUserId();
-			int groupId = userInfor.getGroupId();
-			String loginName = userInfor.getLoginName();
-			String fullname = userInfor.getFullName();
-			String fullnamekana = userInfor.getFullNameKana();
-			String email = userInfor.getEmail();
-			String tel = userInfor.getTel();
-			Date birthday = userInfor.getBirthday();
-			String salt = common.createSalt();
-			String password = common.encryptPassword((salt + userInfor.getPassword()));
+				// Lấy thông tin nhập vào
+				int userId = userInfor.getUserId();
+				String salt = common.createSalt();
+				String password = common.encryptPassword((salt + userInfor.getPassword()));
 
-			// Lấy thông tin TĐTN user nhập vào
-			String codeLevel = userInfor.getCodeLevel();
-			Date startDate = userInfor.getStartDate();
-			Date endDate = userInfor.getEndDate();
-			String total = userInfor.getTotal();
+				// Lấy thông tin TĐTN user nhập vào
+				String codeLevel = userInfor.getCodeLevel();
 
-			// set giá trị cho user
-			tblUser.setUserId(userId);
-			tblUser.setGroupId(groupId);
-			tblUser.setLoginName(loginName);
-			tblUser.setPassword(password);
-			tblUser.setFullname(fullname);
-			tblUser.setFullnamekana(fullnamekana);
-			tblUser.setEmail(email);
-			tblUser.setTel(tel);
-			tblUser.setBirthday(birthday);
-			tblUser.setSalt(salt);
+				// set giá trị cho user
+				tblUser = common.setTblUser(userInfor);
+				tblUser.setSalt(salt);
+				tblUser.setPassword(password);
 
-			conn.setAutoCommit(false);
+				conn.setAutoCommit(false);
 
-			// thêm thông tin user và lấy ra user id
-			userid = tblUserDao.insertUser(tblUser,conn);
+				// thêm thông tin user và lấy ra user id
+				userid = tblUserDao.insertUser(tblUser, conn);
 
-			// Nếu insert thông tin user thành công và lấy được user id
-			// Xét xem admin có thêm TĐTN cho user không
-			if (userid != 0 && !"0".equals(codeLevel)) {
-				tblUser.setUserId(userid);
+				// Nếu insert thông tin user thành công và lấy được user id
+				// Xét xem admin có thêm TĐTN cho user không
+				if (userid != 0 && !"0".equals(codeLevel)) {
+					tblUser.setUserId(userid);
 
-				// set giá trị trình độ tiếng nhật cho user
-				tblDetailUserJapan.setUserId(userid);
-				tblDetailUserJapan.setCodeLevel(codeLevel);
-				tblDetailUserJapan.setStartDate(startDate);
-				tblDetailUserJapan.setEndDate(endDate);
-				tblDetailUserJapan.setTotal(total);
+					// set giá trị trình độ tiếng nhật cho user
+					tblDetailUserJapan = common.setTblDetailUserJapan(userInfor);
+					tblDetailUserJapan.setUserId(userid);
 
-				// Nếu có thực hiện insert TĐTN cho user
-				check = tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan,conn);
+					// Nếu có thực hiện insert TĐTN cho user
+					check = tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan, conn);
+				}
+				conn.commit();
 			}
-
-			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			conn.rollback();
@@ -238,81 +220,63 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public Boolean updateUserInfor(UserInfor userInfor) throws SQLException {
 		BaseDaoImpl baseDaoImpl = new BaseDaoImpl();
+		Common common = new Common();
 
 		// biến kiểm tra update có thành công không
 		Boolean check = false;
 		Connection conn = null;
 		try {
 			conn = baseDaoImpl.connectDB();
-			TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
-			TblUser tblUser = new TblUser();
-			TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
-			TblDetailUserJapanDaoImpl tblDetailUserJapanDaoImpl = new TblDetailUserJapanDaoImpl();
+			// nếu connect đến db thành công
+			if (conn != null) {
+				TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
+				TblUser tblUser = new TblUser();
+				TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
+				TblDetailUserJapanDaoImpl tblDetailUserJapanDaoImpl = new TblDetailUserJapanDaoImpl();
 
-			// Lấy thông tin người dùng nhập vào
-			int userId = userInfor.getUserId();
-			int groupId = userInfor.getGroupId();
-			String loginName = userInfor.getLoginName();
-			String password = userInfor.getPassword();
-			String fullname = userInfor.getFullName();
-			String fullnamekana = userInfor.getFullNameKana();
-			String email = userInfor.getEmail();
-			String tel = userInfor.getTel();
-			Date birthday = userInfor.getBirthday();
+				// Lấy thông tin người dùng nhập vào
+				int userId = userInfor.getUserId();
 
-			// Lấy thông tin TĐTN người dùng nhập vào
-			String codeLevel = userInfor.getCodeLevel();
-			Date startDate = userInfor.getStartDate();
-			Date endDate = userInfor.getEndDate();
-			String total = userInfor.getTotal();
+				// Lấy thông tin TĐTN người dùng nhập vào
+				String codeLevel = userInfor.getCodeLevel();
 
-			// Lấy thông tin user
-			tblUser.setUserId(userId);
-			tblUser.setGroupId(groupId);
-			tblUser.setLoginName(loginName);
-			tblUser.setPassword(password);
-			tblUser.setFullname(fullname);
-			tblUser.setFullnamekana(fullnamekana);
-			tblUser.setEmail(email);
-			tblUser.setTel(tel);
-			tblUser.setBirthday(birthday);
+				// Lấy thông tin user
+				tblUser = common.setTblUser(userInfor);
 
-			// Lấy thông tin detail user japan
-			tblDetailUserJapan.setCodeLevel(codeLevel);
-			tblDetailUserJapan.setStartDate(startDate);
-			tblDetailUserJapan.setEndDate(endDate);
-			tblDetailUserJapan.setTotal(total);
+				// Lấy thông tin detail user japan
+				tblDetailUserJapan = common.setTblDetailUserJapan(userInfor);
 
-			// Kiểm tra user có trình độ tiếng nhật không
-			Boolean ExistedUserCodeLevel = false;
-			ExistedUserCodeLevel = checkUserCodeLevel(userId);
+				// Kiểm tra user có trình độ tiếng nhật không
+				Boolean ExistedUserCodeLevel = false;
+				ExistedUserCodeLevel = checkUserCodeLevel(userId);
 
-			conn.setAutoCommit(false);
-			check = tblUserDao.updateUser(tblUser, conn);
-			if (check) {
-				tblDetailUserJapan.setUserId(userId);
-			}
-			// nếu trong db, user có trình độ tiếng nhật
-			if (ExistedUserCodeLevel) {
+				conn.setAutoCommit(false);
+				check = tblUserDao.updateUser(tblUser, conn);
+				if (check) {
+					tblDetailUserJapan.setUserId(userId);
+				}
+				// nếu trong db, user có trình độ tiếng nhật
+				if (ExistedUserCodeLevel) {
 
-				// nếu người dùng xóa TĐTN
-				if ("0".equals(codeLevel)) {
-					check = tblDetailUserJapanDaoImpl.deleteDetailUserJapan(tblDetailUserJapan.getUserId(), conn);
+					// nếu người dùng xóa TĐTN
+					if ("0".equals(codeLevel)) {
+						check = tblDetailUserJapanDaoImpl.deleteDetailUserJapan(tblDetailUserJapan.getUserId(), conn);
 
-					// nếu người dùng chỉnh sửa TĐTN hoặc không thay đổi
+						// nếu người dùng chỉnh sửa TĐTN hoặc không thay đổi
+					} else {
+						check = tblDetailUserJapanDaoImpl.updateDetailUserJapan(tblDetailUserJapan, conn);
+					}
+					// nếu trong db, user không có trình độ tiếng nhật
 				} else {
-					check = tblDetailUserJapanDaoImpl.updateDetailUserJapan(tblDetailUserJapan, conn);
-				}
-				// nếu trong db, user không có trình độ tiếng nhật
-			} else {
 
-				// nếu người dùng thêm TĐTN
-				if (!"0".equals(codeLevel)) {
-					check = tblDetailUserJapanDaoImpl.insertDetailUserJapan(tblDetailUserJapan, conn);
+					// nếu người dùng thêm TĐTN
+					if (!"0".equals(codeLevel)) {
+						check = tblDetailUserJapanDaoImpl.insertDetailUserJapan(tblDetailUserJapan, conn);
+					}
+					// Nếu người dùng không thay đổi thì không thực hiện gì cả
 				}
-				// Nếu người dùng không thay đổi thì không thực hiện gì cả
+				conn.commit();
 			}
-			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			// roll back nếu gặp lỗi
@@ -370,31 +334,33 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public Boolean deleteUser(int userId) throws SQLException {
 		BaseDaoImpl baseDaoImpl = new BaseDaoImpl();
-		
+
 		// Biến kiểm tra việc delete user có thành công hay không
 		Boolean check = false;
 		Connection conn = null;
 		try {
-			TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
-			TblDetailUserJapanDaoImpl tblDetailUserJapanDaoImpl = new TblDetailUserJapanDaoImpl();
-			// Biến kiểm tra user có trình độ tiếng nhật không
-			Boolean ExistedUserCodeLevel = false;
-
 			// Mở kết nối đến database
 			conn = baseDaoImpl.connectDB();
-			conn.setAutoCommit(false);
+			// nếu connect đến db thành công
+			if (conn != null) {
+				TblUserDaoImpl tblUserDao = new TblUserDaoImpl();
+				TblDetailUserJapanDaoImpl tblDetailUserJapanDaoImpl = new TblDetailUserJapanDaoImpl();
+				// Biến kiểm tra user có trình độ tiếng nhật không
+				Boolean ExistedUserCodeLevel = false;
+				// Kiểm tra user có TĐTN không
+				ExistedUserCodeLevel = checkUserCodeLevel(userId);
 
-			// Kiểm tra user có TĐTN không
-			ExistedUserCodeLevel = checkUserCodeLevel(userId);
-			// nếu user có TĐTN thì xóa TĐTN của user
-			if (ExistedUserCodeLevel) {
-				check = tblDetailUserJapanDaoImpl.deleteDetailUserJapan(userId, conn);
+				conn.setAutoCommit(false);
+				// nếu user có TĐTN thì xóa TĐTN của user
+				if (ExistedUserCodeLevel) {
+					check = tblDetailUserJapanDaoImpl.deleteDetailUserJapan(userId, conn);
+				}
+
+				// xóa thông tin của user
+				check = tblUserDao.deleteUser(userId, conn);
+
+				conn.commit();
 			}
-
-			// xóa thông tin của user
-			check = tblUserDao.deleteUser(userId, conn);
-
-			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			conn.rollback();

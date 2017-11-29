@@ -47,7 +47,7 @@ public class BaseDaoImpl implements BaseDao {
 
 
 	/**
-	 * @see dao.BaseDao#closeDB()
+	 * @see dao.BaseDao#closeDB(Connection)
 	 */
 	@Override
 	public void closeDB(Connection connection) {

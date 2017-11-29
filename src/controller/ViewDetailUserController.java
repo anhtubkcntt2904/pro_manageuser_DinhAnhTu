@@ -31,6 +31,7 @@ public class ViewDetailUserController extends HttpServlet {
 	}
 
 	/**
+	 * Click id user tù màn 02
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -41,14 +42,13 @@ public class ViewDetailUserController extends HttpServlet {
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 			// đối tượng lưu thông tin của user để truyền sang màn 05
 			UserInfor userInfor = new UserInfor();
-
-			// click id user ADM002
+			
 			// lấy user id khi click user id từ màn 02
 			int userid = common.parseInt(request.getParameter("userid"), 0);
 			// biến kiểm tra user có tồn tại không dựa vào user id
 			boolean existedUser = false;
-			// kiểm tra tồn tại của user
 			
+			// kiểm tra tồn tại của user	
 			existedUser = tblUserLogic.isExistedUser(userid);
 			// nếu user tồn tại
 			if (existedUser) {

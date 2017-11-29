@@ -29,7 +29,6 @@ public class TblUser {
 	 */
 	public TblUser() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

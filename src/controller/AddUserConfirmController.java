@@ -31,6 +31,7 @@ public class AddUserConfirmController extends HttpServlet {
 	}
 
 	/**
+	 * click confirm từ 03
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -38,14 +39,14 @@ public class AddUserConfirmController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
-			// 03 confirm sang 04
 			// lấy key add vào user infor session và gửi sang màn 04
 			String keyAdd = request.getParameter("keyAdd");
-			request.setAttribute("keyAdd", keyAdd);
 			// lấy user infor trên session theo key adđ
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
+			
 			// gửi user infor sang trang 04
 			request.setAttribute("userInfor", userInfor);
+			request.setAttribute("keyAdd", keyAdd);
 			// sang trang 04
 			request.getRequestDispatcher(Constant.ADM004).forward(request, response);
 		} catch (Exception e) {
@@ -56,6 +57,7 @@ public class AddUserConfirmController extends HttpServlet {
 	}
 
 	/**
+	 * Click OK từ 04
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -72,8 +74,7 @@ public class AddUserConfirmController extends HttpServlet {
 			// biến kiểm tra update hoặc create user có thành công không
 			Boolean isSuccess = false;
 			// biến kiểm tra user có tồn tại không
-			Boolean isExistedUser = false;
-			
+			Boolean isExistedUser = false;		
 			// 04 submit create user
 			// lấy key add qua request từ 04
 			String keyAdd = request.getParameter("keyAdd");	
@@ -82,7 +83,7 @@ public class AddUserConfirmController extends HttpServlet {
 			// lấy user id từ request của 04
 			int userId = common.parseInt(request.getParameter("user_id"), 0);
 			
-			// nếu user id không bằng 0
+			// nếu user id không bằng 0 - Trường hợp update
 			if (userId != 0) {
 				// kiểm tra user có tồn tại hay không
 				isExistedUser = tblUserLogic.isExistedUser(userId);

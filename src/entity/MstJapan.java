@@ -17,17 +17,6 @@ public class MstJapan {
 	 */
 	public MstJapan() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @param code_level
-	 * @param name_level
-	 */
-	public MstJapan(String code_level, String name_level) {
-		super();
-		this.code_level = code_level;
-		this.name_level = name_level;
 	}
 
 	/**

@@ -27,10 +27,6 @@ import entity.UserInfor;
  */
 public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 
-	// biến đếm để set param cho PreparedStatement getListUser
-	static int count1 = 0;
-	// biến đếm để set param cho PreparedStatement getTotalUser
-	static int count2 = 0;
 	// biến đếm để set param cho PreparedStatement getUserByEmail
 	static int count3 = 0;
 
@@ -44,6 +40,8 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		UserInfor userInfor = new UserInfor();
 		// danh sách các user với thông tin từng user
 		List<UserInfor> lstUserInfor = new ArrayList<>();
+		// biến đếm để set param cho PreparedStatement getTotalUser
+		int count1 = 0;
 		
 		try {
 			connectDB();
@@ -104,7 +102,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			PreparedStatement ps = null;
 			ResultSet rs = null;
 			if (conn != null) {
-
+				
 				ps = conn.prepareStatement(sql.toString());
 
 				// nếu vào trường hợp tìm kiếm có full name
@@ -117,8 +115,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 					count1++;
 					ps.setInt(count1, groupId);
 				}
-				// set lại giá trị cho biến count
-				count1 = 0;
+				
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					userInfor = new UserInfor();
@@ -164,6 +161,8 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	public int getTotalUser(int groupId, String fullName) {
 		// biến đếm số bản ghi
 		int countTotal = 0;
+		// biến đếm để set param cho PreparedStatement getTotalUser
+		int count2 = 0;
 		try {
 			connectDB();
 			StringBuffer sql = new StringBuffer();
@@ -198,8 +197,8 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 					ps.setInt(count2, groupId);
 				}
 
-				// set lại giá trị cho biến count
-				count2 = 0;
+			/*	// set lại giá trị cho biến count
+				count2 = 0;*/
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					// đếm tổng số user
@@ -221,6 +220,8 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	@Override
 	public TblUser getUserByEmail(Integer userId, String email) {
 		TblUser tblUser = new TblUser();
+		// biến đếm để set param cho PreparedStatement getUserByEmail
+		int count3 = 0;
 		try {
 			connectDB();
 			StringBuffer sql = new StringBuffer();
@@ -352,12 +353,13 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		TblUser tblUser = new TblUser();
 		try {
 			connectDB();
-			StringBuffer sql = new StringBuffer();
-			sql.append("select * from tbl_user ");
-			sql.append("where user_id = ?");
-			PreparedStatement ps = null;
-			ResultSet rs = null;
 			if (conn != null) {
+				StringBuffer sql = new StringBuffer();
+				PreparedStatement ps = null;
+				ResultSet rs = null;
+				
+				sql.append("select * from tbl_user ");
+				sql.append("where user_id = ?");
 				ps = conn.prepareStatement(sql.toString());
 				ps.setInt(1, userId);
 				rs = ps.executeQuery();
@@ -383,17 +385,16 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		UserInfor userInfor = new UserInfor();
 		try {
 			connectDB();
-			StringBuffer sql = new StringBuffer();
-			sql.append(
-					"select u.login_name, u.group_id, u.full_name, u.full_name_kana, u.birthday, u.email, u.tel, duj.code_level, duj.start_date, duj.end_date, duj.total ");
-			sql.append("from tbl_user u ");
-			sql.append("left join tbl_detail_user_japan duj on ");
-			sql.append("u.user_id = duj.user_id ");
-			sql.append("where u.user_id = ? ");
-			PreparedStatement ps = null;
-			ResultSet rs = null;
 			if (conn != null) {
-
+				StringBuffer sql = new StringBuffer();
+				PreparedStatement ps = null;
+				ResultSet rs = null;
+				sql.append(
+						"select u.login_name, u.group_id, u.full_name, u.full_name_kana, u.birthday, u.email, u.tel, duj.code_level, duj.start_date, duj.end_date, duj.total ");
+				sql.append("from tbl_user u ");
+				sql.append("left join tbl_detail_user_japan duj on ");
+				sql.append("u.user_id = duj.user_id ");
+				sql.append("where u.user_id = ? ");
 				ps = conn.prepareStatement(sql.toString());
 				ps.setInt(1, userId);
 				rs = ps.executeQuery();

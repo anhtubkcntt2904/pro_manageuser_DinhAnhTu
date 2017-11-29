@@ -44,7 +44,7 @@
 									<option value="0">全て</option>
 									<c:forEach var="group" items="${lstGroup}">
 										<option value="${group.groupId}"
-											${group.groupId == group_id ? 'selected' : ''}>Nhóm ${group.groupId}</option>
+											${group.groupId == group_id ? 'selected' : ''}>${group.groupName}</option>
 									</c:forEach>
 							</select></td>
 							<td align="left"><input class="btn" type="submit" value="検索" />

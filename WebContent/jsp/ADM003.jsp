@@ -25,14 +25,14 @@
 					<div style="padding-left: 100px;">会員情報編集</div>
 				</th>
 			</tr>
-			<tr>
+			
 				<c:forEach var="errMess" items="${lstError}">
 					<tr>
-						<td class="errMsg" colspan="2"><font color="red"><c:out
+						<td class="errMsg" colspan="2" style="padding-left: 90px;"><font color="red"><c:out
 									value="${errMess}" /></font></td>
 					</tr>
 				</c:forEach>
-			</tr>
+			
 			<tr>
 				<td align="left">
 					<div style="padding-left: 100px;">
