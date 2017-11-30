@@ -31,11 +31,11 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 		MstJapan mstJapan = new MstJapan();
 		List<MstJapan> lstMstJapan = new ArrayList<>();
 		try {
-			String sql = "select j.code_level, j.name_level from mst_japan j order by j.code_level desc";
-			PreparedStatement ps = null;
-			ResultSet rs = null;
 			connectDB();
 			if (conn != null) {
+				String sql = "select j.code_level, j.name_level from mst_japan j order by j.code_level desc";
+				PreparedStatement ps = null;
+				ResultSet rs = null;
 				ps = conn.prepareStatement(sql);
 				rs = ps.executeQuery();
 				while (rs.next()) {

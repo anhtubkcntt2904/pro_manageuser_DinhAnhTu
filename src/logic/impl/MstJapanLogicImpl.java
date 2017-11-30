@@ -23,9 +23,9 @@ public class MstJapanLogicImpl implements MstJapanLogic {
 	 */
 	@Override
 	public List<MstJapan> getAllMstJapan() {
-		// TODO Auto-generated method stub
 		MstJapanDaoImpl mstJapanDao = new MstJapanDaoImpl();
-		return mstJapanDao.getAllMstJapan();
+		List<MstJapan> lstMstJapan = mstJapanDao.getAllMstJapan();
+		return lstMstJapan;
 	}
 
 

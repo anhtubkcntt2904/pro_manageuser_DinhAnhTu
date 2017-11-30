@@ -56,8 +56,10 @@ public class AddUserInputController extends HttpServlet {
 				Common common = new Common();
 				// biến kiểm tra user có tồn tại hay không
 				boolean existedUser = false;
+				
 				// lấy user id từ màn 05
 				int userid = common.parseInt(request.getParameter("user_id"), 0);
+				
 				// kiểm tra user có tồn tại không
 				existedUser = tblUserLogic.isExistedUser(userid);
 				// nếu user có tồn tại
@@ -108,7 +110,7 @@ public class AddUserInputController extends HttpServlet {
 			Common common = new Common();
 			//biến set giá trị user id cho user
 			int userId = 0;
-			// biến kiểm tra user có tồn tại hay không
+			// biến kiểm tra user có tồn tại hay không,mặc định là true cho trường hợp thêm mới
 			boolean existedUser = true;
 			
 			// trường hợp click confirm 03

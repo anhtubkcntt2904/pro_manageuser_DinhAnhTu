@@ -10,7 +10,9 @@ import java.sql.SQLException;
 import entity.TblDetailUserJapan;
 
 /**
- * @author LA-AM
+ * interface chứa các thao tác với bảng TblDetailUserJapanDao
+ * 
+ * @author Anh Tú
  *
  */
 public interface TblDetailUserJapanDao {
@@ -30,7 +32,7 @@ public interface TblDetailUserJapanDao {
 	 * phương thức update detail user japan
 	 * 
 	 * @param tblDetailUserJapan
-	 * @param connection 
+	 * @param connection
 	 * @return true hoặc false
 	 */
 	public Boolean updateDetailUserJapan(TblDetailUserJapan tblDetailUserJapan, Connection connection)
@@ -50,6 +52,7 @@ public interface TblDetailUserJapanDao {
 	 * @param code_level
 	 * @param connection
 	 * @return true hoặc false
+	 * @throws SQLException
 	 */
 	public Boolean deleteDetailUserJapan(int userId, Connection connection) throws SQLException;
 

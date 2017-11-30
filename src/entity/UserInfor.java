@@ -7,7 +7,9 @@ package entity;
 import java.util.Date;
 
 /**
- * @author LA-AM
+ * Bean User chứa các thuộc tính của bảng UserInfor
+ * 
+ * @author Anh Tú
  *
  */
 public class UserInfor {
@@ -66,7 +68,6 @@ public class UserInfor {
 	 */
 	public UserInfor() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

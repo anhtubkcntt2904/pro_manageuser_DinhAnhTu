@@ -5,16 +5,15 @@
 package controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import common.Common;
 import common.Constant;
-import entity.UserInfor;
 import logic.impl.TblUserLogicImpl;
-import properties.MessageProperties;
 
 /**
  * Servlet implementation class DeleteUserController
@@ -37,9 +36,7 @@ public class DeleteUserController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			TblUserLogicImpl tblUserLogicImpl = new TblUserLogicImpl();
-
-			// từ màn 05,delete user theo user id
-			int userid = Integer.parseInt(request.getParameter("userid"));
+			Common common = new Common();
 			// biến kiểm tra user có tồn tại không
 			boolean existedUser = false;
 			// biến kiểm tra delete user có thành công không
@@ -47,8 +44,12 @@ public class DeleteUserController extends HttpServlet {
 			// String lưu đường dẫn cần truyền đi
 			String url;
 
+			// từ màn 05,delete user theo user id
+			int userid = common.parseInt(request.getParameter("userid"), 0);
+
 			// kiểm tra user có tồn tại hay không
 			existedUser = tblUserLogicImpl.isExistedUser(userid);
+
 			// nếu user tồn tại
 			if (existedUser) {
 				// xóa thông tin user

@@ -183,7 +183,7 @@ public class ListUserController extends HttpServlet {
 				// lấy danh sách user
 				lstUserInfor = tblUserLogic.getListUser(offSet, limit, groupid, name, sortType, sortByFullname,
 						sortByCodeLevel, sortByEndDate);
-				// Nếu không có user nào được lấy ra
+				// Nếu tổng số user <= 0
 			} else {
 				// Lấy message không có user để hiển thị màn 02
 				String message = mess.getMessageProperties(Constant.MESS_ADM002_NORECORD);

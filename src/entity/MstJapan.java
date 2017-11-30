@@ -5,6 +5,8 @@
 package entity;
 
 /**
+ * Bean chứa các thuộc tính và phương thức của đối tượng MstJapan
+ * 
  * @author AnhTu
  *
  */

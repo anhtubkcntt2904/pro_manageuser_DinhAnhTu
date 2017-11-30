@@ -47,42 +47,53 @@ public class SuccessController extends HttpServlet {
 		switch (type) {
 		// trường hợp vào màn hình error
 		case Constant.SYSTEM_ERROR:
+			mess = new MessageProperties();
 			noti = mess.getMessageProperties("ER015");
+			//Xét câu thông báo lên request
+			request.setAttribute("error", noti);
 			url = Constant.ERROR;
 			break;
 		// trường hợp vào màn hình insert thành công
 		case Constant.INSERT_SUCCESS:
 			mess = new MessageProperties();
 			noti = mess.getMessageProperties("MSG001");
+			//Xét câu thông báo lên request
+			request.setAttribute("mess", noti);
 			url = Constant.SUCCESS;
 			break;
 		// trường hợp vào màn hình delete thành công
 		case Constant.DELETE_SUCCESS:
 			mess = new MessageProperties();
 			noti = mess.getMessageProperties("MSG003");
+			//Xét câu thông báo lên request
+			request.setAttribute("mess", noti);
 			url = Constant.SUCCESS;
 			break;
 		// trường hợp vào màn hình update thành công
 		case Constant.UPDATE_SUCCESS:
 			mess = new MessageProperties();
 			noti = mess.getMessageProperties("MSG002");
+			//Xét câu thông báo lên request
+			request.setAttribute("mess", noti);
 			url = Constant.SUCCESS;
 			break;
 		// trường hợp vào màn hình không có user nào
 		case Constant.UPDATE_NOUSER:
 			mess = new MessageProperties();
 			noti = mess.getMessageProperties("ER013");
+			//Xét câu thông báo lên request
+			request.setAttribute("error", noti);
 			url = Constant.ERROR;
 			break;
 		// trường hợp vào màn hình error
 		default:
 			mess = new MessageProperties();
 			noti = mess.getMessageProperties("ER015");
+			//Xét câu thông báo lên request
+			request.setAttribute("error", noti);
 			url = Constant.ERROR;
 			break;
 		}
-		//Xét câu thông báo lên request
-		request.setAttribute("error", noti);
 		//gửi đến trang tương ứng
 		RequestDispatcher req = request.getRequestDispatcher(url);
 		req.forward(request, response);

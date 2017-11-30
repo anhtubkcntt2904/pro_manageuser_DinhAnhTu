@@ -32,6 +32,7 @@ public class AddUserConfirmController extends HttpServlet {
 
 	/**
 	 * click confirm từ 03
+	 * 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -39,11 +40,12 @@ public class AddUserConfirmController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
+			
 			// lấy key add vào user infor session và gửi sang màn 04
 			String keyAdd = request.getParameter("keyAdd");
 			// lấy user infor trên session theo key adđ
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
-			
+
 			// gửi user infor sang trang 04
 			request.setAttribute("userInfor", userInfor);
 			request.setAttribute("keyAdd", keyAdd);
@@ -58,37 +60,35 @@ public class AddUserConfirmController extends HttpServlet {
 
 	/**
 	 * Click OK từ 04
+	 * 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			//khởi tạo
+			// khởi tạo
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 			HttpSession session = request.getSession();
 			Common common = new Common();
-			
+
 			// String lưu đường dẫn cần truyền đi
 			String url;
 			// biến kiểm tra update hoặc create user có thành công không
 			Boolean isSuccess = false;
 			// biến kiểm tra user có tồn tại không
-			Boolean isExistedUser = false;		
+			Boolean isExistedUser = false;
+
 			// 04 submit create user
 			// lấy key add qua request từ 04
-			String keyAdd = request.getParameter("keyAdd");	
+			String keyAdd = request.getParameter("keyAdd");
 			// lấy user infor trên session bằng key add
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
 			// lấy user id từ request của 04
 			int userId = common.parseInt(request.getParameter("user_id"), 0);
-			
-			// nếu user id không bằng 0 - Trường hợp update
-			if (userId != 0) {
-				// kiểm tra user có tồn tại hay không
-				isExistedUser = tblUserLogic.isExistedUser(userId);
-			}
 
+			// kiểm tra user có tồn tại hay không
+			isExistedUser = tblUserLogic.isExistedUser(userId);
 			// nếu trường hợp thêm mới
 			if (userId == 0 && !isExistedUser) {
 				// thêm mới user
@@ -114,7 +114,7 @@ public class AddUserConfirmController extends HttpServlet {
 
 			// xóa thông tin user infor trên session
 			session.removeAttribute("userInfor" + keyAdd);
-			//chuyển trang
+			// chuyển trang
 			response.sendRedirect(request.getContextPath() + url);
 		} catch (Exception e) {
 			e.printStackTrace();

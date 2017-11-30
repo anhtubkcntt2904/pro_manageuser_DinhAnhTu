@@ -99,6 +99,7 @@ public interface TblUserDao {
 	 * 
 	 * @param tblUser
 	 * @return true hoặc false
+	 * @throws SQLException
 	 */
 	public boolean updateUser(TblUser tblUser,Connection connection) throws SQLException;
 
@@ -117,6 +118,7 @@ public interface TblUserDao {
 	 * 
 	 * @param userId
 	 * @return true hoặc false
+	 * @throws SQLException
 	 */
 	public Boolean deleteUser(int userId, Connection connection) throws SQLException;
 }

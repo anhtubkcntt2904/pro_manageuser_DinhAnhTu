@@ -127,7 +127,6 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			// throw e;
 		}
 		return tblUserJapan;
 	}
