@@ -40,12 +40,10 @@ public class AddUserConfirmController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
-			
 			// lấy key add vào user infor session và gửi sang màn 04
 			String keyAdd = request.getParameter("keyAdd");
 			// lấy user infor trên session theo key adđ
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
-
 			// gửi user infor sang trang 04
 			request.setAttribute("userInfor", userInfor);
 			request.setAttribute("keyAdd", keyAdd);
@@ -70,27 +68,23 @@ public class AddUserConfirmController extends HttpServlet {
 			// khởi tạo
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 			HttpSession session = request.getSession();
-			Common common = new Common();
-
 			// String lưu đường dẫn cần truyền đi
 			String url;
 			// biến kiểm tra update hoặc create user có thành công không
 			Boolean isSuccess = false;
 			// biến kiểm tra user có tồn tại không
 			Boolean isExistedUser = false;
-
 			// 04 submit create user
 			// lấy key add qua request từ 04
 			String keyAdd = request.getParameter("keyAdd");
 			// lấy user infor trên session bằng key add
 			UserInfor userInfor = (UserInfor) session.getAttribute("userInfor" + keyAdd);
 			// lấy user id từ request của 04
-			int userId = common.parseInt(request.getParameter("user_id"), 0);
-
+			int userId = Common.parseInt(request.getParameter("user_id"), 0);
 			// kiểm tra user có tồn tại hay không
 			isExistedUser = tblUserLogic.isExistedUser(userId);
 			// nếu trường hợp thêm mới
-			if (userId == 0 && !isExistedUser) {
+			if (!isExistedUser) {
 				// thêm mới user
 				isSuccess = tblUserLogic.createUser(userInfor);
 				// nếu trường hợp update
@@ -98,7 +92,6 @@ public class AddUserConfirmController extends HttpServlet {
 				// update user vào database
 				isSuccess = tblUserLogic.updateUserInfor(userInfor);
 			}
-
 			// nếu thao thêm mới thành công
 			if (isSuccess && !isExistedUser) {
 				// Link đến trang thông báo thêm mới thành công
@@ -111,7 +104,6 @@ public class AddUserConfirmController extends HttpServlet {
 			} else {
 				url = Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR;
 			}
-
 			// xóa thông tin user infor trên session
 			session.removeAttribute("userInfor" + keyAdd);
 			// chuyển trang
@@ -122,5 +114,4 @@ public class AddUserConfirmController extends HttpServlet {
 					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}
 	}
-
 }

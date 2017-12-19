@@ -1,7 +1,8 @@
-/controller/
-/logic/
-/dao/
-/validate/
 /common/
-/filter/
+/controller/
+/dao/
 /entity/
+/filter/
+/logic/
+/properties/
+/validate/

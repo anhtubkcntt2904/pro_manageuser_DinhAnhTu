@@ -76,7 +76,7 @@ public interface TblUserDao {
 	 * @return user id của user vừa insert
 	 * @throws SQLException
 	 */
-	public int insertUser(TblUser tblUser,Connection connection) throws SQLException;
+	public int insertUser(TblUser tblUser) throws SQLException;
 
 	/**
 	 * phương thức lấy thông tin user bằng user id
@@ -101,7 +101,7 @@ public interface TblUserDao {
 	 * @return true hoặc false
 	 * @throws SQLException
 	 */
-	public boolean updateUser(TblUser tblUser,Connection connection) throws SQLException;
+	public boolean updateUser(TblUser tblUser) throws SQLException;
 
 	/**
 	 * Phương thức update password của người dùng
@@ -111,7 +111,7 @@ public interface TblUserDao {
 	 * @param userId
 	 * @return true hoặc false
 	 */
-	public Boolean updatePass(String pass, String salt, int userId);
+	public boolean updatePass(String pass, String salt, int userId);
 
 	/**
 	 * Xóa thông tin user theo user id
@@ -120,5 +120,14 @@ public interface TblUserDao {
 	 * @return true hoặc false
 	 * @throws SQLException
 	 */
-	public Boolean deleteUser(int userId, Connection connection) throws SQLException;
+	public boolean deleteUser(int userId) throws SQLException;
+
+	/**
+	 * Phương thức kiểm tra user có tồn tại hay không
+	 * 
+	 * @param userid
+	 *            user id cần kiểm tra
+	 * @return true hoặc false
+	 */
+	public boolean isExistedUser(int userid);
 }

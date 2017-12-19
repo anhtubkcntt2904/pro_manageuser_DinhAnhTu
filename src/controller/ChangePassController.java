@@ -40,18 +40,11 @@ public class ChangePassController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			Common common = new Common();
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
-			// biến kiểm tra user có tồn tại hay không
-			boolean existedUser = false;
-
 			// Lấy user id ở màn 05
-			// String userid = request.getParameter("userid");
-			int userid = common.parseInt(request.getParameter("userid"), 0);
-
+			int userid = Common.parseInt(request.getParameter("userid"), 0);
 			// kiểm tra user có tồn tại không
-			existedUser = tblUserLogic.isExistedUser(userid);
-
+			boolean existedUser = tblUserLogic.isExistedUser(userid);
 			if (existedUser) {
 				// set user id ở màn 05 để truyền sang màn 07
 				request.setAttribute("userid", userid);
@@ -76,42 +69,30 @@ public class ChangePassController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
+		// String lưu đường dẫn cần truyền đi
+		String url = "";
 		try {
-			Common common = new Common();
-			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
-			// biến kiểm tra user có tồn tại hay không
-			boolean existedUser = false;
-			// String lưu đường dẫn cần truyền đi
-			String url = "";
-
-			// Lấy ra thông tin pass người dùng thay đổi và user id
-			String newpass = request.getParameter("newpass");
-			String confirmpass = request.getParameter("confirmpass");
-			int userId = common.parseInt(request.getParameter("user_id"), 0);
-
+			int userId = Common.parseInt(request.getParameter("user_id"), 0);
 			// kiểm tra user có tồn tại không
-			existedUser = tblUserLogic.isExistedUser(userId);
-
+			boolean existedUser = tblUserLogic.isExistedUser(userId);
 			// nếu user tồn tại
 			if (existedUser) {
-				// tạo đối tượng validate
-				Validate validate = new Validate();
+				// Lấy ra thông tin pass người dùng thay đổi và user id
+				String newpass = request.getParameter("newpass");
+				String confirmpass = request.getParameter("confirmpass");
 				// mảng chứa lỗi nếu người dùng nhập pass sai
-				List<String> lstErr = new ArrayList<String>();
-
-				lstErr = validate.validatePass(newpass, confirmpass);
+				List<String> lstErr = Validate.validatePass(newpass, confirmpass);
 				// nếu có lỗi thì hiển thị thông báo lỗi lên màn 07
 				if (lstErr.size() > 0) {
 					// set các thuộc tính để gửi sang 07
 					request.setAttribute("lstErr", lstErr);
 					request.setAttribute("userid", userId);
-					request.setAttribute("newpass", newpass);
-					request.setAttribute("confirmpass", confirmpass);
 					// gửi đến 07
 					request.getRequestDispatcher(Constant.ADM007).forward(request, response);
 					// nếu không có lỗi thì thực hiện update pass vào database
 				} else {
-					Boolean check = tblUserLogic.updatePass(newpass, userId);
+					boolean check = tblUserLogic.updatePass(newpass, userId);
 					if (check) {
 						// nếu update thành công
 						url = Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_SUCCESS;
@@ -131,5 +112,4 @@ public class ChangePassController extends HttpServlet {
 					request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.SYSTEM_ERROR);
 		}
 	}
-
 }

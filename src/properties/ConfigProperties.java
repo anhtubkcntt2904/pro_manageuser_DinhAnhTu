@@ -47,7 +47,7 @@ public class ConfigProperties {
 			  * @param key
 			  * @return String value
 			  */
-			public String getConfigProperties(String key) {
+			public static String getConfigProperties(String key) {
 				String string = "";
 		        if (dataConfig.containsKey(key)) { // nếu  map có chứa key truyền vào
 		            string = dataConfig.get(key); // lấy value theo key đó

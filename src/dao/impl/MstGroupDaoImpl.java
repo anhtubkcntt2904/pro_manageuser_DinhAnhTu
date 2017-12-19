@@ -29,18 +29,17 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 	public List<MstGroup> getAllMstGroup() {
 		MstGroup mstGroup = new MstGroup();
 		List<MstGroup> lstMstGroup = new ArrayList<>();
+		String sql = "select * from mst_group";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		try {
-			connectDB();
-			if (conn != null) {
-				String sql = "select g.group_id, g.group_name from mst_group g";
-				PreparedStatement ps = null;
-				ResultSet rs = null;
+			if (connectDB()) {
 				ps = conn.prepareStatement(sql);
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					mstGroup = new MstGroup();
-					int groupId = rs.getInt("g.group_id");
-					String groupName = rs.getString("g.group_name");
+					int groupId = rs.getInt("group_id");
+					String groupName = rs.getString("group_name");
 					mstGroup.setGroupId(groupId);
 					mstGroup.setGroupName(groupName);
 					lstMstGroup.add(mstGroup);
@@ -49,7 +48,7 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			closeDB(conn);
+			closeDB();
 		}
 		return lstMstGroup;
 	}

@@ -6,6 +6,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,6 +31,7 @@ public class LoginController extends HttpServlet {
 	}
 
 	/**
+	 * 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -50,24 +52,25 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		TblUserLogicImpl userLogic = new TblUserLogicImpl();
 		try {
 			String loginName = request.getParameter("loginName");
 			String password = request.getParameter("password");
-			TblUserLogicImpl userLogic = new TblUserLogicImpl();
-			userLogic.lstErr = new ArrayList<>();
 			// Kiểm tra tài khoản đăng nhập có hợp lệ không
-			if (!userLogic.existLogin(loginName, password)) {
-				// nếu không thì quay về trang login và gửi các thông báo lỗi tương ứng cùng với
-				// thông tin loginName
-				request.setAttribute("lstErr", userLogic.lstErr);
-				request.setAttribute("loginName", loginName);
-				RequestDispatcher req = request.getRequestDispatcher("/" + Constant.INDEX);
-				req.forward(request, response);
-			} else {
+			List<String> lstErr = userLogic.checkLogin(loginName, password);
+			//nếu không có lỗi
+			if (lstErr.size() == 0) {
 				// nếu tài khoản đăng nhập hợp lệ thì tạo session và đến trang ADM002
 				HttpSession session = request.getSession();
 				session.setAttribute("loginName", loginName);
 				response.sendRedirect(request.getContextPath() + Constant.ADM002_SERVLET);
+			} else {
+				// thì quay về trang login và gửi các thông báo lỗi tương ứng cùng với
+				// thông tin loginName
+				request.setAttribute("lstErr", lstErr);
+				request.setAttribute("loginName", loginName);
+				RequestDispatcher req = request.getRequestDispatcher("/" + Constant.INDEX);
+				req.forward(request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

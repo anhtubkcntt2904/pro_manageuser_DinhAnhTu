@@ -30,18 +30,17 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 	public List<MstJapan> getAllMstJapan() {
 		MstJapan mstJapan = new MstJapan();
 		List<MstJapan> lstMstJapan = new ArrayList<>();
+		String sql = "select * from mst_japan j order by j.code_level desc";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		try {
-			connectDB();
-			if (conn != null) {
-				String sql = "select j.code_level, j.name_level from mst_japan j order by j.code_level desc";
-				PreparedStatement ps = null;
-				ResultSet rs = null;
+			if (connectDB()) {
 				ps = conn.prepareStatement(sql);
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					mstJapan = new MstJapan();
-					String codeLevel = rs.getString("j.code_level");
-					String nameLevel = rs.getString("j.name_level");
+					String codeLevel = rs.getString("code_level");
+					String nameLevel = rs.getString("name_level");
 					mstJapan.setCode_level(codeLevel);
 					mstJapan.setName_level(nameLevel);
 					lstMstJapan.add(mstJapan);
@@ -50,7 +49,7 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			closeDB(conn);
+			closeDB();
 		}
 		return lstMstJapan;
 	}

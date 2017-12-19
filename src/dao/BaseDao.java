@@ -17,15 +17,29 @@ public interface BaseDao {
 	/**
 	 * Phương thức kết nối đến DB
 	 * 
-	 * @return Connection
+	 * @return true hoặc false
 	 */
-	public Connection connectDB();
+	public boolean connectDB();
 
 	/**
 	 * Phương thức đóng kết nối
-	 * 
-	 * @param connection
 	 */
-	public void closeDB(Connection connection);
+	public void closeDB();
 
+	/**
+	 * phương thức setAutoCommit về false
+	 * 
+	 * @param valueCommit
+	 */
+	public void setAutoCommit(boolean valueCommit);
+
+	/**
+	 * phương thức roll back sql
+	 */
+	public void rollBack();
+
+	/**
+	 * phương thức commit sql
+	 */
+	public void commit();
 }

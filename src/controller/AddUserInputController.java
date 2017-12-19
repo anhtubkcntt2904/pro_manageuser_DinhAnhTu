@@ -41,6 +41,7 @@ public class AddUserInputController extends HttpServlet {
 
 	/**
 	 * trường hợp 02 thêm mới và 05 sửa
+	 * 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -49,17 +50,13 @@ public class AddUserInputController extends HttpServlet {
 		try {
 			// lấy ra kiểu truyền vào
 			String type = request.getParameter("type");
-			switch (type) {
 			// nếu là trường hợp sửa
-			case Constant.EDIT:
+			if (Constant.EDIT.equals(type)) {
 				TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
-				Common common = new Common();
 				// biến kiểm tra user có tồn tại hay không
 				boolean existedUser = false;
-				
 				// lấy user id từ màn 05
-				int userid = common.parseInt(request.getParameter("user_id"), 0);
-				
+				int userid = Common.parseInt(request.getParameter("user_id"), 0);
 				// kiểm tra user có tồn tại không
 				existedUser = tblUserLogic.isExistedUser(userid);
 				// nếu user có tồn tại
@@ -77,8 +74,7 @@ public class AddUserInputController extends HttpServlet {
 					response.sendRedirect(
 							request.getContextPath() + Constant.SUCCESS_SERVLET + "?type=" + Constant.UPDATE_NOUSER);
 				}
-				break;
-			default:
+			} else {
 				// trường hợp 02 thêm mới
 				// lấy giá trị cho selectbox
 				setDataLogic(request, response);
@@ -87,7 +83,6 @@ public class AddUserInputController extends HttpServlet {
 				request.setAttribute("userInfor", userInfor);
 				// truyền sang màn 03
 				request.getRequestDispatcher(Constant.ADM003).forward(request, response);
-				break;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -105,26 +100,22 @@ public class AddUserInputController extends HttpServlet {
 		try {
 			List<String> lstError = new ArrayList<>();
 			UserInfor userInfor = new UserInfor();
-			Validate validate = new Validate();
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
-			Common common = new Common();
-			//biến set giá trị user id cho user
+			// biến set giá trị user id cho user
 			int userId = 0;
-			// biến kiểm tra user có tồn tại hay không,mặc định là true cho trường hợp thêm mới
+			// biến kiểm tra user có tồn tại hay không,mặc định là true cho trường hợp thêm
+			// mới
 			boolean existedUser = true;
-			
 			// trường hợp click confirm 03
 			userInfor = setDefaultValue(request, response);
-			lstError = validate.validateUserInfor(userInfor);
-			// nếu là trường hợp edit
-			if (!"0".equals(request.getParameter("user_id"))) {
-				userId = Integer.parseInt(request.getParameter("user_id"));
+			userId = Common.parseInt(request.getParameter("user_id"), 0);
+			if (userId != 0) {
 				// kiểm tra user có tồn tại hay không
 				existedUser = tblUserLogic.isExistedUser(userId);
 			}
-	
 			// nếu user tồn tại hoặc mặc định trường hợp đầu là thêm mới
 			if (existedUser) {
+				lstError = Validate.validateUserInfor(userInfor);
 				// nếu có lỗi validate
 				if (lstError.size() > 0) {
 					// set giá trị cho selectbox
@@ -136,7 +127,7 @@ public class AddUserInputController extends HttpServlet {
 				} else {
 					HttpSession session = request.getSession();
 					// tạo key để thêm vào userInfor session,tạo userinfor riêng
-					long keyAdd = common.createKey();
+					long keyAdd = Common.createKey();
 					// thêm user infor vào session
 					session.setAttribute("userInfor" + keyAdd, userInfor);
 					// chuyển sang trang 04
@@ -164,9 +155,8 @@ public class AddUserInputController extends HttpServlet {
 		// Khởi tạo
 		MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
 		MstJapanLogicImpl mstJapanLogic = new MstJapanLogicImpl();
-		Common common = new Common();
 		// năm hiện tại
-		int yearNow = common.getYearNow();
+		int yearNow = Common.getYearNow();
 		// năm bắt đầu của select box
 		int yearStart = Constant.START_YEAR;
 
@@ -174,11 +164,11 @@ public class AddUserInputController extends HttpServlet {
 		List<MstGroup> lstMstGroup = mstGroupLogic.getAllGroup();
 		List<MstJapan> lstMstJapan = mstJapanLogic.getAllMstJapan();
 		// lấy danh sách ngày,tháng và năm
-		List<Integer> lstDay = common.getListDay();
-		List<Integer> lstMonth = common.getListMonth();
+		List<Integer> lstDay = Common.getListDay();
+		List<Integer> lstMonth = Common.getListMonth();
 		// lấy danh sách năm và danh sách năm end validate
-		List<Integer> lstYear = common.getListYear(yearStart, yearNow);
-		List<Integer> lstYearEnd = common.getListYear(yearStart, yearNow + 1);
+		List<Integer> lstYear = Common.getListYear(yearStart, yearNow);
+		List<Integer> lstYearEnd = Common.getListYear(yearStart, yearNow + 1);
 
 		// set các thuộc tính lên request
 		request.setAttribute("lstMstGroup", lstMstGroup);
@@ -201,31 +191,27 @@ public class AddUserInputController extends HttpServlet {
 			throws ServletException, IOException {
 		UserInfor userInfor = new UserInfor();
 		Calendar now = Calendar.getInstance();
-		Common common = new Common();
 
 		String type = request.getParameter("type");
-		// tháng hiện tại 
+		// tháng hiện tại
 		int monthnow = now.get(Calendar.MONTH) + 1;
 		// ngày hiện tại
 		int daynow = now.get(Calendar.DATE);
 		// năm hiện tại
-		int yearnow = common.getYearNow();
+		int yearnow = Common.getYearNow();
 
 		switch (type) {
-		case Constant.DEFAULT:
+		case Constant.ADD:
 			// trường hợp default vào màn hình
 			userInfor = new UserInfor();
-
 			// lấy ngày tháng năm hiện tại cho birthday select box
 			userInfor.setYearbirthday(yearnow);
 			userInfor.setMonthbirthday(monthnow);
 			userInfor.setDaybirthday(daynow);
-
 			// lấy ngày tháng năm hiện tại cho start date select box
 			userInfor.setYearvalidate(yearnow);
 			userInfor.setMonthvalidate(monthnow);
 			userInfor.setDayvalidate(daynow);
-
 			// lấy ngày tháng năm hiện tại cho end date select box
 			userInfor.setYearinvalidate(yearnow + 1);
 			userInfor.setMonthinvalidate(monthnow);
@@ -236,9 +222,9 @@ public class AddUserInputController extends HttpServlet {
 			userInfor = new UserInfor();
 
 			// Lấy ra thông tin của user
-			int userId = common.parseInt(request.getParameter("user_id"), 0);
+			int userId = Common.parseInt(request.getParameter("user_id"), 0);
 			String loginName = request.getParameter("loginName");
-			int group_id = common.convertStringToInt(request.getParameter("group_id"));
+			int group_id = Common.convertStringToInt(request.getParameter("group_id"));
 			String fullName = request.getParameter("fullName");
 			String fullNameKana = request.getParameter("fullNameKana");
 			String email = request.getParameter("email");
@@ -248,10 +234,10 @@ public class AddUserInputController extends HttpServlet {
 			String code_level = request.getParameter("code_level");
 
 			// lấy ra birthday của user
-			int yearbirthday = common.convertStringToInt(request.getParameter("yearbirthday"));
-			int monthbirthday = common.convertStringToInt(request.getParameter("monthbirthday"));
-			int daybirthday = common.convertStringToInt(request.getParameter("daybirthday"));
-			Date dateBirthday = common.toDate(yearbirthday, monthbirthday, daybirthday);			
+			int yearbirthday = Common.convertStringToInt(request.getParameter("yearbirthday"));
+			int monthbirthday = Common.convertStringToInt(request.getParameter("monthbirthday"));
+			int daybirthday = Common.convertStringToInt(request.getParameter("daybirthday"));
+			Date dateBirthday = Common.toDate(yearbirthday, monthbirthday, daybirthday);
 
 			Date dateValidate, dateInvalidate;
 			String total;
@@ -261,16 +247,16 @@ public class AddUserInputController extends HttpServlet {
 			// nếu màn 03 user có TĐTN
 			if (!"0".equals(code_level)) {
 				// lấy ra ngày cấp chứng chỉ của user
-				yearvalidate = common.convertStringToInt(request.getParameter("yearvalidate"));
-				monthvalidate = common.convertStringToInt(request.getParameter("monthvalidate"));
-				dayvalidate = common.convertStringToInt(request.getParameter("dayvalidate"));
-				dateValidate = common.toDate(yearvalidate, monthvalidate, dayvalidate);
+				yearvalidate = Common.convertStringToInt(request.getParameter("yearvalidate"));
+				monthvalidate = Common.convertStringToInt(request.getParameter("monthvalidate"));
+				dayvalidate = Common.convertStringToInt(request.getParameter("dayvalidate"));
+				dateValidate = Common.toDate(yearvalidate, monthvalidate, dayvalidate);
 
 				// lấy ra ngày hết hạn chứng chỉ của user
-				yearinvalidate = common.convertStringToInt(request.getParameter("yearinvalidate"));
-				monthinvalidate = common.convertStringToInt(request.getParameter("monthinvalidate"));
-				dayinvalidate = common.convertStringToInt(request.getParameter("dayinvalidate"));
-				dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
+				yearinvalidate = Common.convertStringToInt(request.getParameter("yearinvalidate"));
+				monthinvalidate = Common.convertStringToInt(request.getParameter("monthinvalidate"));
+				dayinvalidate = Common.convertStringToInt(request.getParameter("dayinvalidate"));
+				dateInvalidate = Common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
 
 				total = request.getParameter("total");
 				// nếu không có TĐTN
@@ -279,16 +265,15 @@ public class AddUserInputController extends HttpServlet {
 				yearvalidate = yearnow;
 				monthvalidate = monthnow;
 				dayvalidate = daynow;
-				dateValidate = common.toDate(yearvalidate, monthvalidate, dayvalidate);
+				dateValidate = Common.toDate(yearvalidate, monthvalidate, dayvalidate);
 
 				yearinvalidate = yearnow + 1;
 				monthinvalidate = monthnow;
 				dayinvalidate = daynow;
-				dateInvalidate = common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
+				dateInvalidate = Common.toDate(yearinvalidate, monthinvalidate, dayinvalidate);
 
 				total = "";
 			}
-
 			// set các giá trị vừa lấy được vào user infor
 			userInfor.setUserId(userId);
 			userInfor.setLoginName(loginName);
@@ -316,7 +301,6 @@ public class AddUserInputController extends HttpServlet {
 			userInfor.setDayinvalidate(dayinvalidate);
 			userInfor.setTotal(total);
 			break;
-
 		// 04 click back
 		case Constant.BACK:
 			// lấy ra key
@@ -326,38 +310,35 @@ public class AddUserInputController extends HttpServlet {
 			// hủy session attribute user infor
 			request.getSession().removeAttribute("userInfor" + keyBack);
 			break;
-
 		// 04 click ok
 		case Constant.OK:
 			// lấy ra key
 			String keyOK = request.getParameter("keyAdd");
 			// Lấy ra thông tin user infor theo key
 			userInfor = (UserInfor) request.getSession().getAttribute("userInfor" + keyOK);
-
 			// 05 click edit
 		case Constant.EDIT:
 			// khởi tạo
 			TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
-
 			// Lấy ra user id
-			int userid = common.parseInt(request.getParameter("user_id"), 0);
+			int userid = Common.parseInt(request.getParameter("user_id"), 0);
 			// Lấy thông tin user infor theo user id
 			userInfor = tblUserLogic.getUserInforById(userid);
 			// Lấy thông tin và ngày sinh
-			ArrayList<Integer> lstBirthday = common.toArrayInteger(userInfor.getBirthday());
+			ArrayList<Integer> lstBirthday = Common.toArrayInteger(userInfor.getBirthday());
 			userInfor.setDaybirthday(lstBirthday.get(2));
 			userInfor.setMonthbirthday(lstBirthday.get(1));
 			userInfor.setYearbirthday(lstBirthday.get(0));
 			// nếu user có TĐTN
 			if (userInfor.getCodeLevel() != null) {
 				// Lấy thông tin ngày tháng năm của start date
-				ArrayList<Integer> lstStartDate = common.toArrayInteger(userInfor.getStartDate());
+				ArrayList<Integer> lstStartDate = Common.toArrayInteger(userInfor.getStartDate());
 				userInfor.setDayvalidate(lstStartDate.get(2));
 				userInfor.setMonthvalidate(lstStartDate.get(1));
 				userInfor.setYearvalidate(lstStartDate.get(0));
 
 				// Lấy thông tin ngày tháng năm của end date
-				ArrayList<Integer> lstEndDate = common.toArrayInteger(userInfor.getEndDate());
+				ArrayList<Integer> lstEndDate = Common.toArrayInteger(userInfor.getEndDate());
 				userInfor.setDayinvalidate(lstEndDate.get(2));
 				userInfor.setMonthinvalidate(lstEndDate.get(1));
 				userInfor.setYearinvalidate(lstEndDate.get(0));

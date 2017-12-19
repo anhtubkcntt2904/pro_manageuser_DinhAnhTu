@@ -47,7 +47,7 @@ public class MessageProperties {
 		  * @param key
 		  * @return String value
 		  */
-		public String getMessageProperties(String key) {
+		public static String getMessageProperties(String key) {
 			String string = "";
 	        if (dataMessage.containsKey(key)) { // nếu  map có chứa key truyền vào
 	            string = dataMessage.get(key); // lấy value theo key đó

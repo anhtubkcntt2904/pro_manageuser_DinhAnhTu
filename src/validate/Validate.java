@@ -31,22 +31,20 @@ public class Validate {
 	 *            mật khẩu
 	 * @return Danh sách các lỗi
 	 */
-	public List<String> validateLogin(String loginName, String password) {
+	public static List<String> validateLogin(String loginName, String password) {
 		List<String> lstErr = new ArrayList<>();
-		AdminProperties adminProp = new AdminProperties();
-		MessageProperties messProp = new MessageProperties();
 		// nếu thông tin nhập vào login là rỗng
-		if (loginName.trim().length() == 0 || password.trim().length() == 0) {
+		if (loginName.length() == 0 || password.length() == 0) {
 			// thêm thông báo lỗi tương ứng
-			lstErr.add(messProp.getMessageProperties("ER001_LOGIN"));
+			lstErr.add(MessageProperties.getMessageProperties("ER001_LOGIN"));
 		}
 		// nếu nhập đầy đủ
-		else if (loginName.trim().length() != 0 && password.trim().length() != 0) {
+		else {
 			// xét xem thông tin nhập vào có đúng không
-			if (!adminProp.getAdminProperties("loginName").equals(loginName)
-					|| !adminProp.getAdminProperties("password").equals(password)) {
+			if (!AdminProperties.getAdminProperties("loginName").equals(loginName)
+					|| !AdminProperties.getAdminProperties("password").equals(password)) {
 				// nếu không đúng thì add lỗi vào list lỗi
-				lstErr.add(messProp.getMessageProperties("ER004_LOGIN"));
+				lstErr.add(MessageProperties.getMessageProperties("ER004_LOGIN"));
 			}
 		}
 		return lstErr;
@@ -59,10 +57,8 @@ public class Validate {
 	 *            thông tin user
 	 * @return danh sách lỗi
 	 */
-	public List<String> validateUserInfor(UserInfor userInfor) {
+	public static List<String> validateUserInfor(UserInfor userInfor) {
 		List<String> lstError = new ArrayList<>();
-		MessageProperties messProp = new MessageProperties();
-		Common common = new Common();
 		TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
 		MstGroupLogicImpl mstGroupLogic = new MstGroupLogicImpl();
 		MstJapanLogicImpl mstJapanLogic = new MstJapanLogicImpl();
@@ -76,9 +72,9 @@ public class Validate {
 		boolean checkKana = userInfor.getFullNameKana().matches(kanaformat);
 
 		// check birthday
-		String dateBirthday = common.convertToString(userInfor.getYearbirthday(), userInfor.getMonthbirthday(),
+		String dateBirthday = Common.convertToString(userInfor.getYearbirthday(), userInfor.getMonthbirthday(),
 				userInfor.getDaybirthday());
-		boolean checkBirthday = common.isValidDate(dateBirthday);
+		boolean checkBirthday = Common.isValidDate(dateBirthday);
 
 		// check email
 		String emailformat = "[a-zA-Z_.0-9]+@[a-zA-Z_.0-9]+";
@@ -87,7 +83,7 @@ public class Validate {
 		boolean checkPass = true;
 		if (userInfor.getPassword() != null) {
 			// check password
-			checkPass = common.checkByte(userInfor.getPassword());
+			checkPass = Common.checkByte(userInfor.getPassword());
 		}
 
 		// check existed login name
@@ -110,14 +106,14 @@ public class Validate {
 			boolean checkCodeLevel = mstJapanLogic.existedCodelevel(userInfor.getCodeLevel());
 
 			// check start date
-			String startDate = common.convertToString(userInfor.getYearvalidate(), userInfor.getMonthvalidate(),
+			String startDate = Common.convertToString(userInfor.getYearvalidate(), userInfor.getMonthvalidate(),
 					userInfor.getDayvalidate());
-			boolean checkStartDate = common.isValidDate(startDate);
+			boolean checkStartDate = Common.isValidDate(startDate);
 
 			// check end date
-			String endDate = common.convertToString(userInfor.getYearinvalidate(), userInfor.getMonthinvalidate(),
+			String endDate = Common.convertToString(userInfor.getYearinvalidate(), userInfor.getMonthinvalidate(),
 					userInfor.getDayinvalidate());
-			boolean checkEndDate = common.isValidDate(endDate);
+			boolean checkEndDate = Common.isValidDate(endDate);
 
 			// check total
 			String totalhalfsize = "[0-9]+";
@@ -126,31 +122,31 @@ public class Validate {
 			// validate start date
 			if (!checkStartDate) {
 				// ngày không hợp lệ
-				lstError.add(messProp.getMessageProperties("ER011_STARTDATE"));
+				lstError.add(MessageProperties.getMessageProperties("ER011_STARTDATE"));
 			}
 
 			// validate code level
 			if (!checkCodeLevel) {
 				// code level không tồn tại
-				lstError.add(messProp.getMessageProperties("ER004_CODELEVEL"));
+				lstError.add(MessageProperties.getMessageProperties("ER004_CODELEVEL"));
 			}
 
 			// validate end date
 			if (!checkEndDate) {
 				// ngày không hợp lệ
-				lstError.add(messProp.getMessageProperties("ER011_ENDDATE"));
+				lstError.add(MessageProperties.getMessageProperties("ER011_ENDDATE"));
 			} else if (userInfor.getEndDate().before(userInfor.getStartDate())
 					|| userInfor.getEndDate().equals(userInfor.getStartDate())) {
 				// ngày hết hạn nhỏ hơn ngày cấp chứng chỉ
-				lstError.add(messProp.getMessageProperties("ER012_ENDDATE"));
+				lstError.add(MessageProperties.getMessageProperties("ER012_ENDDATE"));
 			}
 
 			// validate total
 			if (userInfor.getTotal().trim().length() == 0) {
 				// không nhập
-				lstError.add(messProp.getMessageProperties("ER001_TOTAL"));
+				lstError.add(MessageProperties.getMessageProperties("ER001_TOTAL"));
 			} else if (!checkTotal) {
-				lstError.add(messProp.getMessageProperties("ER0018_TOTAL"));
+				lstError.add(MessageProperties.getMessageProperties("ER0018_TOTAL"));
 			}
 		}
 
@@ -159,78 +155,78 @@ public class Validate {
 			// validate loginName
 			if (userInfor.getLoginName().trim().length() == 0) {
 				// thêm thông báo lỗi không nhập
-				lstError.add(messProp.getMessageProperties("ER001_LOGINNAME"));
+				lstError.add(MessageProperties.getMessageProperties("ER001_LOGINNAME"));
 			} else if (userInfor.getLoginName().trim().length() < 4 || userInfor.getLoginName().trim().length() > 15) {
 				// thêm thông báo độ dài nhập không hợp lệ
-				lstError.add(messProp.getMessageProperties("ER007_LOGINNAME"));
+				lstError.add(MessageProperties.getMessageProperties("ER007_LOGINNAME"));
 			} else if (checkLoginName != true) {
 				// format login name không hợp lệ
-				lstError.add(messProp.getMessageProperties("ER019_LOGINNAME"));
+				lstError.add(MessageProperties.getMessageProperties("ER019_LOGINNAME"));
 			} else if (existedLoginName) {
 				// tên đăng nhập đã tồn tại
-				lstError.add(messProp.getMessageProperties("ER003_LOGINNAME"));
+				lstError.add(MessageProperties.getMessageProperties("ER003_LOGINNAME"));
 			}
 		}
 
 		// validate group id
 		if (userInfor.getGroupId() == 0) {
 			// không chọn group id
-			lstError.add(messProp.getMessageProperties("ER002_GROUPID"));
+			lstError.add(MessageProperties.getMessageProperties("ER002_GROUPID"));
 		} else if (!checkGroupId) {
 			// group id không tồn tại
-			lstError.add(messProp.getMessageProperties("ER004_GROUPID"));
+			lstError.add(MessageProperties.getMessageProperties("ER004_GROUPID"));
 		}
 
 		// validate fullname
 		if (userInfor.getFullName().trim().length() == 0) {
 			// thêm thông báo lỗi không nhập
-			lstError.add(messProp.getMessageProperties("ER001_FULLNAME"));
+			lstError.add(MessageProperties.getMessageProperties("ER001_FULLNAME"));
 		} else if (userInfor.getFullName().trim().length() > 255) {
 			// nhập lớn hơn maxlength
-			lstError.add(messProp.getMessageProperties("ER006_FULLNAME"));
+			lstError.add(MessageProperties.getMessageProperties("ER006_FULLNAME"));
 		}
 
 		// validate fullname kana
 		if (userInfor.getFullNameKana().trim().length() > 255) {
 			// thêm thông báo lỗi không nhập
-			lstError.add(messProp.getMessageProperties("ER006_FULLNAMEKANA"));
-		} else if (!common.checkKana(userInfor.getFullNameKana())) {
-			lstError.add(messProp.getMessageProperties("ER009_FULLNAMEKANA"));
+			lstError.add(MessageProperties.getMessageProperties("ER006_FULLNAMEKANA"));
+		} else if (!Common.checkKana(userInfor.getFullNameKana())) {
+			lstError.add(MessageProperties.getMessageProperties("ER009_FULLNAMEKANA"));
 		}
 
 		// validate ngày sinh
 		if (!checkBirthday) {
 			// ngày sinh không hợp lệ
-			lstError.add(messProp.getMessageProperties("ER011_BIRTHDAY"));
+			lstError.add(MessageProperties.getMessageProperties("ER011_BIRTHDAY"));
 		}
 
 		// validate email
 		if (userInfor.getEmail().trim().length() == 0) {
 			// không nhập
-			lstError.add(messProp.getMessageProperties("ER001_EMAIL"));
+			lstError.add(MessageProperties.getMessageProperties("ER001_EMAIL"));
 		} else if (!checkEmail) {
 			// sai format
-			lstError.add(messProp.getMessageProperties("ER005_EMAIL"));
+			lstError.add(MessageProperties.getMessageProperties("ER005_EMAIL"));
 		} else if (existedEmail) {
 			// email đã tồn tại
-			lstError.add(messProp.getMessageProperties("ER003_EMAIL"));
+			lstError.add(MessageProperties.getMessageProperties("ER003_EMAIL"));
 		} else if (userInfor.getEmail().trim().length() > 255) {
 			// maxlength
-			lstError.add(messProp.getMessageProperties("ER006_EMAIL"));
+			lstError.add(MessageProperties.getMessageProperties("ER006_EMAIL"));
 		}
 
 		// validate tel
 		if (userInfor.getTel().trim().length() == 0) {
 			// không nhập
-			lstError.add(messProp.getMessageProperties("ER001_TEL"));
+			lstError.add(MessageProperties.getMessageProperties("ER001_TEL"));
 		} else {
 			if (!checkTel)
 				// không đúng định dạng
-				lstError.add(messProp.getMessageProperties("ER005_TEL"));
+				lstError.add(MessageProperties.getMessageProperties("ER005_TEL"));
 			else {
 				if (userInfor.getTel().trim().length() > 14) {
 					// maxlength
-					lstError.add(messProp.getMessageProperties("ER006_TEL"));
+					lstError.add(MessageProperties.getMessageProperties("ER006_TEL"));
 				}
 			}
 		}
@@ -240,18 +236,18 @@ public class Validate {
 			// validate pass
 			if (userInfor.getPassword().trim().length() == 0) {
 				// không nhập
-				lstError.add(messProp.getMessageProperties("ER001_PASS"));
+				lstError.add(MessageProperties.getMessageProperties("ER001_PASS"));
 			} else if (!checkPass) {
 				// nhập vào kí tự > 1byte
-				lstError.add(messProp.getMessageProperties("ER008_PASS"));
+				lstError.add(MessageProperties.getMessageProperties("ER008_PASS"));
 			} else if (userInfor.getPassword().trim().length() < 5 || userInfor.getPassword().trim().length() > 15) {
-				lstError.add(messProp.getMessageProperties("ER007_PASS"));
+				lstError.add(MessageProperties.getMessageProperties("ER007_PASS"));
 			}
 
 			// validate confirm pass
 			if (!userInfor.getPassword().equals(userInfor.getConfirmpass())) {
 				// pass không trùng
-				lstError.add(messProp.getMessageProperties("ER017_CONFIRMPASS"));
+				lstError.add(MessageProperties.getMessageProperties("ER017_CONFIRMPASS"));
 			}
 
 		}
@@ -259,35 +255,22 @@ public class Validate {
 		return lstError;
 	}
 
-	public List<String> validatePass(String newpass, String confirmpass) {
+	public static List<String> validatePass(String newpass, String confirmpass) {
 		List<String> lstError = new ArrayList<>();
-		MessageProperties messProp = new MessageProperties();
-		Common common = new Common();
-
-		boolean checkPass = true;
-		if (newpass != null) {
-			// check password
-			checkPass = common.checkByte(newpass);
+		// validate pass
+		if (newpass.length() == 0 || newpass == null) {
+			// không nhập
+			lstError.add(MessageProperties.getMessageProperties("ER001_PASS"));
+		} else if (!Common.checkByte(newpass)) {
+			// nhập vào kí tự > 1byte
+			lstError.add(MessageProperties.getMessageProperties("ER008_PASS"));
+		} else if (newpass.length() < 5 || newpass.length() > 15) {
+			lstError.add(MessageProperties.getMessageProperties("ER007_PASS"));
 		}
-
-		if (newpass != null) {
-			// validate pass
-			if (newpass.length() == 0) {
-				// không nhập
-				lstError.add(messProp.getMessageProperties("ER001_PASS"));
-			} else if (!checkPass) {
-				// nhập vào kí tự > 1byte
-				lstError.add(messProp.getMessageProperties("ER008_PASS"));
-			} else if (newpass.length() < 5 || newpass.length() > 15) {
-				lstError.add(messProp.getMessageProperties("ER007_PASS"));
-			}
-
-			// validate confirm pass
-			if (!newpass.equals(confirmpass)) {
-				// pass không trùng
-				lstError.add(messProp.getMessageProperties("ER017_CONFIRMPASS"));
-			}
-
+		// validate confirm pass
+		if (!newpass.equals(confirmpass)) {
+			// pass không trùng
+			lstError.add(MessageProperties.getMessageProperties("ER017_CONFIRMPASS"));
 		}
 
 		return lstError;

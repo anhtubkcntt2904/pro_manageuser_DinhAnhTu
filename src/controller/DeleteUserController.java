@@ -36,20 +36,14 @@ public class DeleteUserController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			TblUserLogicImpl tblUserLogicImpl = new TblUserLogicImpl();
-			Common common = new Common();
-			// biến kiểm tra user có tồn tại không
-			boolean existedUser = false;
 			// biến kiểm tra delete user có thành công không
 			Boolean check = false;
 			// String lưu đường dẫn cần truyền đi
 			String url;
-
 			// từ màn 05,delete user theo user id
-			int userid = common.parseInt(request.getParameter("userid"), 0);
-
+			int userid = Common.parseInt(request.getParameter("userid"), 0);
 			// kiểm tra user có tồn tại hay không
-			existedUser = tblUserLogicImpl.isExistedUser(userid);
-
+			boolean existedUser = tblUserLogicImpl.isExistedUser(userid);
 			// nếu user tồn tại
 			if (existedUser) {
 				// xóa thông tin user

@@ -23,7 +23,7 @@ public interface TblUserLogic {
 	 * @param password
 	 * @return true or false
 	 */
-	public boolean existLogin(String loginName, String password);
+	public List<String> checkLogin(String loginName, String password);
 
 	/**
 	 * phương thức lấy danh sách user
@@ -76,7 +76,7 @@ public interface TblUserLogic {
 	 * @param userInfor
 	 * @return true hoặc false
 	 */
-	public Boolean createUser(UserInfor userInfor) throws SQLException;
+	public boolean createUser(UserInfor userInfor) throws SQLException;
 
 	/**
 	 * phương thức kiểm tra user có tồn tại hay không
@@ -101,7 +101,7 @@ public interface TblUserLogic {
 	 * @param userInfor
 	 * @return true hoặc false
 	 */
-	public Boolean updateUserInfor(UserInfor userInfor) throws SQLException;
+	public boolean updateUserInfor(UserInfor userInfor) throws SQLException;
 
 	/**
 	 * phương thức kiểm tra user có code level không
@@ -109,7 +109,7 @@ public interface TblUserLogic {
 	 * @param userId
 	 * @return true hoặc false
 	 */
-	public Boolean checkUserCodeLevel(int userId);
+	public boolean checkUserCodeLevel(int userId);
 
 	/**
 	 * update password của người dùng
@@ -117,7 +117,7 @@ public interface TblUserLogic {
 	 * @param pass
 	 * @return true hoặc false
 	 */
-	public Boolean updatePass(String pass, int userId);
+	public boolean updatePass(String pass, int userId);
 
 	/**
 	 * phương thức delete thông tin của một user dựa vào user id Hàm này có dùng
@@ -127,5 +127,5 @@ public interface TblUserLogic {
 	 * @param userId
 	 * @return true hoặc false
 	 */
-	public Boolean deleteUser(int userId) throws SQLException;
+	public boolean deleteUser(int userId) throws SQLException;
 }

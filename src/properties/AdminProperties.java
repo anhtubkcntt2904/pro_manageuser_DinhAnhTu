@@ -47,7 +47,7 @@ public class AdminProperties {
 	  * @param key
 	  * @return String value
 	  */
-	public String getAdminProperties(String key) {
+	public static String getAdminProperties(String key) {
 		String string = "";
         if (data.containsKey(key)) { // nếu  map có chứa key truyền vào
             string = data.get(key); // lấy value theo key đó

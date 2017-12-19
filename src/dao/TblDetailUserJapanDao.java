@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -21,11 +22,10 @@ public interface TblDetailUserJapanDao {
 	 * phương thức insert detail user japan
 	 * 
 	 * @param tblDetailUserJapan
-	 * @param connection
 	 * @return true hoặc false
 	 * @throws SQLException
 	 */
-	public Boolean insertDetailUserJapan(TblDetailUserJapan tblDetailUserJapan, Connection connection)
+	public boolean insertDetailUserJapan(TblDetailUserJapan tblDetailUserJapan)
 			throws SQLException;
 
 	/**
@@ -35,7 +35,7 @@ public interface TblDetailUserJapanDao {
 	 * @param connection
 	 * @return true hoặc false
 	 */
-	public Boolean updateDetailUserJapan(TblDetailUserJapan tblDetailUserJapan, Connection connection)
+	public boolean updateDetailUserJapan(TblDetailUserJapan tblDetailUserJapan)
 			throws SQLException;
 
 	/**
@@ -50,10 +50,16 @@ public interface TblDetailUserJapanDao {
 	 * xóa detail user japan theo code level
 	 * 
 	 * @param code_level
-	 * @param connection
 	 * @return true hoặc false
 	 * @throws SQLException
 	 */
-	public Boolean deleteDetailUserJapan(int userId, Connection connection) throws SQLException;
+	public boolean deleteDetailUserJapan(int userId) throws SQLException;
+	
+	/**
+	 * phương thức kiểm tra user có tồn tại detail user japan không
+	 * @param userid
+	 * @return true hoặc false
+	 */
+	public boolean isExistDetailUserJapan(int userid);
 
 }

@@ -49,7 +49,7 @@
 							</select></td>
 							<td align="left"><input class="btn" type="submit" value="検索" />
 								<input class="btn" type="button" value="新規追加"
-								onclick="location.href='/manage_user/AddUserInput.do?type=default';" /></td>
+								onclick="location.href='/manage_user/AddUserInput.do?type=add';" /></td>
 						</tr>
 					</table>
 				</td>
@@ -65,10 +65,10 @@
 			<th align="center" width="20px">ID</th>
 			<th align="left">氏名 <c:choose>
 					<c:when test="${sessionScope.sortByFullname == 'asc'}">
-						<a href="ListUser.do?type=sort&sortType=full_name">▲▽</a>
+						<a href="ListUser.do?type=sort&sortType=full_name&sortValue=${sessionScope.sortByFullname}">▲▽</a>
 					</c:when>
 					<c:otherwise>
-						<a href="ListUser.do?type=sort&sortType=full_name">△▼</a>
+						<a href="ListUser.do?type=sort&sortType=full_name&sortValue=${sessionScope.sortByFullname}">△▼</a>
 					</c:otherwise>
 				</c:choose>
 			</th>
@@ -78,19 +78,19 @@
 			<th align="left" width="70px">電話番号</th>
 			<th align="left">日本語能力 <c:choose>
 					<c:when test="${sessionScope.sortByCodeLevel == 'asc'}">
-						<a href="ListUser.do?type=sort&sortType=code_level">▲▽</a>
+						<a href="ListUser.do?type=sort&sortType=code_level&sortValue=${sessionScope.sortByCodeLevel}">▲▽</a>
 					</c:when>
 					<c:otherwise>
-						<a href="ListUser.do?type=sort&sortType=code_level">△▼</a>
+						<a href="ListUser.do?type=sort&sortType=code_level&sortValue=${sessionScope.sortByCodeLevel}">△▼</a>
 					</c:otherwise>
 				</c:choose>
 			</th>
 			<th align="left">失効日 <c:choose>
 					<c:when test="${sessionScope.sortByEndDate == 'asc'}">
-						<a href="ListUser.do?type=sort&sortType=end_date">▲▽</a>
+						<a href="ListUser.do?type=sort&sortType=end_date&sortValue=${sessionScope.sortByEndDate}">▲▽</a>
 					</c:when>
 					<c:otherwise>
-						<a href="ListUser.do?type=sort&sortType=end_date">△▼</a>
+						<a href="ListUser.do?type=sort&sortType=end_date&sortValue=${sessionScope.sortByEndDate}">△▼</a>
 					</c:otherwise>
 				</c:choose>
 			</th>

@@ -39,15 +39,16 @@
 				<tr>
 					<td class="lbl_left">New Pass:</td>
 					<td align="left"><input class="txBox" type="password"
-						maxlength="15" name="newpass" value="${fn:escapeXml(newpass)}"
-						size="20" onfocus="this.style.borderColor='#0066ff';"
+						maxlength="15" name="newpass"
+						value="<c:out  value=""  escapeXml="true"/>" size="20"
+						onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" /></td>
 				</tr>
 				<tr>
 					<td class="lbl_left">Confirm Pass:</td>
 					<td align="left"><input class="txBox" type="password"
-						maxlength="15" name="confirmpass"
-						value="${fn:escapeXml(confirmpass)}" size="22"
+						maxlength="15" name="confirmpass" size="20"
+						value="<c:out  value=""  escapeXml="true"/>"
 						onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" /></td>
 				</tr>

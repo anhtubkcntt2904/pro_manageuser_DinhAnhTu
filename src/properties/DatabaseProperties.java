@@ -47,7 +47,7 @@ public class DatabaseProperties {
 		  * @param key
 		  * @return String value
 		  */
-		public String getDBProperties(String key) {
+		public static String getDBProperties(String key) {
 			String string = "";
 	        if (dataDB.containsKey(key)) { // nếu  map có chứa key truyền vào
 	            string = dataDB.get(key); // lấy value theo key đó

@@ -19,50 +19,89 @@ import properties.DatabaseProperties;
  *
  */
 public class BaseDaoImpl implements BaseDao {
-	protected Connection conn = null;
-
+	protected static Connection conn = null;
 
 	/**
 	 * @see dao.BaseDao#connectDB()
 	 */
 	@Override
-	public Connection connectDB() {
-		DatabaseProperties dbProp = new DatabaseProperties();
+	public boolean connectDB() {
 		// thông tin kết nối database
-		String driver = dbProp.getDBProperties(Constant.DRIVER_CONST);
-		String url = dbProp.getDBProperties(Constant.URL_CONST);
-		String user = dbProp.getDBProperties(Constant.USER_CONST);
-		String pass = dbProp.getDBProperties(Constant.PASS_CONST);
+		String driver = DatabaseProperties.getDBProperties(Constant.DRIVER_CONST);
+		String url = DatabaseProperties.getDBProperties(Constant.URL_CONST);
+		String user = DatabaseProperties.getDBProperties(Constant.USER_CONST);
+		String pass = DatabaseProperties.getDBProperties(Constant.PASS_CONST);
 		try {
 			// kết nối database
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, user, pass);
+			if (conn != null) {
+				return true;
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return conn;
+		return false;
 	}
-
 
 	/**
 	 * @see dao.BaseDao#closeDB(Connection)
 	 */
 	@Override
-	public void closeDB(Connection connection) {
+	public void closeDB() {
 		try {
 			// kiểm tra connection truyền vào có null không
-			if (connection != null) {
+			if (conn != null) {
 				// nếu ko null thì đóng connection
-				connection.close();
-				// nếu null thì không thực hiện gì cả
-			} else {
-				return;
+				conn.close();
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * @see dao.BaseDao#setAutoCommit()
+	 */
+	@Override
+	public void setAutoCommit(boolean valueCommit) {
+		if (conn != null) {
+			try {
+				conn.setAutoCommit(valueCommit);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * @see dao.BaseDao#rollBack()
+	 */
+	@Override
+	public void rollBack() {
+		if (conn != null) {
+			try {
+				conn.rollback();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * @see dao.BaseDao#commit()
+	 */
+	@Override
+	public void commit() {
+		if (conn != null) {
+			try {
+				conn.commit();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }

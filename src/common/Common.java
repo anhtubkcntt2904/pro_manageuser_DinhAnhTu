@@ -96,8 +96,7 @@ public class Common {
 	 * @return số lượng bản ghi records cần lấy
 	 */
 	public static int getLimit() {
-		ConfigProperties configProperties = new ConfigProperties();
-		int limit = Integer.parseInt(configProperties.getConfigProperties("limit"));
+		int limit = Integer.parseInt(ConfigProperties.getConfigProperties("limit"));
 		return limit;
 	}
 
@@ -208,7 +207,6 @@ public class Common {
 		try {
 			dateFmt = sm.parse(date);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return dateFmt;
@@ -216,7 +214,7 @@ public class Common {
 
 	/**
 	 * phương thức Convert các số năm. Tháng ngày thành 1 chuỗi ngày tháng có format
-	 * yyyy/mm/dd
+	 * yyyy/MM/dd
 	 * 
 	 * @param year
 	 * @param month
@@ -406,7 +404,7 @@ public class Common {
 	 * 
 	 * @return giá trị sinh ngẫu nhiên cho key
 	 */
-	public long createKey() {
+	public static long createKey() {
 		long key = System.currentTimeMillis() % 1000;
 		return key;
 	}
@@ -418,7 +416,7 @@ public class Common {
 	 *            chuỗi cần replace kí tự wildcard
 	 * @return chuổi đã replace kí tự wildcard
 	 */
-	public String replaceWildCard(String string) {
+	public static String replaceWildCard(String string) {
 		String stringReplace = string.trim().replaceAll("%", "\\\\%").replaceAll("_", "\\\\_");
 		return stringReplace;
 	}
@@ -429,7 +427,7 @@ public class Common {
 	 * @param userInfor
 	 * @return đối tượng TblUser đã xét giá trị
 	 */
-	public TblUser setTblUser(UserInfor userInfor) {
+	public static TblUser setTblUser(UserInfor userInfor) {
 		TblUser tblUser = new TblUser();
 		// Lấy thông tin người dùng nhập vào
 		int userId = userInfor.getUserId();
@@ -460,7 +458,7 @@ public class Common {
 	 * @param userInfor
 	 * @return đối tượng TblDetailUserJapan đã xét giá trị
 	 */
-	public TblDetailUserJapan setTblDetailUserJapan(UserInfor userInfor) {
+	public static TblDetailUserJapan setTblDetailUserJapan(UserInfor userInfor) {
 		TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
 		// Lấy thông tin TĐTN người dùng nhập vào
 		String codeLevel = userInfor.getCodeLevel();
